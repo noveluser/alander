@@ -3,7 +3,7 @@
 
 # 第二次检查疑似延误行李
 #
-# v0.5
+# v0.6
 import cx_Oracle
 import pymysql
 import logging
