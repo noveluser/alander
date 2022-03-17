@@ -77,7 +77,7 @@ def secondcheck():   # 暂时不处理早到行李，仅在firstcheck标注
                     if not lpc:
                         addDelayBag = "insert into ics.delaybag (created_time, lpc) values ('{}', {}); ".format(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S"), lpc_list[0])
                         queryResult = cursor.run_query(addDelayBag)
-                        logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
+                    logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
 
 
 def main():
