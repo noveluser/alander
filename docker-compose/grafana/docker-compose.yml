@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  grafana:
+    image: grafana/grafana:7.3.4
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: password1
+    volumes:
+       - /data/dc-yaml/grafana/grafana.ini:/etc/grafana/grafana.ini
+       - /data/dc-yaml/grafana/data/:/var/lib/grafana
+    ports:
+      - 3000:3000
+

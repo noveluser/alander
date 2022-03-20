@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+    oracle:
+        image: oracleinanutshell/oracle-xe-11g
+        restart: always
+        # deploy:
+          # resources:
+            # limits:
+              # memory: 1G
+        # volumes:
+           # - /data/dc-yaml/oracle/database:/u01/app/oracle
+        ports:
+           - '49161:1521'
+           - '8080:8080'
+        tty: true
