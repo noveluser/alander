@@ -5,12 +5,9 @@
 #
 # v0.2
 
-from email.utils import encode_rfc2231
+
 import pandas as pd
-# import pymysql
-import time
 import datetime
-import os
 import logging
 from my_mysql import Database
 
@@ -47,11 +44,9 @@ def main():
         df.to_excel(writer)
 
 
-
 if __name__ == '__main__':
-    file_path = "D://workcenter//整理后文档//各类报告//202209W//"
-    cursor = Database(dbname='test', username='it', password='1111111', host='10.31.9.24',port='3306')
-    startDay = '28-02-2022 00:00:00'
+    file_path = "D://workcenter//整理后文档//各类报告//202211W//"
+    cursor = Database(dbname='test', username='it', password='1111111', host='10.110.191.24', port='3306')
+    startDay = '14-03-2022 00:00:00'
     startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
     main()
-

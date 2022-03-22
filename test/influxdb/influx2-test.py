@@ -16,7 +16,7 @@ def accessinfluxdb():
     token = "mytoken"
     org = "my-org"
     bucket = "my-bucket"
-    with InfluxDBClient(url="http://10.227.64.10:8086", token=token, org=org) as client:
+    with InfluxDBClient(url="http://10.227.64.10:8087", token=token, org=org) as client:
         write_api = client.write_api(write_options=SYNCHRONOUS)
         point = Point("test") \
             .tag("createdTime", "2022-03-18 10:10:25") \

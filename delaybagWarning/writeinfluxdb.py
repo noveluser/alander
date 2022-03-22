@@ -30,12 +30,15 @@ def accessinfluxdb(data):
 def bagdata():
     bagdata = []
     today = datetime.datetime.now().strftime("%Y-%m-%d")
+    before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.110.191.24', port='3306')
-    searchbag = "select created_time,lpc,currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD, status from ics.onlinebag where created_time > '{}' and status is NULL".format(today)
+    searchbag = "select created_time,lpc,currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD, status from ics.onlinebag where created_time > '{}' and (STATUS != 'arrived' OR STATUS IS NULL) ".format(today)
     queryResult = cursor.run_query(searchbag)
     for row in queryResult:
         if row[3] == "100,110,200,210,220,221,42,82":
             destination = 82    # 弃包和中转总称
+        elif row[3] == "220,221,41,42,81,82":
+            destination = int(row[2])
         else:
             destination = int(row[3])
         match row[7]:
@@ -88,7 +91,39 @@ def bagdata():
                     }
                     }
         bagdata.append(dumpbag_dist)
-    # data = [bagdata, dumpbags]
+    searchdelaybag = "with cr as ( select lpc  from delaybag ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc "
+    queryResult = cursor.run_query(searchdelaybag)
+    for row in queryResult:
+        if row[3] == "100,110,200,210,220,221,42,82":
+            destination = 82    # 弃包和中转总称
+        elif row[3] == "220,221,41,42,81,82":
+            destination = int(row[2])
+        else:
+            destination = int(row[3])
+        match row[7]:
+            case "arrived":
+                status = 1
+            case "store":
+                status = 2
+            case "dump":
+                status = 3
+            case _:
+                status = 4
+        delaybag_dist = {
+            'measurement': 'delaybags',
+            'tags': {
+                'createdTime': row[0],
+                "flight": "{}{}".format(row[4], row[5]),
+                "STD": row[6]
+                        },
+            'fields': {
+                    "lpc": int(row[1]),
+                    "currentstation": int(row[2]),
+                    "destination": destination,
+                    "status": status
+                    }
+                    }
+        bagdata.append(delaybag_dist)
     return bagdata
 
 
