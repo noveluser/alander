@@ -31,7 +31,7 @@ def bagdata():
     bagdata = []
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
-    cursor = Database(dbname='ics', username='it', password='1111111', host='10.110.191.24', port='3306')
+    cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     searchbag = "select created_time,lpc,currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD, status from ics.onlinebag where created_time > '{}' and (STATUS != 'arrived' OR STATUS IS NULL) ".format(today)
     queryResult = cursor.run_query(searchbag)
     for row in queryResult:
@@ -50,11 +50,16 @@ def bagdata():
                 status = 3
             case _:
                 status = 4
+        if row[5] < 1000:
+            flightnr = str(row[5]).zfill(4)
+        else:
+            flightnr = str(row[5])
+        flight = "{}{}".format(row[4], flightnr)
         bag_dist = {
             'measurement': 'bags',
             'tags': {
                 'createdTime': row[0],
-                "flight": "{}{}".format(row[4], row[5]),
+                "flight": flight,
                 "STD": row[6]
                         },
             'fields': {
