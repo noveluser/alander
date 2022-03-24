@@ -41,7 +41,7 @@ def collectbaginfo(startID, endID):
     # testdata = accessOracle(testsql)
     # logging.warning(testsql)
     logging.warning("{}".format(testsql))
-    sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO  WHERE  idevent > {} and idevent <= {} AND EXECUTEDTASK = 'Registration'  AND DEPAIRLINE IS NOT NULL  and TARGETPROCESSID like 'BSIS%' ORDER BY idevent  ) SELECT DISTINCT(lpc), cr.EVENTTS, bid, pid, CURRENTSTATIONID, L_DESTINATIONSTATIONID, DEPAIRLINE, DEPFLIGHT, ffs.STD  FROM cr, FACT_FLIGHT_SUMMARIES_V ffs  WHERE concat( cr.DEPAIRLINE, cr.DEPFLIGHT ) = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE )  AND arrivalordeparture = 'D' ".format(startID, endID)
+    sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO  WHERE  idevent > {} and idevent <= {} AND EXECUTEDTASK = 'Registration'  AND DEPAIRLINE IS NOT NULL  and TARGETPROCESSID like 'BSIS%' ORDER BY idevent  ) SELECT DISTINCT(lpc), cr.EVENTTS, bid, pid, CURRENTSTATIONID, L_DESTINATIONSTATIONID, DEPAIRLINE, DEPFLIGHT, ffs.STD  FROM cr, FACT_FLIGHT_SUMMARIES_V ffs  WHERE concat( cr.DEPAIRLINE, cr.DEPFLIGHT ) = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE +8/24 )  AND arrivalordeparture = 'D' ".format(startID, endID)
     data = accessOracle(sqlquery)
     for row in data:
         localTime = row[1] + datetime.timedelta(hours=8)
