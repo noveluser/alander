@@ -36,7 +36,7 @@ def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的�
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(searchbag)
     for lpc_list in queryResult:
-        sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO WHERE lpc = {} AND TARGETPROCESSID LIKE 'BSIS%' AND EXECUTEDTASK = 'Deregistration' ORDER BY EVENTTS DESC ) SELECT CURRENTSTATIONID, L_DESTINATIONSTATIONID  FROM  WC_PACKAGEINFO  WHERE  IDEVENT = ( SELECT max( IDEVENT ) FROM cr )".format(lpc_list[0])
+        sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO WHERE lpc = {} AND TARGETPROCESSID LIKE 'ODB%' AND EXECUTEDTASK = 'Deregistration' ORDER BY EVENTTS DESC ) SELECT CURRENTSTATIONID, L_DESTINATIONSTATIONID  FROM  WC_PACKAGEINFO  WHERE  IDEVENT = ( SELECT max( IDEVENT ) FROM cr )".format(lpc_list[0])
         destinationResult = accessOracle(sqlquery)
         for row in destinationResult:
             if row[0] == row[1]:     # 当前位置就是目的地

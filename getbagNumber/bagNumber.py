@@ -87,8 +87,10 @@ def plcBagNumber():
     # simulateList = [currentTime, 300, 400]
     simulateList = getBagNumber(currentTime)
     df2 = pd.DataFrame([simulateList], columns=update_volumns)
+    print(df1.index)
+    print(df2.index)
     df1 = pd.concat([df1, df2],ignore_index=True)
-    # df1.style.set_properties(subset=["time"], **{'width': '300px'})
+    print(df1.index)
     try:
         with pd.ExcelWriter(filename) as writer:
             # s.to_Excel(writer, sheet_name='another sheet', index=False)

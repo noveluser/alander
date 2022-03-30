@@ -21,8 +21,8 @@ logging.basicConfig(
 bag_dictionary = {"MCS01": 0, "MCS02": 0, "MCS03": 0, "MCS04": 0, "SAT-MCS01": 0, "T3-MCS05": 0, "T3-MCS06": 0}
 keys = bag_dictionary.keys()   # 获取关键词列表
 chute_list = list(keys)
-file_path = "D://workcenter//整理后文档//各类报告//202211W//"
-bagDay = ["0314", "0315", "0316", "0317", "0318", "0319", "0320"]
+file_path = "D://workcenter//整理后文档//各类报告//202212W//"
+bagDay = ["0321", "0322", "0323", "0324", "0325", "0326", "0327"]
 file_list = []
 for element in bagDay:
     mcsFile = "{}mcs_{}.csv".format(file_path, element)

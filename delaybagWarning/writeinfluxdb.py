@@ -36,9 +36,9 @@ def bagdata():
     queryResult = cursor.run_query(searchbag)
     for row in queryResult:
         if row[3] == "100,110,200,210,220,221,42,82":
-            destination = 82    # 弃包和中转总称
+            destination = 1000    # 弃包和中转总称
         elif row[3] == "220,221,41,42,81,82":
-            destination = int(row[2])
+            destination = 1001  # 弃包地
         else:
             destination = int(row[3])
         match row[7]:
@@ -100,9 +100,9 @@ def bagdata():
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
         if row[3] == "100,110,200,210,220,221,42,82":
-            destination = 82    # 弃包和中转总称
+            destination = 1000    # 弃包和中转总称
         elif row[3] == "220,221,41,42,81,82":
-            destination = int(row[2])
+            destination = 1001  # 弃包地
         else:
             destination = int(row[3])
         match row[7]:
