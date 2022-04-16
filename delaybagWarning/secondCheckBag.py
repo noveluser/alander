@@ -16,7 +16,7 @@ from my_mysql import Database
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//delaybag.log',
+                    filename='/data/package/crontab/log/delaybag.log',
                     filemode='a')
 
 

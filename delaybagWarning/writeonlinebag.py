@@ -6,7 +6,6 @@
 # v0.2
 
 import cx_Oracle
-import pymysql
 import logging
 import sched
 import time
@@ -17,7 +16,7 @@ from my_mysql import Database
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//writeonlinebag.log',
+                    filename='/data/package/crontab/log/writeonlinebag.log',
                     filemode='a')
 
 
@@ -37,21 +36,20 @@ def accessOracle(query):
 
 
 def collectbaginfo(startID, endID):
-    
     sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO  WHERE  idevent > {} and idevent <= {} AND EXECUTEDTASK = 'Registration'  AND DEPAIRLINE IS NOT NULL  and TARGETPROCESSID like 'BSIS%' ORDER BY idevent  ) SELECT DISTINCT(lpc), cr.EVENTTS, bid, pid, CURRENTSTATIONID, L_DESTINATIONSTATIONID, DEPAIRLINE, DEPFLIGHT, ffs.STD  FROM cr, FACT_FLIGHT_SUMMARIES_V ffs  WHERE concat( cr.DEPAIRLINE, cr.DEPFLIGHT ) = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE +8/24 )  AND arrivalordeparture = 'D' ".format(startID, endID)
     logging.warning("{}".format(sqlquery))
     data = accessOracle(sqlquery)
     for row in data:
-        # searchlpcquery = "select lpc from onlinebag where created_time > curdate() and lpc = {}".format(row[0])
-        # lpc = cursor.run_query(searchlpcquery)
-        # if not lpc:
-        localTime = row[1] + datetime.timedelta(hours=8)
-        create_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
-        sqlquery = "insert into ics.onlinebag (created_time, lpc, bid, pid, currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD)  values ('{}',{},{},{},'{}','{}','{}',{}, '{}')".format(create_time, row[0], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-        cursor.run_query(sqlquery)
-        logging.info("write down online bag data for lpc:{} ".format(row[0]))
-        updateIDnumber = "update ics.IDnumber set currentIDnumber= {}".format(endID)
-        cursor.run_query(updateIDnumber)
+        searchlpcquery = "select lpc from onlinebag where created_time > curdate() and lpc = {}".format(row[0])
+        lpc = cursor.run_query(searchlpcquery)
+        if not lpc:
+            localTime = row[1] + datetime.timedelta(hours=8)
+            create_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
+            sqlquery = "insert into ics.onlinebag (created_time, lpc, bid, pid, currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD)  values ('{}',{},{},{},'{}','{}','{}',{}, '{}')".format(create_time, row[0], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            cursor.run_query(sqlquery)
+            logging.info("write down online bag data for lpc:{} ".format(row[0]))
+    updateIDnumber = "update ics.IDnumber set currentIDnumber= {}".format(endID)
+    cursor.run_query(updateIDnumber)
 
 
 def main():

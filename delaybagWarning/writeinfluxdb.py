@@ -12,12 +12,13 @@ from my_mysql import Database
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//writeinfluxdb.log',
+                    filename='/data/package/crontab/log/writeinfluxdb.log',
                     filemode='a')
 
 
 def accessinfluxdb(data):
-    influxClient = InfluxDBClient("10.227.64.10", "8086", "root", "11111111", "test")
+    # influxClient = InfluxDBClient("10.227.64.10", "8086", "root", "11111111", "test")
+    influxClient = InfluxDBClient("10.31.1.170", "8086", "szit", "11111111", "vanderlande")
     try:
         influxClient.write_points(data)
     except Exception as e:
@@ -30,7 +31,7 @@ def accessinfluxdb(data):
 def bagdata():
     bagdata = []
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
+    # before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     searchbag = "select created_time,lpc,currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD, status from ics.onlinebag where created_time > '{}' and (STATUS != 'arrived' OR STATUS IS NULL) ".format(today)
     queryResult = cursor.run_query(searchbag)
@@ -39,6 +40,9 @@ def bagdata():
             destination = 1000    # 弃包和中转总称
         elif row[3] == "220,221,41,42,81,82":
             destination = 1001  # 弃包地
+        elif row[3] == "None":
+            logging.error("destination write error.{}".format(row[3]))
+            destination = None
         else:
             destination = int(row[3])
         match row[7]:
@@ -96,13 +100,16 @@ def bagdata():
                     }
                     }
         bagdata.append(dumpbag_dist)
-    searchdelaybag = "with cr as ( select lpc  from delaybag ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc "
+    searchdelaybag = "with cr as ( select lpc  from delaybag where created_time > curdate() ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  "
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
         if row[3] == "100,110,200,210,220,221,42,82":
             destination = 1000    # 弃包和中转总称
         elif row[3] == "220,221,41,42,81,82":
             destination = 1001  # 弃包地
+        elif row[3] == "None":
+            logging.error("destination write error.{}".format(row[3]))
+            destination = None
         else:
             destination = int(row[3])
         match row[7]:

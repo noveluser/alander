@@ -44,8 +44,8 @@ logging.basicConfig(
                     filemode='a')
 
 
-def getBagNumber(time):
-    list1 = [time]
+def getBagNumber(localtime):
+    list1 = [localtime]
     total = 0
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
@@ -75,7 +75,7 @@ def plcBagNumber():
     # pd.set_option('max_colwidth', 500)
     currentTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     currentDay = currentTime.split( )[0]
-    filename = "c://work//bagnumber//{}.xlsx".format(currentDay) #要追加或者修改表格的文件名。
+    filename = "c://work//bagnumber//{}.xlsx".format(currentDay)  # 要追加或者修改表格的文件名。
     # filename = "D://cyytempsvn//test//mysql//1.xls"
     if os.path.isfile(filename):
         df1 = pd.read_excel(filename)
@@ -87,10 +87,7 @@ def plcBagNumber():
     # simulateList = [currentTime, 300, 400]
     simulateList = getBagNumber(currentTime)
     df2 = pd.DataFrame([simulateList], columns=update_volumns)
-    print(df1.index)
-    print(df2.index)
-    df1 = pd.concat([df1, df2],ignore_index=True)
-    print(df1.index)
+    df1 = pd.concat([df1, df2], ignore_index=True)
     try:
         with pd.ExcelWriter(filename) as writer:
             # s.to_Excel(writer, sheet_name='another sheet', index=False)
@@ -129,4 +126,3 @@ def main():
 if __name__ == '__main__':
     # lastday = datetime.datetime.now().strftime('%Y-%m-%d')
     main()
-

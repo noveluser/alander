@@ -16,7 +16,7 @@ from my_mysql import Database
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//storebag.log',
+                    filename='/data/package/crontab/log/storebag.log',
                     filemode='a')
 
 
