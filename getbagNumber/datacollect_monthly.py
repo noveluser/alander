@@ -1,18 +1,14 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# test
+# 输出月统计数据
 #
 # v0.2
 
-from tkinter import Frame
-from xml.dom.minidom import Element
+
 import pandas as pd
-from my_mysql import Database
 import datetime
-import os
 import logging
-import time
 from calendar import monthrange
 
 
@@ -57,61 +53,58 @@ def outputsinglexls(df, filename, columns):
 # 写入不同功能的表
 def outputMulxls(all_element, month):
     # 到港数据
-    ttfile = "{}{}-{}.xlsx".format("d://1//2//", "ARRIVE", month)
+    ttfile = "{}{}-{}.xlsx".format("c://work//Datacollector//Arrive//", "ARRIVE", month)
     tt_index = ["TIME", 'DC01', "DC02", "DC03", "DC04", "DC05", "DC06", "DC07", "DC08", "DC09", "SAT_TT01", "SAT_TT02", "SAT_TT03", "SAT_TT04", "SAT_TT05", "SAT_TT06", "SAT_TT07a", "SAT_TT07b", "SAT_TT08a", "SAT_TT08b", "SAT_TT09", "SAT_TT10", "SAT_TT11", "SAT_TT12", "SAT_TT13", "SAT_TT14", "T3_TT01", "T3_TT02", "T3_TT03", "T3_TT04", "T3_TT05", "T3_TT06", "T3_TT07a", "T3_TT07b", "T3_TT08a", "T3_TT08b", "T3_TT09", "T3_TT10", "T3_TT11", "T3_TT12", "T3_TT13", "T3_TT14", "T3_TT15", "T3_TT16", "T3_TT17", "T3_TT18"]
     outputsinglexls(all_element, ttfile, tt_index)
     # 值机岛数据
-    checkinfile = "{}{}-{}.xlsx".format("d://1//2//", "CHECKIN", month)
+    checkinfile = "{}{}-{}.xlsx".format("c://work//Datacollector//Checkin//", "CHECKIN", month)
     checkin_index = ["TIME", "A01-A12", "A13-A24", "B01-B12", "B13-B24", "C01-C12", "C13-C24", "D01-D12", "D13-D24", "E01-E12", "E13-E24", "F01-F12", "F13-F24", "G01-G12", "G13-G24", "H01-H12", "H13-H24", "J01-J08", "K01-K08", "P01-P06"]
-    outputsinglexls(all_element, checkinfile, checkin_index)
+    point = ["A01-A12", "A13-A24", "B01-B12", "B13-B24", "C01-C12", "C13-C24", "D01-D12", "D13-D24", "E01-E12", "E13-E24", "F01-F12", "F13-F24", "G01-G12", "G13-G24", "H01-H12", "H13-H24", "J01-J08", "K01-K08", "P01-P06"]
+    df_checkin = all_element[checkin_index]
+    df_checkin['total'] = df_checkin[point].sum(axis=1)
+    try:
+        with pd.ExcelWriter(checkinfile) as writer:
+            df_checkin.to_excel(writer, sheet_name='sheet1', index=False)
+            worksheet = writer.sheets["sheet1"]
+            worksheet.set_column("A:A", 20)  # set column width
+    except Exception as e:
+        logging.error(e)
     # 空框数据
-    ETRfile = "{}{}-{}.xlsx".format("d://1//2//", "ETR", month)
+    ETRfile = "{}{}-{}.xlsx".format("c://work//Datacollector//ETR//", "ETR", month)
     ETR_index = ["TIME", "VCC16", "VCC32", "E.A01-A12", "E.A13-A24", "E.B01-B12", "E.B13-B24", "E.C01-C12", "E.C13-C24", "E.D01-D12", "E.D13-D24", "E.E01-E12", "E.E13-E24", "E.F01-F12", "E.F13-F24", "E.G01-G12", "E.G13-G24", "E.H01-H12", "E.H13-H24", "E.J01-J08", "E.K01-K08"]
     outputsinglexls(all_element, ETRfile, ETR_index)
     # 大件及中转数据
-    OOGfile = "{}{}-{}.xlsx".format("d://1//2//", "OOG", month)
+    OOGfile = "{}{}-{}.xlsx".format("c://work//Datacollector//OOG&trans//", "OOG", month)
     OOG_index = ["TIME", "UNZ_SAT", "UNZ_T3E", "UNZ_T3W", "LDZ_SAT", "LDZ_T3E", "LDZ_T3W", "TA02", "TA03", "TA04", "TA05", "TF01", "TF02", "TF03", "TF04", "SAT-TRANS"]
     outputsinglexls(all_element, OOGfile, OOG_index)
     # 东分拣机数据
-    ESHEfile = "{}{}-{}.xlsx".format("d://1//2//", "ESHE", month)
+    ESHEfile = "{}{}-{}.xlsx".format("c://work//Datacollector//ESHE//", "ESHE", month)
     ESHE_index = ["TIME", "12_INF01", "12_INF02", "12_INF03", "12_INF04", "12_INF05", "12_INF06", "12_INF07", "12_INF08", "12_INF09", "12_INF10", "12_INF11", "12_INF12", "12_INF13", "12_INF14", "13_INF01", "13_INF02", "13_INF03", "13_INF04", "13_INF05", "13_INF06", "13_INF07", "13_INF08", "13_INF09", "13_INF10", "13_INF11", "13_INF12", "13_INF13", "13_INF14", "DVT101", "DVT102", "DVT201", "DVT202"]
     outputsinglexls(all_element, ESHEfile, ESHE_index)
     # 西分拣机数据
-    WSHEfile = "{}{}-{}.xlsx".format("d://1//2//", "WSHE", month)
+    WSHEfile = "{}{}-{}.xlsx".format("c://work//Datacollector//WSHE//", "WSHE", month)
     WSHE_index = ["TIME", "28_INF01", "28_INF02", "28_INF03", "28_INF04", "28_INF05", "28_INF06", "28_INF07", "28_INF08", "28_INF09", "28_INF10", "28_INF11", "28_INF12", "28_INF13", "28_INF14", "29_INF01", "29_INF02", "29_INF03", "29_INF04", "29_INF05", "29_INF06", "29_INF07", "29_INF08", "29_INF09", "29_INF10", "29_INF11", "29_INF12", "29_INF13", "29_INF14", "DVT301", "DVT302", "DVT401", "DVT402"]
     outputsinglexls(all_element, WSHEfile, WSHE_index)
 
 
 def main():
-    # yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
-    # summarry_month_file = "{}{}-{}.xlsx".format("d://1//2//", "monthly", "3")
-    # if checkExistFile(summarry_month_file):
-    #     df = pd.read_excel(summarry_month_file)
-    # else:
-    #     df = pd.DataFrame()
-    currentTime = datetime.datetime.now().strftime('%Y-%m-%d')
-    currentTime_year = int(currentTime[0:4])
-    currentTime_month = int(currentTime[6:7])
-    year_month = "{}-{}".format(currentTime_year, currentTime_month)
-    df = pd.DataFrame()
-    alldays = allDays(currentTime_year, currentTime_month)
-    for day in alldays:
-        summarry_filename = "d://1//2//all-{}.xlsx".format(day)
-        flag = checkExistFile(summarry_filename)
-        if flag:
-            df_temp = pd.read_excel(summarry_filename)
-            # 空框数据
-            ETR_index = ["VCC16", "VCC32", "E.A01-A12", "E.A13-A24", "E.B01-B12", "E.B13-B24", "E.C01-C12", "E.C13-C24", "E.D01-D12", "E.D13-D24", "E.E01-E12", "E.E13-E24", "E.F01-F12", "E.F13-F24", "E.G01-G12", "E.G13-G24", "E.H01-H12", "E.H13-H24", "E.J01-J08", "E.K01-K08"]
-            for element in ETR_index:
-                df_temp.at[df_temp.index[-1], element] = df_temp.at[df_temp.index[-2], element]
-            df1 = df_temp.tail(1)
-            df = df.append(df1)
-        # else:
-        #     s = [day]
-        #     for i in range(163):
-        #         s.append(0)
-        #     df1 = pd.DataFrame([s], columns=update_volumns)
-    summarry_month_file = "{}{}-{}.xlsx".format("d://1//2//", "all-monthly", year_month)
+    yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    year_month = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m')
+    summarry_month_file = "{}{}-{}.xlsx".format("c://work//Datacollector//", "all-monthly", year_month)
+    if checkExistFile(summarry_month_file):
+        df = pd.read_excel(summarry_month_file)
+    else:
+        df = pd.DataFrame()
+    summarry_filename = "c://work//Datacollector//all-{}.xlsx".format(yesterday)
+    flag = checkExistFile(summarry_filename)
+    if flag:
+        df_temp = pd.read_excel(summarry_filename)
+        # 空框数据
+        ETR_index = ["VCC16", "VCC32", "E.A01-A12", "E.A13-A24", "E.B01-B12", "E.B13-B24", "E.C01-C12", "E.C13-C24", "E.D01-D12", "E.D13-D24", "E.E01-E12", "E.E13-E24", "E.F01-F12", "E.F13-F24", "E.G01-G12", "E.G13-G24", "E.H01-H12", "E.H13-H24", "E.J01-J08", "E.K01-K08"]
+        for element in ETR_index:
+            df_temp.at[df_temp.index[-1], element] = df_temp.at[df_temp.index[-2], element]
+        df1 = df_temp.tail(1)
+        df = df.append(df1)
     try:
         with pd.ExcelWriter(summarry_month_file) as writer:
             df.to_excel(writer, sheet_name='sheet1', index=False)
@@ -121,8 +114,6 @@ def main():
         logging.error(e)
     # 写入不同的功能表
     outputMulxls(df, year_month)
-
-
 
 
 if __name__ == '__main__':
