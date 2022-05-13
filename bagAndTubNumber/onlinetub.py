@@ -25,7 +25,7 @@ logging.basicConfig(
 db = pymysql.connect(host='10.31.9.24',
                      user='it',
                      password='1111111',
-                     database='test',
+                     database='ics',
                      charset='utf8mb4')
 
 
@@ -56,8 +56,8 @@ def count(beforeyesterday, yesterday):
     fivetimeTub_list = []
     over5timeTub_list = []
     baggage_list = []
-    tub_dictionary = dict.fromkeys(range(1,2281), 0)
-    for i in range(25001,25061):
+    tub_dictionary = dict.fromkeys(range(1, 2281), 0)
+    for i in range(25001, 25061):
         tub_dictionary[i] = 0
     OBT_list = []
     SBT_list = []
@@ -79,7 +79,7 @@ def count(beforeyesterday, yesterday):
                 lpc = row[1]
             else:
                 lpc = "NULL"
-            sqlquery = "insert into test.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},{})".format(eventts, lpc, row[2], row[3], tubid, row[5])
+            sqlquery = "insert into ics.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},{})".format(eventts, lpc, row[2], row[3], tubid, row[5])
             writeMysql(sqlquery)      # 写入mysql
             tub_dictionary[tubid] += 1
             if int(tubid) > 20000:
@@ -125,7 +125,7 @@ def count(beforeyesterday, yesterday):
                 fivetimeTub_list.append(id)
             case _:
                 over5timeTub_list.append(id)
-        sqlquery = "insert into test.tubstatus (date, id, usetimes) values ('{}', {}, {}) ".format(yesterday, id, number)
+        sqlquery = "insert into ics.tubstatus (date, id, usetimes) values ('{}', {}, {}) ".format(yesterday, id, number)
         writeMysql(sqlquery)
     """完成tubstatus表的批量写入"""
     try:
@@ -137,10 +137,9 @@ def count(beforeyesterday, yesterday):
     # logging.info("nouseTub is {}, include of {};onetimeTub is {}, include of {};twotimeTub is {}, include of {}, threetimeTub is {}, include of {}; 4timeTub is {}, include of {} ; 5timeTub is {}, include of {}; over5timeTub is{}, include of {}".format(len(nouseTub_list), nouseTub_list, len(onetimeTub_list), onetimeTub_list, len(twotimeTub_list), twotimeTub_list, len(threetimeTub_list), threetimeTub_list, len(fourtimeTub_list), fourtimeTub_list, len(fivetimeTub_list), fivetimeTub_list,len(over5timeTub_list), over5timeTub_list))
 
 
-
 def main():
     currentTime = datetime.datetime.now()
-    firstdayTime =  currentTime - datetime.timedelta(days=2)
+    firstdayTime = currentTime - datetime.timedelta(days=2)
     firstday = firstdayTime.strftime("%d-%m-%Y")
     enddayTime = currentTime - datetime.timedelta(days=1)
     endday = enddayTime.strftime("%d-%m-%Y")

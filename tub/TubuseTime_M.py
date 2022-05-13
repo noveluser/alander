@@ -47,8 +47,8 @@ def main():
 
 
 if __name__ == '__main__':
-    file_path = "D://workcenter//整理后文档//各类报告//202214W//"
+    file_path = "D://workcenter//整理后文档//各类报告//202217W//"
     cursor = Database(dbname='test', username='it', password='1111111', host='10.31.9.24', port='3306')
-    startDay = '01-03-2022 00:00:00'
+    startDay = '25-04-2022 00:00:00'
     startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
     main()

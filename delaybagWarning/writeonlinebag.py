@@ -45,7 +45,7 @@ def collectbaginfo(startID, endID):
         if not lpc:
             localTime = row[1] + datetime.timedelta(hours=8)
             create_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
-            sqlquery = "insert into ics.onlinebag (created_time, lpc, bid, pid, currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD)  values ('{}',{},{},{},'{}','{}','{}',{}, '{}')".format(create_time, row[0], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            sqlquery = "insert into ics.onlinebag (created_time, lpc, bid, pid, currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD)  values ('{}',{},{},{},'{}','{}','{}','{}', '{}')".format(create_time, row[0], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
             cursor.run_query(sqlquery)
             logging.info("write down online bag data for lpc:{} ".format(row[0]))
     updateIDnumber = "update ics.IDnumber set currentIDnumber= {}".format(endID)

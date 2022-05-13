@@ -26,7 +26,7 @@ arriver_RSO = ["3115.05.99", "3115.07.99", "3115.11.99", "3115.17.99", "3115.21.
 db = pymysql.connect(host='10.31.9.24',
                      user='it',
                      password='1111111',
-                     database='test',
+                     database='ics',
                      charset='utf8mb4')
 
 
@@ -46,9 +46,9 @@ def writeMysql(sql):
 
 def main():
     currentTime = datetime.datetime.now()
-    firstdayTime =  currentTime - datetime.timedelta(days=5)
+    firstdayTime = currentTime - datetime.timedelta(days=2)
     firstday = firstdayTime.strftime("%d-%m-%Y")
-    enddayTime = currentTime - datetime.timedelta(days=4)
+    enddayTime = currentTime - datetime.timedelta(days=1)
     endday = enddayTime.strftime("%d-%m-%Y")
     departureNoreadNumber = 0
     arriverNoreadNumber = 0
@@ -64,7 +64,7 @@ def main():
             departureNoreadNumber += 1
         else:
             arriverNoreadNumber += 1
-    sqlquery = "insert into test.noread (date, departureNumber, arriverNumber) values ('{}',{},{})".format(endday, departureNoreadNumber, arriverNoreadNumber)
+    sqlquery = "insert into ics.noread (date, departureNumber, arriverNumber) values ('{}',{},{})".format(endday, departureNoreadNumber, arriverNoreadNumber)
     writeMysql(sqlquery)
     db.close()
 

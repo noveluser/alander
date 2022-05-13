@@ -21,8 +21,8 @@ logging.basicConfig(
 bag_dictionary = {"MCS01": 0, "MCS02": 0, "MCS03": 0, "MCS04": 0, "SAT-MCS01": 0, "T3-MCS05": 0, "T3-MCS06": 0}
 keys = bag_dictionary.keys()   # 获取关键词列表
 chute_list = list(keys)
-file_path = "D://workcenter//整理后文档//各类报告//202215W//"
-bagDay = ["0411", "0412", "0413", "0414", "0415", "0416", "0417"]
+file_path = "D://workcenter//整理后文档//各类报告//202217W//"
+bagDay = ["0501"]
 file_list = []
 for element in bagDay:
     mcsFile = "{}mcs_{}.csv".format(file_path, element)
@@ -55,7 +55,7 @@ def get_bagcount(mcsFile, olddf):
     print(bagcount_list)
     df2 = pd.DataFrame([bagcount_list])
     df1 = pd.concat([olddf, df2])
-    for key, value in bag_dictionary.items():   #重置字典所有元素
+    for key, value in bag_dictionary.items():   # 重置字典所有元素
         bag_dictionary[key] = 0
     return df1
 

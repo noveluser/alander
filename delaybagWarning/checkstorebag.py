@@ -64,7 +64,7 @@ def secondcheck():
                 searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
                 lpc = cursor.run_query(searchbag)
                 if not lpc:  # 还存在一种行李滞留在早到区不走的情况,以后再考虑
-                    addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD) values ('{}', {}, '{}', {}, '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                    addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
                     queryResult = cursor.run_query(addDelayBag)
                 logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
 

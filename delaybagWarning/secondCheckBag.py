@@ -72,7 +72,7 @@ def secondcheck():
                     searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
                     lpc = cursor.run_query(searchbag)
                     if not lpc:
-                        addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', {}, '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                        addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
                         queryResult = cursor.run_query(addStoreBag)
                 else:
                     logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))

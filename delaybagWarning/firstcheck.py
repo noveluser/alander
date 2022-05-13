@@ -24,15 +24,21 @@ def accessOracle(query):
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     conn = cx_Oracle.connect(user=r'owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns)  # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
     c = conn.cursor()
-    c.execute(query)  # use triple quotes if you want to spread your query across multiple lines
-    result = c.fetchall()
-    conn.close()
+    try:
+        c.execute(query)  # use triple quotes if you want to spread your query across multiple lines
+        result = c.fetchall()
+    except Exception as e:
+        logging.error(e)
+        result = []
+    finally:
+        conn.close()
     return result
 
 
 def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的紧急行李
     before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
-    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.onlinebag where (created_time < '{}' or STD < NOW()+INTERVAL 1 HOUR) and status is NULL".format(before30mins)
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.onlinebag where created_time > '{}' and status is NULL and (created_time < '{}' or STD < NOW()+INTERVAL 1 HOUR) ".format(today, before30mins)
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(searchbag)
     for lpc_list in queryResult:
@@ -58,7 +64,7 @@ def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的�
                     searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
                     lpc = cursor.run_query(searchbag)
                     if not lpc:
-                        addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', {}, '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                        addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
                         queryResult = cursor.run_query(addStoreBag)
                 else:
                     updatebaglocation = "update onlinebag set currentstation='{}',destination = '{}' where lpc = {}".format(position[0][0], position[0][9], lpc_list[0])
@@ -66,7 +72,7 @@ def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的�
                     searchbag = "select lpc from ics.delaybag where lpc = {}".format(lpc_list[0])
                     lpc = cursor.run_query(searchbag)
                     if not lpc:
-                        addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD) values ('{}', {}, '{}', {}, '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                        addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
                         queryResult = cursor.run_query(addDelayBag)
                     logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
 

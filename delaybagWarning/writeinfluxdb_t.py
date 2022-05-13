@@ -39,7 +39,7 @@ def bagdata():
     for row in queryResult:
         try:
             destination = int(row[3])
-        except:   # 遗留问题，如何优雅的输出exceptions
+        except:
             if row[3] == "100,110,200,210,220,221,42,82":
                 destination = 1000    # 弃包和中转总称
             elif row[3] == "220,221,41,42,81,82":
@@ -49,7 +49,7 @@ def bagdata():
                 destination = None
             else:
                 destination = 1002   # 其他异常
-                logging.error("1002 error-{}-{}".format(row[1], row[3]))
+                logging.error("1002 error")
         match row[7]:
             case "arrived":
                 status = 1
@@ -108,19 +108,15 @@ def bagdata():
     searchdelaybag = "with cr as ( select lpc  from delaybag where created_time > curdate() ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  "
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
-        try:
+        if row[3] == "100,110,200,210,220,221,42,82":
+            destination = 1000    # 弃包和中转总称
+        elif row[3] == "220,221,41,42,81,82":
+            destination = 1001  # 弃包地
+        elif row[3] == "None":
+            logging.error("destination write error.{}".format(row[3]))
+            destination = None
+        else:
             destination = int(row[3])
-        except:   # 遗留问题，如何优雅的输出exceptions
-            if row[3] == "100,110,200,210,220,221,42,82":
-                destination = 1000    # 弃包和中转总称
-            elif row[3] == "220,221,41,42,81,82":
-                destination = 1001  # 弃包地
-            elif row[3] == "None":
-                logging.error("destination write error.{}".format(row[3]))
-                destination = None
-            else:
-                destination = 1002   # 其他异常
-                logging.error("1002 error-{}-{}".format(row[1], row[3]))
         match row[7]:
             case "arrived":
                 status = 1
@@ -149,13 +145,8 @@ def bagdata():
 
 
 def main():
-    while True:
-        data = bagdata()
-        accessinfluxdb(data)
-        time.sleep(60)
-    # for i in range(100):
-    #     accessinfluxdb()
-    #     time.sleep(30)
+    data = bagdata()
+    accessinfluxdb(data)
 
 
 if __name__ == '__main__':
