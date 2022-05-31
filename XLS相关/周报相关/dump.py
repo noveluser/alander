@@ -18,7 +18,7 @@ logging.basicConfig(
 
 
 # init Environment
-file_path = "D://workcenter//整理后文档//各类报告//202218W//"
+file_path = "D://workcenter//整理后文档//各类报告//202221W//"
 filename = "{}dump_w.xlsx".format(file_path)
 
 
@@ -48,8 +48,8 @@ def collector(starttime, endtime):
 
 
 def main():
-    starttime = "02-05-2022"
-    endtime = "09-05-2022"
+    starttime = "23-05-2022"
+    endtime = "30-05-2022"
 
     collector(starttime, endtime)
 
