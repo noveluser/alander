@@ -42,13 +42,13 @@ def main():
         # df =df.append(line)
         line.clear()
         endDay = endDay + datetime.timedelta(days=1)
-    with pd.ExcelWriter("{}tub_w.xlsx".format(file_path)) as writer:
+    with pd.ExcelWriter("{}tub_m.xlsx".format(file_path)) as writer:
         df.to_excel(writer)
 
 
 if __name__ == '__main__':
-    file_path = "D://workcenter//整理后文档//各类报告//202217W//"
-    cursor = Database(dbname='test', username='it', password='1111111', host='10.31.9.24', port='3306')
-    startDay = '25-04-2022 00:00:00'
+    file_path = "D://workcenter//整理后文档//各类报告//202222W//"
+    cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
+    startDay = '01-05-2022 00:00:00'
     startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
     main()

@@ -40,7 +40,8 @@ cursor = Database(dbname='test', username='it', password='1111111', host='10.31.
 
 def main():
     sqlquery = "insert into test.test (plcname, sortname) values ('{}', '{}'); ".format("time", "time")
-    cursor.run_query(sqlquery)
+    a = cursor.run_query(sqlquery)
+    print(a)
     # addDelayBag = "insert into ics.plcname_contrast (plcname, sortname) values ('{}', '{}'); ".format("time", "time")
     # queryResult = cursor.run_query(addDelayBag)
 

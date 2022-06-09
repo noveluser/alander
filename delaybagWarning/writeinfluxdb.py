@@ -105,7 +105,7 @@ def bagdata():
                     }
                     }
         bagdata.append(dumpbag_dist)
-    searchdelaybag = "with cr as ( select lpc  from delaybag where created_time > curdate() ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  "
+    searchdelaybag = "with cr as ( select lpc  from delaybag where created_time > curdate() ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  and created_time > CURDATE() "
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
         try:

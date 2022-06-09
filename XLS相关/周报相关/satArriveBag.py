@@ -69,8 +69,8 @@ def main():
     bag_dictionary = {"SAT-DC01": 0, "SAT-DC02": 0, "SAT-DC03": 0, "SAT-DC04": 0, "SAT-DC05": 0, "SAT-DC06": 0, "SAT-DC07": 0, "SAT-DC08": 0, "SAT-DC09": 0, "SAT-OOG": 0}
     keys = bag_dictionary.keys()
     atr_list = list(keys)
-    file_path = "D://workcenter//整理后文档//各类报告//202221W//"
-    bagDay = ["0523", "0524", "0525", "0526", "0527", "0528", "0529"]
+    file_path = "D://workcenter//整理后文档//各类报告//202222W//"
+    bagDay = ["0530", "0531", "0601", "0602", "0603", "0604", "0605"]
     file_list = []
     # ---数据初始化
     for element in bagDay:

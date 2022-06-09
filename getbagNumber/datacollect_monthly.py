@@ -86,6 +86,14 @@ def outputMulxls(all_element, month):
     WSHEfile = "{}{}-{}.xlsx".format("c://work//Datacollector//WSHE//", "WSHE", month)
     WSHE_index = ["TIME", "28_INF01", "28_INF02", "28_INF03", "28_INF04", "28_INF05", "28_INF06", "28_INF07", "28_INF08", "28_INF09", "28_INF10", "28_INF11", "28_INF12", "28_INF13", "28_INF14", "29_INF01", "29_INF02", "29_INF03", "29_INF04", "29_INF05", "29_INF06", "29_INF07", "29_INF08", "29_INF09", "29_INF10", "29_INF11", "29_INF12", "29_INF13", "29_INF14", "DVT301", "DVT302", "DVT401", "DVT402"]
     outputsinglexls(all_element, WSHEfile, WSHE_index)
+    # VCC数据
+    VCCfile = "{}{}-{}.xlsx".format("c://work//Datacollector//VCC//", "VCC", month)
+    VCC_index = ["TIME", "VCC04", "VCC05", "VCC06", "VCC07", "VCC08", "VCC20", "VCC21", "VCC22", "VCC23", "VCC24", "VCC38", "VCC39"]
+    outputsinglexls(all_element, VCCfile, VCC_index)
+    # Loop&Tunnel数据
+    LTfile = "{}{}-{}.xlsx".format("c://work//Datacollector//Loop&Tunnel//", "L&T", month)
+    LT_index = ["TIME", "A_EI", "A_EO", "A_WI", "A_WO", "D01_O", "D02_O", "D01_I", "D02_I", "D01_Tun", "D02_Tun", "A01_Tun", "A02_Tun"]
+    outputsinglexls(all_element, LTfile, LT_index)
 
 
 def main():
