@@ -5,8 +5,10 @@
 # Alex.Wang
 # v0.1
 
-from hashlib import blake2b
+
+import configparser
 import logging
+import datetime
 import pandas as pd
 
 
@@ -22,12 +24,7 @@ logging.basicConfig(
 bag_dictionary = {"M10": 0, "M11": 0, "M12": 0, "M13": 0, "M14": 0, "M15": 0, "M16": 0, "M17": 0, "M18": 0, "M19": 0, "M20": 0, "M21": 0, "M22": 0, "M23": 0, "M24": 0, "M25": 0, "M26": 0, "M27": 0, "M28": 0, "M29": 0, "M30": 0, "M31": 0, "M32": 0, "M33": 0, "M34": 0, "M35": 0, "M36": 0, "M37": 0, "M38": 0, "M39": 0, "M40": 0, "M41": 0, "M42": 0, "M50": 0, "M51": 0, "M52": 0, "M53": 0, "M54": 0, "M55": 0, "M56": 0, "M57": 0, "M58": 0, "M59": 0, "M60": 0, "M61": 0, "M62": 0, "M63": 0, "M64": 0, "M65": 0, "M66": 0, "M67": 0, "M68": 0, "M69": 0, "M70": 0, "M71": 0, "M72": 0, "M73": 0, "M74": 0, "M75": 0, "M76": 0, "M77": 0, "M78": 0, "M79": 0, "M80": 0, "M81": 0, "M82": 0, "SAT-M01": 0, "SAT-M02": 0, "SAT-M03": 0, "SAT-M04": 0, "SAT-M05": 0, "SAT-M06": 0, "SAT-M07": 0, "SAT-M08": 0, "SAT-M09": 0, "SAT-M10a": 0, "SAT-M10b": 0, "SAT-M11": 0, "SAT-M12": 0, "SAT-M13": 0, "SAT-M14": 0, "SAT-M15": 0, "SAT-M16": 0, "SAT-M17": 0, "SAT-M18": 0, "SAT-M19": 0, "SAT-M20": 0, "SAT-M21": 0,  "T3-Total": 0, "SAT-Total": 0, "SAT-OGO01": 0}
 keys = bag_dictionary.keys()   # 获取关键词列表
 chute_list = list(keys)
-file_path = "D://workcenter//整理后文档//各类报告//202222W//"
-bagDay = ["0530", "0531", "0601", "0602", "0603", "0604", "0605"]
-file_list = []
-for element in bagDay:
-    outfeedFile = "{}outfeed_{}.csv".format(file_path, element)
-    file_list.append(outfeedFile)
+
 
 
 def choice(value, totalbagnumber):
@@ -243,6 +240,22 @@ def get_bagcount(outfeedFile, olddf):
 
 def main():
     df_contact = pd.DataFrame([chute_list])
+    # 实例化configParser对象
+    config = configparser.ConfigParser()
+    # -read读取ini文件
+    config.read('D://code//vanderlande//alander//XLS相关//周报相关//conf//weeklyreport.ini')
+    # -sections得到所有的section，并以列表的形式返回
+    reportnames = config.sections()
+    for reportname in reportnames:
+        file_path = config.get(reportname, 'file_path')
+        startday = datetime.datetime.strptime(config.get(reportname, 'startDay'), "%Y%m%d")
+        period = config.get(reportname, 'period')
+        file_list = []
+        for i in range(int(period)):
+            nexttime = startday + datetime.timedelta(days=i)
+            nextday = nexttime.strftime("%m%d")
+            outfeedFile = "{}outfeed_{}.csv".format(file_path, nextday)
+            file_list.append(outfeedFile)
     for element in file_list:
         df_contact = get_bagcount(element, df_contact)
     with pd.ExcelWriter("{}outfeed_w.xlsx".format(file_path)) as writer:

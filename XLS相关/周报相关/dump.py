@@ -8,6 +8,7 @@
 import cx_Oracle
 import logging
 import pandas as pd
+import datetime
 
 
 logging.basicConfig(
@@ -18,8 +19,7 @@ logging.basicConfig(
 
 
 # init Environment
-file_path = "D://workcenter//整理后文档//各类报告//202222W//"
-filename = "{}dump_w.xlsx".format(file_path)
+
 
 
 def accessOracle(query):
@@ -33,12 +33,10 @@ def accessOracle(query):
     return result
 
 
-def collector(starttime, endtime):
+def collector(starttime, endtime, filename):
     # df = pd.DataFrame()
     sqlquery = "SELECT     DEREGISTER_LOCATION,     FINAL_ACTIVE_PROCESS , count(FINAL_ACTIVE_PROCESS) FROM     FACT_BAG_SUMMARIES_V WHERE     REGISTER_DT > TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND REGISTER_DT < TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND DEREGISTER_LOCATION IN ( 'M41', 'M81', 'SAT-M10a', 'SAT-M10b' ) group by DEREGISTER_LOCATION, FINAL_ACTIVE_PROCESS".format(starttime, endtime)
     data = accessOracle(sqlquery)
-    # for row in data:
-    #     df = df.append([row])
     df = pd.DataFrame(data)
     try:
         with pd.ExcelWriter(filename) as writer:
@@ -48,10 +46,14 @@ def collector(starttime, endtime):
 
 
 def main():
-    starttime = "01-06-2022"
-    endtime = "06-06-2022"
-
-    collector(starttime, endtime)
+    starttime = datetime.datetime.now() - datetime.timedelta(days=7)
+    endtime = datetime.datetime.now() - datetime.timedelta(days=1)
+    startday = starttime.strftime("%d-%m-%Y")
+    endday = endtime.strftime("%d-%m-%Y")
+    workweek = starttime.strftime("%Y%m%d")
+    file_path = "c://work//Datacollector//weeklyreport//"
+    outputfile = "{}dump_{}.xlsx".format(file_path, workweek)
+    collector(startday, endday, outputfile)
 
 
 if __name__ == '__main__':

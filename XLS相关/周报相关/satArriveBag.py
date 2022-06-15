@@ -7,6 +7,8 @@
 
 import logging
 import pandas as pd
+import configparser
+import datetime
 
 
 logging.basicConfig(
@@ -17,15 +19,6 @@ logging.basicConfig(
                     filename='d://data//rso//1.log',
                     filemode='a')
 
-
-# def choice(value, totalbagnumber):
-#     match value:
-#         case "M10":
-#             bag_dictionary["M10"] = totalbagnumber
-#         case "M11":
-#             bag_dictionary["M11"] = totalbagnumber
-
-            
 
 def get_bagcount(infeedFile, olddf):
     originDf = pd.read_csv(infeedFile)
@@ -69,13 +62,22 @@ def main():
     bag_dictionary = {"SAT-DC01": 0, "SAT-DC02": 0, "SAT-DC03": 0, "SAT-DC04": 0, "SAT-DC05": 0, "SAT-DC06": 0, "SAT-DC07": 0, "SAT-DC08": 0, "SAT-DC09": 0, "SAT-OOG": 0}
     keys = bag_dictionary.keys()
     atr_list = list(keys)
-    file_path = "D://workcenter//整理后文档//各类报告//202222W//"
-    bagDay = ["0530", "0531", "0601", "0602", "0603", "0604", "0605"]
-    file_list = []
-    # ---数据初始化
-    for element in bagDay:
-        infeedFile = "{}infeed_{}.csv".format(file_path, element)
-        file_list.append(infeedFile)
+    # 实例化configParser对象
+    config = configparser.ConfigParser()
+    # -read读取ini文件
+    config.read('D://code//vanderlande//alander//XLS相关//周报相关//conf//weeklyreport.ini')
+    # -sections得到所有的section，并以列表的形式返回
+    reportnames = config.sections()
+    for reportname in reportnames:
+        file_path = config.get(reportname, 'file_path')
+        startday = datetime.datetime.strptime(config.get(reportname, 'startDay'), "%Y%m%d")
+        period = config.get(reportname, 'period')
+        file_list = []
+        for i in range(int(period)):
+            nexttime = startday + datetime.timedelta(days=i)
+            nextday = nexttime.strftime("%m%d")
+            outfeedFile = "{}infeed_{}.csv".format(file_path, nextday)
+            file_list.append(outfeedFile)
     df_contact = pd.DataFrame([atr_list])
     for element in file_list:
         df_contact = get_bagcount(element, df_contact)

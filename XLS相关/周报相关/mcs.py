@@ -7,6 +7,8 @@
 
 import logging
 import pandas as pd
+import configparser
+import datetime
 
 
 logging.basicConfig(
@@ -21,12 +23,6 @@ logging.basicConfig(
 bag_dictionary = {"MCS01": 0, "MCS02": 0, "MCS03": 0, "MCS04": 0, "SAT-MCS01": 0, "T3-MCS05": 0, "T3-MCS06": 0}
 keys = bag_dictionary.keys()   # 获取关键词列表
 chute_list = list(keys)
-file_path = "D://workcenter//整理后文档//各类报告//202222W//"
-bagDay = ["0530", "0531", "0601", "0602", "0603", "0604", "0605"]
-file_list = []
-for element in bagDay:
-    mcsFile = "{}mcs_{}.csv".format(file_path, element)
-    file_list.append(mcsFile)
 
 
 def get_bagcount(mcsFile, olddf):
@@ -62,6 +58,22 @@ def get_bagcount(mcsFile, olddf):
 
 def main():
     df_contact = pd.DataFrame([chute_list])
+    # 实例化configParser对象
+    config = configparser.ConfigParser()
+    # -read读取ini文件
+    config.read('D://code//vanderlande//alander//XLS相关//周报相关//conf//weeklyreport.ini')
+    # -sections得到所有的section，并以列表的形式返回
+    reportnames = config.sections()
+    for reportname in reportnames:
+        file_path = config.get(reportname, 'file_path')
+        startday = datetime.datetime.strptime(config.get(reportname, 'startDay'), "%Y%m%d")
+        period = config.get(reportname, 'period')
+        file_list = []
+        for i in range(int(period)):
+            nexttime = startday + datetime.timedelta(days=i)
+            nextday = nexttime.strftime("%m%d")
+            outfeedFile = "{}mcs_{}.csv".format(file_path, nextday)
+            file_list.append(outfeedFile)
     for element in file_list:
         df_contact = get_bagcount(element, df_contact)
     with pd.ExcelWriter("{}mcs_w.xlsx".format(file_path)) as writer:

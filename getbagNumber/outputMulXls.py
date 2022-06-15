@@ -29,7 +29,7 @@ logging.basicConfig(
 
 def getBagNumber(localtime):
     list1 = [localtime]
-    query = "with br as (WITH cr AS ( select _name, max( _timestamp ) time FROM baggage_collection GROUP BY _name ) select BAG._NAME, bag._VALUE FROM baggage_collection bag, cr  WHERE bag._name = cr._name  AND bag._timestamp = cr.time AND bag._timestamp > '2022-05-25 13:00:00' ) select br._name ,br._value from br, plcname_contrast where br._name = plcname order by plcname_contrast.id"
+    query = "WITH ar AS (  SELECT _name, max( _timestamp ) time FROM baggage_collection GROUP BY _name  ), br AS ( SELECT bag.*  FROM ar, baggage_collection bag  WHERE bag._name = ar._name  AND bag._timestamp = ar.time  AND bag._timestamp > '2022-05-25 13:00:00'  ) SELECT br._name,br._value  FROM br, plcname_contrast  WHERE plcname_contrast.plcname = br._name  ORDER BY plcname_contrast.id"
     cursor = Database(dbname='test', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(query)
     for row in queryResult:

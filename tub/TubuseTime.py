@@ -40,13 +40,14 @@ def main():
         # df =df.append(line)
         line.clear()
         endDay = endDay + datetime.timedelta(days=1)
-    with pd.ExcelWriter("{}tub_w.xlsx".format(file_path)) as writer:
+    with pd.ExcelWriter(filename) as writer:
         df.to_excel(writer)
 
 
 if __name__ == '__main__':
-    file_path = "D://workcenter//整理后文档//各类报告//202222W//"
+    currentDay = (datetime.datetime.now()-datetime.timedelta(days=7)).strftime("%Y%m%d")
+    filename = "c://work//Datacollector//weeklyreport//tubtimes-{}.xlsx".format(currentDay)  # 要追加或者修改表格的文件名。
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
-    startDay = '30-05-2022 00:00:00'
-    startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
+    startDate = (datetime.datetime.now()-datetime.timedelta(days=7))
+    # startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
     main()
