@@ -47,7 +47,7 @@ def collector(starttime, endtime, filename):
 
 def main():
     starttime = datetime.datetime.now() - datetime.timedelta(days=7)
-    endtime = datetime.datetime.now() - datetime.timedelta(days=1)
+    endtime = datetime.datetime.now()
     startday = starttime.strftime("%d-%m-%Y")
     endday = endtime.strftime("%d-%m-%Y")
     workweek = starttime.strftime("%Y%m%d")

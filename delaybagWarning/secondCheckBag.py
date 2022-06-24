@@ -38,11 +38,11 @@ def accessOracle(query):
 
 def secondcheck():
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.delaybag where created_time > '{}' ".format(today)
+    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.delaybag where created_time > '{}' and currentstation is not null ".format(today)    # 暂时
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(searchbag)
     for lpc_list in queryResult:
-        sqlquery = "WITH cr AS ( SELECT * FROM WC_PACKAGEINFO WHERE lpc = {} AND TARGETPROCESSID LIKE 'ODB%' AND EXECUTEDTASK = 'Deregistration' ORDER BY EVENTTS DESC ) SELECT CURRENTSTATIONID, L_DESTINATIONSTATIONID , DEPAIRLINE, DEPFLIGHT FROM  WC_PACKAGEINFO  WHERE  IDEVENT = ( SELECT max( IDEVENT ) FROM cr )".format(lpc_list[0])
+        sqlquery = "WITH ar AS ( SELECT IDEVENT, EVENTTS, AREAID, ZONEID, EQUIPMENTID FROM WC_TRACKINGREPORT track WHERE lpc = {} ), br AS ( SELECT lpc, EVENTTS, ( AREAID || '.' || ZONEID || '.' || EQUIPMENTID ) location , L_DESTINATION FROM WC_TRACKINGREPORT  WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM ar )  ), dr AS ( SELECT CURRENTSTATIONID, IDEVENT, lpc FROM WC_PACKAGEINFO WHERE lpc = {} ) SELECT CURRENTSTATIONID, L_DESTINATION, br.EVENTTS AS latest_time, br.LOCATION  FROM dr, br  WHERE dr.IDEVENT = ( SELECT max( IDEVENT ) FROM dr )".format(lpc_list[0], lpc_list[0])
         destinationResult = accessOracle(sqlquery)
         # print(destinationResult)
         for row in destinationResult:
@@ -58,24 +58,25 @@ def secondcheck():
                 deleteDelayBag = "DELETE FROM ics.delaybag WHERE lpc = {};".format(lpc_list[0])
                 cursor.run_query(deleteDelayBag)
                 logging.info("the bag:{} from flight:{}{} has already dumped to {} and removed from the delaybag list".format(lpc_list[0], lpc_list[2], lpc_list[3], row[0]))
+
+            elif int(row[0]) in [100, 110, 200, 210]:    # 这部分好像不需要
+                logging.info("the bag:{} from flight:{}{} is location in store {}".format(lpc_list[0], lpc_list[2], lpc_list[3], row[0]))
+                updatebagstatus = "update onlinebag set status = 'store' where lpc = {}".format(lpc_list[0])
+                queryResult = cursor.run_query(updatebagstatus)
+                searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
+                lpc = cursor.run_query(searchbag)
+                if not lpc:
+                    addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                    queryResult = cursor.run_query(addStoreBag)
             else:
-                searchBagPosition = "with dr as ( SELECT  CURRENTSTATIONID,  IDEVENT,  EVENTTS,  lpc,  bid,  pid,  DEPAIRLINE,  DEPFLIGHT,  EXECUTEDTASK,  L_DESTINATIONSTATIONID,  TARGETPROCESSID  FROM  WC_PACKAGEINFO  WHERE  lpc = {}  ) select * from dr where IDEVENT = ( SELECT max( IDEVENT ) FROM dr )".format(lpc_list[0])
-                # searchBagPosition = "select count(*) from  WC_PACKAGEINFO"
-                position = accessOracle(searchBagPosition)
-                updatebaglocation = "update onlinebag set currentstation='{}',destination = '{}' where lpc = {}".format(position[0][0], position[0][9], lpc_list[0])
-                logging.info(updatebaglocation)
-                queryResult = cursor.run_query(updatebaglocation)
-                if int(position[0][0]) in [100, 110, 200, 210]:    # 这部分好像不需要
-                    logging.info("the bag:{} from flight:{}{} is location in store {}".format(lpc_list[0], lpc_list[2], lpc_list[3], row[0]))
-                    updatebagstatus = "update onlinebag set status = 'store' where lpc = {}".format(lpc_list[0])
+                searchbag = "select currentstation from ics.delaybag where lpc = {}".format(lpc_list[0])
+                currentstation = cursor.run_query(searchbag)
+                if currentstation != row[3]:
+                    localTime = row[2] + datetime.timedelta(hours=8)
+                    latest_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
+                    updatebagstatus = "update delaybag set currentstation='{}',destination = '{}', latest_time = '{}' where lpc = '{}'".format(row[3], row[1], latest_time, lpc_list[0])             # 更新delaybag当前位置
                     queryResult = cursor.run_query(updatebagstatus)
-                    searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
-                    lpc = cursor.run_query(searchbag)
-                    if not lpc:
-                        addStoreBag = "insert into ics.storebag (created_time, lpc, DEPAIRLINE,  DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
-                        queryResult = cursor.run_query(addStoreBag)
-                else:
-                    logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
+                logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], row[3]))
 
 
 def main():

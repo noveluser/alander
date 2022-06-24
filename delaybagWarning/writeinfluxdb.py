@@ -40,7 +40,7 @@ def bagdata():
         try:
             destination = int(row[3])
         except:   # 遗留问题，如何优雅的输出exceptions
-            if "220"in row[3]:
+            if "220" in row[3]:
                 destination = 1000    # 弃包和早到总称
             elif row[3] == "None":
                 logging.error("destination write error.{}".format(row[3]))
@@ -103,7 +103,7 @@ def bagdata():
                     }
                     }
         bagdata.append(dumpbag_dist)
-    searchdelaybag = "with cr as ( select lpc  from delaybag where created_time > curdate() ) select  created_time, onlinebag.lpc, currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  and created_time > CURDATE() "
+    searchdelaybag = "with cr as ( select created_time,lpc,currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, latest_time from delaybag where created_time > curdate() ) select  cr.*, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  and cr.created_time > CURDATE() "
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
         try:
@@ -119,7 +119,7 @@ def bagdata():
             else:
                 destination = 1002   # 其他异常
                 logging.error("1002 error-{}-{}".format(row[1], row[3]))
-        match row[7]:
+        match row[8]:
             case "arrived":
                 status = 1
             case "store":
@@ -133,11 +133,12 @@ def bagdata():
             'tags': {
                 'createdTime': row[0],
                 "flight": "{}{}".format(row[4], row[5]),
-                "STD": row[6]
+                "STD": row[6],
+                "currentstation": row[2],
+                "latest_time": row[7]
                         },
             'fields': {
                     "lpc": int(row[1]),
-                    "currentstation": int(row[2]),
                     "destination": destination,
                     "status": status
                     }
