@@ -40,10 +40,8 @@ def bagdata():
         try:
             destination = int(row[3])
         except:   # 遗留问题，如何优雅的输出exceptions
-            if row[3] == "100,110,200,210,220,221,42,82":
-                destination = 1000    # 弃包和中转总称
-            elif row[3] == "220,221,41,42,81,82":
-                destination = 1001  # 弃包地
+            if "220"in row[3]:
+                destination = 1000    # 弃包和早到总称
             elif row[3] == "None":
                 logging.error("destination write error.{}".format(row[3]))
                 destination = None
