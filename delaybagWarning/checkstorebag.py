@@ -61,10 +61,10 @@ def secondcheck():
                 searchBagPosition = "with dr as ( SELECT  CURRENTSTATIONID,  IDEVENT,  EVENTTS,  lpc,  bid,  pid,  DEPAIRLINE,  DEPFLIGHT,  EXECUTEDTASK,  L_DESTINATIONSTATIONID,  TARGETPROCESSID  FROM  WC_PACKAGEINFO  WHERE  lpc = {}  ) select * from dr where IDEVENT = ( SELECT max( IDEVENT ) FROM dr )".format(lpc_list[0])
                 # searchBagPosition = "select count(*) from  WC_PACKAGEINFO"
                 position = accessOracle(searchBagPosition)
-                searchbag = "select lpc from ics.storebag where lpc = {}".format(lpc_list[0])
+                searchbag = "select lpc from ics.delaybag where lpc = {}".format(lpc_list[0])
                 lpc = cursor.run_query(searchbag)
-                if not lpc:  # 还存在一种行李滞留在早到区不走的情况,以后再考虑
-                    addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD) values ('{}', {}, '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4])
+                if not lpc:
+                    addDelayBag = "insert into ics.delaybag (created_time, lpc, DEPAIRLINE, DEPFLIGHT, STD , currentstation, destination) values ('{}', {}, '{}', '{}', '{}', '{}', '{}'); ".format(lpc_list[1], lpc_list[0], lpc_list[2], lpc_list[3], lpc_list[4], row[0], row[1])
                     queryResult = cursor.run_query(addDelayBag)
                 logging.info("the bag:{} didn't arrive, the lastest position is {}".format(lpc_list[0], position[0][0]))
 

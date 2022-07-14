@@ -144,6 +144,39 @@ def bagdata():
                     }
                     }
         bagdata.append(delaybag_dist)
+    # 临时增加的查询多循环在分拣机上的行李
+    searchovercirclebag = "with cr as ( select created_time,lpc,currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, latest_time from delaybag where created_time > curdate() ) select  cr.*, autoscantimes from overcirclebag ,cr where overcirclebag.lpc = cr.lpc  and cr.created_time > CURDATE() "
+    queryResult = cursor.run_query(searchovercirclebag)
+    for row in queryResult:
+        try:
+            destination = int(row[3])
+        except:   # 遗留问题，如何优雅的输出exceptions
+            if row[3] == "100,110,200,210,220,221,42,82":
+                destination = 1000    # 弃包和中转总称
+            elif row[3] == "220,221,41,42,81,82":
+                destination = 1001  # 弃包地
+            elif row[3] == "None":
+                logging.error("destination write error.{}".format(row[3]))
+                destination = None
+            else:
+                destination = 1002   # 其他异常
+                logging.error("1002 error-{}-{}".format(row[1], row[3]))
+        overcirclebag_dist = {
+            'measurement': 'overcirclebags',
+            'tags': {
+                'createdTime': row[0],
+                "flight": "{}{}".format(row[4], row[5]),
+                "STD": row[6],
+                "currentstation": row[2],
+                "latest_time": row[7]
+                        },
+            'fields': {
+                    "lpc": int(row[1]),
+                    "destination": destination,
+                    "autoscan": row[8]
+                    }
+                    }
+        bagdata.append(overcirclebag_dist)
     return bagdata
 
 

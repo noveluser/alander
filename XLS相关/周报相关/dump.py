@@ -48,8 +48,10 @@ def collector(starttime, endtime, filename):
 def main():
     starttime = datetime.datetime.now() - datetime.timedelta(days=7)
     endtime = datetime.datetime.now()
-    startday = starttime.strftime("%d-%m-%Y")
-    endday = endtime.strftime("%d-%m-%Y")
+    # startday = starttime.strftime("%d-%m-%Y")
+    # endday = endtime.strftime("%d-%m-%Y")
+    startday = "27-06-2022"
+    endday = "01-07-2022"
     workweek = starttime.strftime("%Y%m%d")
     file_path = "c://work//Datacollector//weeklyreport//"
     outputfile = "{}dump_{}.xlsx".format(file_path, workweek)
