@@ -103,7 +103,7 @@ def bagdata():
                     }
                     }
         bagdata.append(dumpbag_dist)
-    searchdelaybag = "with cr as ( select created_time,lpc,currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, latest_time from delaybag where created_time > curdate() ) select  cr.*, `status` from onlinebag ,cr where onlinebag.lpc = cr.lpc  and cr.created_time > CURDATE() "
+    searchdelaybag = "with cr as ( select created_time,lpc,currentstation, destination, DEPAIRLINE, DEPFLIGHT, STD, latest_time from delaybag where created_time > curdate() ) select  cr.*, `status`, flighttype from onlinebag ,cr where onlinebag.lpc = cr.lpc  and cr.created_time > CURDATE() "
     queryResult = cursor.run_query(searchdelaybag)
     for row in queryResult:
         try:
@@ -128,6 +128,11 @@ def bagdata():
                 status = 3
             case _:
                 status = 4
+        match row[9]:
+            case "I":
+                flighttype = "I"
+            case _:
+                flighttype = "D"
         delaybag_dist = {
             'measurement': 'delaybags',
             'tags': {
@@ -135,7 +140,8 @@ def bagdata():
                 "flight": "{}{}".format(row[4], row[5]),
                 "STD": row[6],
                 "currentstation": row[2],
-                "latest_time": row[7]
+                "latest_time": row[7],
+                "flighttype": flighttype
                         },
             'fields': {
                     "lpc": int(row[1]),
