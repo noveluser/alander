@@ -47,6 +47,16 @@ def collectbaginfo(startID, endID):
             create_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
             sqlquery = "insert into ics.onlinebag (created_time, lpc, bid, pid, currentstation,destination, DEPAIRLINE, DEPFLIGHT, STD, flighttype)  values ('{}',{},{},{},'{}','{}','{}','{}', '{}', '{}')".format(create_time, row[0], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
             cursor.run_query(sqlquery)
+            # 修改创建时间为bsm时间 开始
+            today = datetime.datetime.now().strftime("%Y-%m-%d")
+            find_bsm = "WITH ar AS ( SELECT IDEVENT FROM WC_PACKAGEDATA WHERE lpc = {} ) SELECT EVENTTS  FROM WC_PACKAGEDATA  WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM ar)".format(row[0])
+            bsm_created_time = accessOracle(find_bsm)[0][0]
+            localBMSTime = bsm_created_time + datetime.timedelta(hours=8)
+            strlocalBMSTime = localBMSTime.strftime("%Y-%m-%d %H:%M:%S")
+            updateBSMtime = "update onlinebag set created_time = '{}' where lpc = {} and created_time > '{}'".format(strlocalBMSTime, row[0], today)
+            cursor.run_query(updateBSMtime)
+            # logging.info("{} {}".format(strlocalBMSTime, row[0]))
+            # 修改创建时间为bsm时间 结束
             logging.info("write down online bag data for lpc:{} ".format(row[0]))
     updateIDnumber = "update ics.IDnumber set currentIDnumber= {}".format(endID)
     cursor.run_query(updateIDnumber)

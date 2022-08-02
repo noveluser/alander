@@ -19,6 +19,10 @@ logging.basicConfig(
                     filemode='a')
 
 
+# envioments
+cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
+
+
 def accessOracle(query):
     dsn_tns = cx_Oracle.makedsn('10.31.8.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.

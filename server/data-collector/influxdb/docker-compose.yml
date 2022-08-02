@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+
+  influxdb:
+    image: influxdb:1.8
+    restart: always
+    environment:
+      TZ: "Asia/Shanghai"
+      # DOCKER_INFLUXDB_INIT_MODE: setup
+      # DOCKER_INFLUXDB_INIT_USERNAME: szit
+      # DOCKER_INFLUXDB_INIT_PASSWORD: 11111111
+      # DOCKER_INFLUXDB_INIT_ORG: my-org
+      # DOCKER_INFLUXDB_INIT_BUCKET: my-bucket
+      # DOCKER_INFLUXDB_INIT_RETENTION: 1w
+      # DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mytoken
+    volumes:
+       - /etc/localtime:/etc/localtime:ro
+       - /data/dc-yaml/influxdb/data:/var/lib/influxdb
+       - /data/dc-yaml/influxdb/config/influxdb.conf:/etc/influxdb/influxdb.conf
+    ports:
+      - 8086:8086
+
