@@ -1,0 +1,36 @@
+version: "3.7"
+
+networks:
+  splunknet:
+    driver: bridge
+    attachable: true
+
+services:
+  szx_vidi_standalone:
+    image: vidi_standalone_http
+    networks:
+      splunknet:
+        aliases:
+          - szx_vidi_standalone
+    hostname: szx_vidi_standalone
+    container_name: szx_vidi_standalone
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${DOCKER_BIND_MOUNTS_PATH}/splunk_mount_var/
+        target: /opt/splunk/var/
+      - type: bind
+        source: ${DOCKER_BIND_MOUNTS_PATH}/splunk_mount_etc/
+        target: /opt/splunk/etc/
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_STANDALONE_URL=szx_vidi_standalone
+      - SPLUNK_PASSWORD=${SPLUNK_PASSWORD}
+      - DEBUG=${SPLUNK_DEBUG:-false}
+      # Set ANSIBLE_EXTRA_FLAGS to -vv for ansible debug logging
+      - ANSIBLE_EXTRA_FLAGS=${SPLUNK_ANSIBLE_EXTRA_FLAGS:-}
+      - JAVA_VERSION=
+      - SPLUNK_LAUNCH_CONF=${SPLUNK_LAUNCH_CONF:-}
+    ports:
+      - 8000:8000
+      - 8089:8089

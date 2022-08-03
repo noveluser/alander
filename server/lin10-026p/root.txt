@@ -1,0 +1,1000 @@
+    6  2020-09-02 14:30:19 cd /opt/vanderlande/vidi/instance_a_szx_2242910_shenzhenairport_2242911/
+    7  2020-09-02 14:30:25 sh start-vidi.sh prd
+    8  2020-09-02 14:34:33 su vibes
+    9  2020-09-02 14:32:17 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/lookups/
+   10  2020-09-02 14:32:18 ls
+   11  2020-09-02 14:32:22 cd CTU_BPI_ETL/
+   12  2020-09-02 14:32:22 ls
+   13  2020-09-02 14:32:30 ls ../SZX_BPI_ETL/
+   14  2020-09-02 14:32:33 ls
+   15  2020-09-02 14:33:46 cd ../../users/
+   16  2020-09-02 14:33:46 ls
+   17  2020-09-02 14:33:50 cat users.ini
+   18  2020-09-02 14:33:52 cd admin/
+   19  2020-09-02 14:33:53 ls
+   20  2020-09-02 14:34:03 cd CTU_BPI_ETL/
+   21  2020-09-02 14:34:03 ls
+   22  2020-09-02 14:34:05 cd local/
+   23  2020-09-02 14:34:05 ls
+   24  2020-09-02 14:34:08 cat ui-prefs.conf 
+   25  2020-09-02 14:34:12 cd ../../..
+   26  2020-09-02 14:34:24 cd ../lookups/CTU_BPI_ETL/
+   27  2020-09-02 14:34:24 ls
+   28  2020-09-02 14:34:27 ls -l
+   29  2020-09-02 14:42:59 cd ../../../
+   30  2020-09-02 14:43:00 ls
+   31  2020-09-02 14:43:01 cd ..
+   32  2020-09-02 14:43:02 ls
+   33  2020-09-02 14:43:06 cd splunk_
+   34  2020-09-02 14:43:10 cd splunk_licenses_bind/
+   35  2020-09-02 14:43:10 ls
+   36  2020-09-02 14:43:13 cd ..
+   37  2020-09-02 14:43:13 ls
+   38  2020-09-02 14:43:27 cd splunk_var_bind/
+   39  2020-09-02 14:43:28 ls
+   40  2020-09-02 14:43:30 cd ..
+   41  2020-09-02 14:43:30 ls
+   42  2020-09-02 14:49:44 dfh -h
+   43  2020-09-02 14:49:47 df -h
+   44  2020-09-02 14:50:27 du -h
+   45  2020-09-02 14:50:37 du -h -max-depth 1
+   46  2020-09-02 14:50:42 du --help
+   47  2020-09-02 14:50:58 du -hd 1
+   48  2020-09-02 14:51:20 cd splunk_var_bind/
+   49  2020-09-02 14:51:22 du -hd 1
+   50  2020-09-02 14:51:26 cd lib/
+   51  2020-09-02 14:51:27 du -hd 1
+   52  2020-09-02 14:51:31 cd splunk/
+   53  2020-09-02 14:51:33 du -hd 1
+   54  2020-09-02 14:51:44 cd _internaldb/
+   55  2020-09-02 14:51:45 du -hd 1
+   56  2020-09-02 14:51:50 cd db/
+   57  2020-09-02 14:51:50 ls
+   58  2020-09-02 14:51:52 cd db/
+   59  2020-09-02 14:51:55 du -hd 1
+   60  2020-09-02 14:52:08 cd ../../..
+   61  2020-09-02 14:52:08 ls
+   62  2020-09-02 14:52:11 cd ../..
+   63  2020-09-02 14:52:12 ls
+   64  2020-09-02 14:52:33 df -h
+   65  2020-09-02 15:36:28 su vibes
+   66  2020-09-02 15:37:04 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/users/
+   67  2020-09-02 15:37:06 ls -a
+   68  2020-09-02 15:37:21 ll -a admin
+   69  2020-09-02 15:37:38 ll -a admin/szx_sandbox/
+   70  2020-09-02 15:37:43 ll -a admin/szx_sandbox/local/
+   71  2020-09-02 15:38:00 cat  admin/szx_sandbox/local/savedsearches.conf 
+   72  2020-09-02 15:38:15 cd ../
+   73  2020-09-02 15:38:25 ll -a
+   74  2020-09-02 15:38:45 cd sandbox_app/local/
+   75  2020-09-02 15:38:48 ls -a
+   76  2020-09-02 15:38:53 cat savedsearches.conf 
+   77  2020-09-02 15:40:17 cd ../metadata/
+   78  2020-09-02 15:40:22 ll -a
+   79  2020-09-02 15:40:31 cat local.meta 
+   80  2020-09-02 15:41:06 exit
+   81  2020-09-07 05:46:58 docker ps
+   82  2020-09-07 05:47:34 docker images
+   83  2020-09-07 05:48:00 ll
+   84  2020-09-07 05:48:07 exit
+   85  2020-09-07 05:48:47 ls
+   86  2020-09-07 05:48:53 cd ..
+   87  2020-09-07 05:48:54 ll
+   88  2020-09-07 05:48:56 cd java/
+   89  2020-09-07 05:48:57 ls
+   90  2020-09-07 05:48:59 cd ..
+   91  2020-09-07 05:49:02 cd containerd/
+   92  2020-09-07 05:49:03 ls
+   93  2020-09-07 05:49:09 cd we
+   94  2020-09-07 05:49:12 cd ../weblogic/
+   95  2020-09-07 05:49:13 ls
+   96  2020-09-07 05:49:17 clear
+   97  2020-09-07 05:49:20 cd ..
+   98  2020-09-07 05:49:21 ls
+   99  2020-09-07 05:49:23 clear
+  100  2020-09-07 05:49:24 ll
+  101  2020-09-07 05:49:28 cd nagios/
+  102  2020-09-07 05:49:29 ls
+  103  2020-09-07 05:49:35 cd ..
+  104  2020-09-07 05:49:36 ls
+  105  2020-09-07 05:49:38 ll
+  106  2020-09-07 05:49:41 cd vanderlande/
+  107  2020-09-07 05:49:42 ls
+  108  2020-09-07 05:49:43 ll
+  109  2020-09-07 05:49:49 cd vidi/
+  110  2020-09-07 05:49:51 ls
+  111  2020-09-07 05:49:52 clear
+  112  2020-09-07 05:49:53 ll
+  113  2020-09-07 05:50:04 df -h
+  114  2020-09-07 05:50:29 cd /var/log/vanderlande/
+  115  2020-09-07 05:50:29 ll
+  116  2020-09-07 05:50:46 cd /opt/vanderlande/vidi
+  117  2020-09-07 05:50:47 ll
+  118  2020-09-07 05:50:49 clear
+  119  2020-09-07 05:50:49 ll
+  120  2020-09-07 05:51:32 cd -
+  121  2020-09-07 05:52:18 clear
+  122  2020-09-07 05:52:19 ll
+  123  2020-09-07 05:52:22 cd -
+  124  2020-09-07 05:52:25 ls
+  125  2020-09-07 05:52:26 ll
+  126  2020-09-07 05:52:36 du -h
+  127  2020-09-07 05:53:53 cd splunk_var_bind/lib/splunk/_internaldb/db
+  128  2020-09-07 05:53:55 ll
+  129  2020-09-07 05:53:57 clear
+  130  2020-09-07 05:54:02 ll -lh
+  131  2020-09-07 05:54:08 du -h
+  132  2020-09-07 05:54:23 cd db_1597599526_1597167532_35/rawdata
+  133  2020-09-07 05:54:26 ll -h
+  134  2020-09-07 05:54:34 exit
+  135  2020-09-15 08:01:12 cat /etc/pam.d/systemd-user 
+  136  2020-09-15 08:02:14 cat /etc/login.defs 
+  137  2020-09-15 08:04:16 cat /etc/security/pam_winbind.conf 
+  138  2020-09-15 08:06:11 cat /etc/pam.d/common-auth
+  139  2020-09-15 08:07:24 cat /etc/pam.d/common-auth.pam-config-backup 
+  140  2020-09-15 09:05:21 useradd -D
+  141  2020-09-15 09:31:23 change -l viadmin
+  142  2020-09-15 09:32:09 cat /etc/pam.d/passwd 
+  143  2020-09-15 09:32:45 cat /etc/pam.d/common-auth
+  144  2020-09-15 09:33:57 find / -type f -name 'pan_env.so'
+  145  2020-09-15 09:36:49 cat /etc/rsyslog.conf
+  146  2020-09-15 09:38:39 zypper in rsyslog
+  147  2020-09-15 09:39:35 systemctl status rsyslog
+  148  2020-09-23 08:50:35 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/var/splunk_app_db_connect/
+  149  2020-09-23 08:50:36 ls
+  150  2020-09-23 08:50:42 cd ../log/
+  151  2020-09-23 08:50:43 ls
+  152  2020-09-23 08:50:45 cd splunk/
+  153  2020-09-23 08:50:45 ls
+  154  2020-09-23 08:51:08 tail splunk_app_db_connect_dbx.log 
+  155  2020-09-23 08:51:19 tail splunk_app_db_connect_dbxquery.2020-09-23.log 
+  156  2020-09-23 08:51:34 tail splunk_app_db_connect_server.log
+  157  2020-09-23 08:57:04 tail -n 30 splunk_app_db_connect_server.log
+  158  2020-09-23 08:57:29 tail -n 50 splunk_app_db_connect_server.log
+  159  2020-09-23 08:57:39 tail -n 100 splunk_app_db_connect_server.log
+  160  2020-09-23 08:57:54 tail -n 100 splunk_app_db_connect_server.log.1
+  161  2020-09-23 09:00:10 tail -n 200 splunk_app_db_connect_server.log.1
+  162  2020-09-23 09:11:38 tail -n 200 splunk_app_db_connect_server.log
+  163  2020-09-23 09:13:02 ls
+  164  2020-09-23 09:14:06 tail splunk_app_db_connect_job_metrics.log
+  165  2020-09-23 09:58:05 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/var/log/splunk/
+  166  2020-09-23 09:58:15 tail splunk_app_db_connect_server.log
+  167  2020-09-23 10:00:12 tail -n 20 splunk_app_db_connect_server.log
+  168  2020-09-23 10:00:23 tail -n 100 splunk_app_db_connect_server.log
+  169  2020-09-23 10:01:24 tail -n 150 splunk_app_db_connect_server.log
+  170  2020-09-23 10:01:45 tail -n 300 splunk_app_db_connect_server.log
+  171  2020-09-23 10:03:21 tail -n 1000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-30
+  172  2020-09-23 10:03:35 tail -n 10000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-30
+  173  2020-09-23 15:44:47 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/var/log/splunk/
+  174  2020-09-23 15:44:48 ls
+  175  2020-09-23 15:45:02 tail splunk_app_db_connect_server.log
+  176  2020-09-23 15:45:29 cat splunk_app_db_connect_server.log | grep bagtrace
+  177  2020-09-23 15:46:09 tail -n 1000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-10
+  178  2020-09-23 15:46:39 cat splunk_app_db_connect_server.log | grep szx_fact_bagtrace
+  179  2020-09-23 15:47:10 tail -n 1000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-8
+  180  2020-09-23 15:47:24 tail -n 10000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-8
+  181  2020-09-23 15:47:34 tail -n 100000 splunk_app_db_connect_server.log | grep QuartzScheduler_Worker-8
+  182  2020-09-24 05:48:00 ip a
+  183  2020-09-24 05:48:11 vim /etc/ntp.conf 
+  184  2020-09-24 05:49:09 ntpq -p
+  185  2020-10-01 08:39:19 vi /etc/nrpe.cfg
+  186  2020-10-01 08:39:27 service nrpe status
+  187  2020-10-01 08:39:31 zypper in nrpe
+  188  2020-10-01 08:39:43 zypper in monitoring-plugins-all 
+  189  2020-10-01 08:39:56 systemctl enable nrpe
+  190  2020-10-01 08:40:00 vi /etc/nrpe.cfg 
+  191  2020-10-01 08:40:35 vi /usr/lib/nagios/plugins/check_mem.pl
+  192  2020-10-01 08:41:10 chmod 755 /usr/lib/nagios/plugins/check_mem.pl
+  193  2020-10-01 08:43:53 service nrpe restart
+  194  2020-10-01 08:44:05 service nrpe status
+  195  2020-10-01 08:44:40 grep mem /etc/nrpe.cfg 
+  196  2020-10-01 08:44:48 ls -l /usr/lib/nagios/plugins/check_mem.pl
+  197  2020-10-01 08:45:50 exit
+  198  2020-10-14 05:05:13 systemctl status docker.service 
+  199  2020-10-14 05:05:23 cat  Add a custom host-to-IP mapping (host:ip)
+  200  2020-10-14 05:06:33 cat /etc/docker/daemon.json 
+  201  2020-10-14 05:07:50 cat /usr/lib/systemd/system/docker.service
+  202  2020-10-14 05:08:52 systemctl status dockers
+  203  2020-10-14 05:08:57 systemctl status docker
+  204  2020-10-14 05:13:10 dockerd
+  205  2020-10-14 05:14:49 ls -l /var/lib/docker/dcontainers
+  206  2020-10-14 05:15:11 ls -l /var/lib/docker/containers/
+  207  2020-10-14 05:15:14 ls -l /var/lib/docker/containers
+  208  2020-10-14 05:15:23 ls -l /var/lib/docker/containers/
+  209  2020-10-14 05:15:30 ls -l /var/lib/docker/image/
+  210  2020-10-16 06:30:11 systemctl status docker.service 
+  211  2020-10-27 16:09:08 cd /opt/vanderlande/vidi/instance_a_szx_2242910_shenzhenairport_2242911/
+  212  2020-10-27 16:09:10 cd ..
+  213  2020-10-27 16:09:11 ls
+  214  2020-10-27 16:09:18 cd docker_bind_mounts/folder_mounts/
+  215  2020-10-27 16:09:18 ls
+  216  2020-10-27 16:09:32 cd sandbox_app/local/data/ui/views/
+  217  2020-10-27 16:09:32 ls
+  218  2020-10-27 16:09:41 cd ../..
+  219  2020-10-27 16:09:41 ls
+  220  2020-10-27 16:09:42 cd ..
+  221  2020-10-27 16:09:43 ls
+  222  2020-10-27 16:09:45 cd ..
+  223  2020-10-27 16:09:45 ls
+  224  2020-10-27 16:09:49 cat metadata/local.meta 
+  225  2020-10-29 15:21:11 docker ps -q
+  226  2020-10-29 15:21:40 docker stats --no-stream 3353034cbf4e
+  227  2020-11-04 16:35:04 ls
+  228  2020-11-04 16:35:10 xcd..
+  229  2020-11-04 16:35:11 ls
+  230  2020-11-04 16:35:16 cd /opt
+  231  2020-11-04 16:35:18 ls
+  232  2020-11-04 16:35:21 cd vanderlande
+  233  2020-11-04 16:35:21 ls
+  234  2020-11-04 16:35:44 cd vidi
+  235  2020-11-04 16:35:44 ls
+  236  2020-11-11 12:17:53 cd /opt/vanderlande/vidi/
+  237  2020-11-11 12:17:54 ls
+  238  2020-11-11 12:18:01 rm -rf splunk_lookups_bind/
+  239  2020-11-11 12:18:21 ls -l splunk_sandbox_app_bind/
+  240  2020-11-11 12:18:28 ls -l splunk_sandbox_app_bind/local/
+  241  2020-11-11 12:18:34 ls -l splunk_sandbox_app_bind/local/data/
+  242  2020-11-11 12:18:37 ls -l splunk_sandbox_app_bind/local/data/ui/
+  243  2020-11-11 12:18:59 rm -rf splunk_sandbox_app_bind/
+  244  2020-11-11 12:19:00 ls
+  245  2020-11-11 12:19:09 ls -ltrah
+  246  2020-11-11 12:19:29 cd splunk_var_bind/lib/splunk/
+  247  2020-11-11 12:19:31 ls -ltrah
+  248  2020-11-11 12:19:53 cd ../../..
+  249  2020-11-11 12:19:56 ls
+  250  2020-11-11 12:20:04 docker psd
+  251  2020-11-11 12:20:07 docker ps
+  252  2020-11-11 12:20:20 docker inspect f69a7136e0cd
+  253  2020-11-11 12:21:08 df -h
+  254  2020-11-11 12:21:16 ls
+  255  2020-11-11 12:21:21 rm -rf splunk_licenses_bind/
+  256  2020-11-11 12:21:26 rm -rf splunk_var_bind/
+  257  2020-11-11 12:21:30 df -h
+  258  2020-11-11 12:21:42 exit
+  259  2020-11-11 13:47:44 cd /opt/vanderlande/vidi/docker_bind_mounts/folder_mounts/var/log/splunk/
+  260  2020-11-11 13:47:45 ls
+  261  2020-11-11 13:48:02 tail splunk_app_db_connect_server.log
+  262  2020-11-11 13:48:13 tail -n 1000 splunk_app_db_connect_server.log
+  263  2020-11-19 09:18:15 cd /opt/vanderlande/vidi/
+  264  2020-11-19 09:18:17 ls
+  265  2020-11-19 09:18:37 whoami
+  266  2020-11-19 09:19:19 cd instance_a_szx_2242910_shenzhenairport_2242911/
+  267  2020-11-19 09:19:20 ls 
+  268  2020-11-19 09:19:35 cd szx_vidi_standalone/
+  269  2020-11-19 09:19:37 ls 
+  270  2020-11-19 09:24:33 cat Dockerfile 
+  271  2020-12-28 12:13:24 clear
+  272  2020-12-28 12:13:27 docker ps
+  273  2020-12-28 12:13:56 reboot
+  274  2020-12-28 12:15:49 cd ..
+  275  2020-12-28 12:15:49 ls
+  276  2020-12-28 12:15:56 cd viadmin/
+  277  2020-12-28 12:15:57 ls
+  278  2020-12-28 12:15:59 ll
+  279  2020-12-28 12:16:02 clear
+  280  2020-12-28 12:16:05 cd /opt/vanderlande/
+  281  2020-12-28 12:16:05 ls
+  282  2020-12-28 12:16:07 ll
+  283  2020-12-28 12:16:11 cd vidi/
+  284  2020-12-28 12:16:13 ls
+  285  2020-12-28 12:16:14 ll
+  286  2020-12-28 12:16:18 cd instance_a_szx_2242910_shenzhenairport_2242911/
+  287  2020-12-28 12:16:20 ll
+  288  2020-12-28 12:16:29 cat readme.md 
+  289  2020-12-28 12:16:34 clear
+  290  2020-12-28 12:16:36 more readme.md 
+  291  2020-12-28 12:17:24 ll
+  292  2020-12-28 12:17:27 clear
+  293  2020-12-28 12:17:34 docker-compose -d
+  294  2020-12-28 12:17:51 docker-compose down
+  295  2020-12-28 12:19:14 clear
+  296  2020-12-28 12:25:36 docker-compose down
+  297  2021-01-05 15:18:37 cd /opt/vanderlande/vidi/
+  298  2021-01-05 15:18:38 ls
+  299  2021-01-05 15:18:45 rm -rf docker_bind_mounts_BAK/
+  300  2021-01-05 15:18:47 ls
+  301  2021-01-05 15:19:00 cp -R docker_bind_mounts/ docker_bind_mounts_BAK/
+  302  2021-01-05 15:21:56 ls -ltrah
+  303  2021-01-05 15:23:07 du -hd
+  304  2021-01-05 15:23:15 du -hs
+  305  2021-01-05 15:23:41 du -h -d 1
+  306  2021-01-05 15:23:48 exit
+  307  2021-02-07 02:40:55 ntp -q
+  308  2021-02-07 02:40:57 ntpq -p
+  309  2021-02-07 02:41:46 ip a
+  310  2021-02-07 02:42:00 exit
+  311  2021-02-26 02:34:03 relaese
+  312  2021-02-26 02:34:20 uname
+  313  2021-02-26 02:34:54 uname -a
+  314  2021-02-26 02:35:43 cat /proc/version
+  315  2021-05-12 07:49:38 exit
+  316  2021-05-14 01:18:52 ntpq -p
+  317  2021-05-14 01:53:52 ls -alh /dev/mapper/
+  318  2021-05-14 01:54:32 vi /etc/nrpe.cfg 
+  319  2021-05-14 01:54:46 service nrpe restart
+  320  2021-05-21 03:42:14 mv /home/viadmin/check_uptime /usr/lib/nagios/plugins/
+  321  2021-05-21 03:42:22 cd /usr/lib/nagios/plugins/
+  322  2021-05-21 03:42:27 chmod 755 check_uptime 
+  323  2021-05-21 03:42:32 vi /etc/nrpe.cfg 
+  324  2021-05-21 03:42:51 service nrpe restart
+  325  2021-05-21 03:43:01 vi /etc/nrpe.cfg 
+  326  2021-05-21 03:43:18 service nrpe restart
+  327  2021-05-31 09:50:27 iptables --list
+  328  2021-07-08 05:11:48 lsblk
+  329  2021-07-08 05:12:46 lsblk -h
+  330  2021-07-08 05:12:54 lsblk 
+  331  2021-07-08 05:13:04 pvs
+  332  2021-07-08 05:13:36 lvs
+  333  2021-07-08 05:14:41 df -h
+  334  2021-07-08 05:14:57 ll -i /home
+  335  2021-07-19 16:04:20 ls -l /opt/vanderlande
+  336  2021-07-19 16:04:25 ls -l /opt/vanderlande/vidi
+  337  2021-07-19 16:04:33 docker ps
+  338  2021-07-19 16:06:06 cd /opt/vanderlande/vidi/instance_a_szx_2242910_shenzhenairport_2242911/
+  339  2021-07-19 16:06:08 ls -l
+  340  2021-07-19 16:06:20 cat .env
+  341  2021-08-03 09:14:39 cp splunk_app_db_connect-0.9.0.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/product/
+  342  2021-08-03 09:14:50 ls -l /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/product/
+  343  2021-08-03 09:14:59 su vibes
+  344  2021-08-03 09:15:33 chown vibes:vibes /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/product/
+  345  2021-08-03 09:15:38 chown vibes:vibes /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/product/splunk_app_db_connect-0.9.0.tar.gz 
+  346  2021-08-03 09:15:46 ls -l /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/product/splunk_app_db_connect-0.9.0.tar.gz 
+  347  2021-08-03 09:15:51 su vibes
+  348  2021-09-14 13:03:01 zypper lr -d
+  349  2021-09-14 13:03:24 git --version
+  350  2021-09-14 13:03:44 exit
+  351  2021-09-16 06:44:15 cd /opt/vanderlande/vidi/
+  352  2021-09-16 06:44:18 code .
+  353  2021-10-06 07:55:51 cp /tmp/SZX_vidi-1.0.1-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  354  2021-10-06 07:56:00 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  355  2021-10-06 07:56:01 ls
+  356  2021-10-06 07:56:56 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/SZX_vidi-1.0.1-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/apps_searchhead
+  357  2021-10-06 07:57:03 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/SZX_vidi-1.0.1-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/apps_searchhead/
+  358  2021-10-06 07:57:23 cp /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/SZX_vidi-1.0.1-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/apps_searchhead/
+  359  2021-10-06 07:58:25 ls downloaded_packages/
+  360  2021-10-06 07:58:30 ls project
+  361  2021-10-06 07:58:34 ls downloaded_packages/project
+  362  2021-10-06 07:58:39 ls downloaded_packages/project/1.0.0
+  363  2021-10-06 07:58:40 ls
+  364  2021-10-06 08:00:05 mv SZX_vidi-1.0.1-prd.tar.gz SZX_vidi-1.0.0-prd.tar.gz
+  365  2021-10-06 08:00:08 ls
+  366  2021-10-06 08:00:32 cp /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/SZX_vidi-1.0.1-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/project/1.0.0/apps_searchhead/
+  367  2021-10-06 08:00:46 cp /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/SZX_vidi-1.0.0-prd.tar.gz /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/downloaded_packages/project/1.0.0/apps_searchhead/
+  368  2021-10-06 08:00:48 ls
+  369  2021-10-06 08:01:01 make install-all-apps 
+  370  2021-10-06 08:01:51 set -e
+  371  2021-10-06 08:01:53 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+  372  2021-10-06 08:02:05 cd $SCRIPT_DIR/../vidi_common/scripts/app-operations/deploy
+  373  2021-10-14 01:21:45 clear
+  374  2021-10-14 01:21:52 cd /opt/vanderlande/vidi/
+  375  2021-10-14 01:21:52 ll
+  376  2021-10-14 01:21:53 clear
+  377  2021-10-14 01:21:55 cd docker_bind_mounts/
+  378  2021-10-14 01:21:56 ll
+  379  2021-10-14 01:22:02 cd splunk_mount_etc
+  380  2021-10-14 01:22:04 ll
+  381  2021-10-14 01:22:27 cat instance.cfg
+  382  2021-10-14 01:22:32 clear
+  383  2021-10-14 01:22:45 cd ..
+  384  2021-10-14 01:22:47 ll
+  385  2021-10-14 01:22:51 cd splunk_mount_var
+  386  2021-10-14 01:22:52 ll
+  387  2021-10-14 01:22:53 clear
+  388  2021-10-14 01:22:54 cd log/
+  389  2021-10-14 01:22:55 ll
+  390  2021-10-14 01:22:59 cd splunk/
+  391  2021-10-14 01:22:59 ll
+  392  2021-10-14 01:23:24 clear
+  393  2021-10-14 01:23:27 ll -lht
+  394  2021-10-14 01:23:55 cd ..
+  395  2021-10-14 01:23:57 clear
+  396  2021-10-14 01:23:58 ll
+  397  2021-10-14 01:24:01 cd introspection/
+  398  2021-10-14 01:24:02 ll
+  399  2021-10-14 01:24:08 cd ../watchdog/
+  400  2021-10-14 01:24:09 ll
+  401  2021-10-14 01:24:12 clear
+  402  2021-10-14 01:24:14 cd ../..
+  403  2021-10-14 01:24:15 clear
+  404  2021-10-14 01:24:24 ll
+  405  2021-10-14 01:24:32 cd splunk_app_db_connect
+  406  2021-10-14 01:24:33 ll
+  407  2021-10-14 01:24:38 cat logs.lock/
+  408  2021-10-14 01:24:40 clear
+  409  2021-10-14 01:24:41 cd logs.lock/
+  410  2021-10-14 01:24:42 ll
+  411  2021-10-14 01:24:44 cat splunk_app_db_connect_dbx.log.lock 
+  412  2021-10-14 01:24:48 clear
+  413  2021-10-14 01:24:51 cd ..
+  414  2021-10-14 01:24:52 ll
+  415  2021-10-14 01:24:53 cd ..
+  416  2021-10-14 01:24:54 ll
+  417  2021-10-14 01:24:57 cd lib/
+  418  2021-10-14 01:24:58 ll
+  419  2021-10-14 01:25:00 cd splunk/
+  420  2021-10-14 01:25:00 ll
+  421  2021-10-14 01:25:05 cd ../..
+  422  2021-10-14 01:25:08 cd spool/
+  423  2021-10-14 01:25:09 ll
+  424  2021-10-14 01:25:13 cd splunk/
+  425  2021-10-14 01:25:13 ll
+  426  2021-10-14 01:25:17 cd ../,
+  427  2021-10-14 01:25:19 cd ../..
+  428  2021-10-14 01:25:20 clear
+  429  2021-10-14 01:25:22 ll
+  430  2021-10-14 01:25:25 cd run/
+  431  2021-10-14 01:25:25 ll
+  432  2021-10-14 01:25:28 clear
+  433  2021-10-14 01:25:28 ll
+  434  2021-10-14 01:25:29 cd ..
+  435  2021-10-14 01:25:30 ll
+  436  2021-10-14 01:25:33 cd ..
+  437  2021-10-14 01:25:35 ll
+  438  2021-10-14 01:25:39 cd archive/
+  439  2021-10-14 01:25:39 ll
+  440  2021-10-14 01:25:45 cd file_mounts/
+  441  2021-10-14 01:25:46 ll
+  442  2021-10-14 01:25:49 cd auth/certs/
+  443  2021-10-14 01:25:50 ll
+  444  2021-10-14 01:25:56 cd ../..
+  445  2021-10-14 01:25:58 cd ..
+  446  2021-10-14 01:25:59 ll
+  447  2021-10-14 01:26:01 cd folder_mounts/
+  448  2021-10-14 01:26:01 ll
+  449  2021-10-14 01:26:07 clear
+  450  2021-10-14 01:26:11 cd ../..
+  451  2021-10-14 01:26:13 ll
+  452  2021-10-14 01:26:16 cd ..
+  453  2021-10-14 01:26:17 clear
+  454  2021-10-14 01:26:18 ll
+  455  2021-10-14 01:26:21 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  456  2021-10-14 01:26:22 ll
+  457  2021-10-14 01:26:23 clear
+  458  2021-10-14 01:26:23 ll
+  459  2021-10-14 01:26:26 clear
+  460  2021-10-14 01:26:29 ll -al
+  461  2021-10-14 01:26:48 ll deployment_packages/
+  462  2021-10-14 01:27:13 ll deployment_packages/apps_searchhead/
+  463  2021-10-14 01:28:03 more docker-compose.yml 
+  464  2021-10-14 01:29:20 clear
+  465  2021-10-14 01:30:39 reboot
+  466  2021-10-14 06:52:38 ls
+  467  2021-10-14 06:52:42 cd /tmp
+  468  2021-10-14 06:52:43 ls
+  469  2021-10-14 06:53:00 rm SZX_BPI_ETL-0.1.2-prd.tar.gz
+  470  2021-10-14 06:53:01 ls
+  471  2021-10-14 06:53:15 rm SZX_vidi-1.0.1-prd.tar.gz
+  472  2021-10-14 06:53:16 ls
+  473  2021-10-14 06:53:25 rm splunk_app_db_connect-0.9.0.tar.gz
+  474  2021-10-14 06:53:27 ls
+  475  2021-10-14 06:54:43 hostnamectl
+  476  2021-10-14 06:58:37 ls
+  477  2021-10-14 07:03:04 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  478  2021-10-14 07:03:05 ls
+  479  2021-10-14 07:03:25 cd ..
+  480  2021-10-14 07:03:31 rm vidi_airports_szx_shenzhenairport_2242910_2242911/
+  481  2021-10-14 07:03:31 ls
+  482  2021-10-14 07:03:40 rm -rf vidi_airports_szx_shenzhenairport_2242910_2242911/
+  483  2021-10-14 07:03:42 ls
+  484  2021-10-14 07:05:01 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  485  2021-10-14 07:05:02 ls
+  486  2021-10-14 07:05:59 ls -a
+  487  2021-10-14 07:07:12 ls
+  488  2021-10-14 07:12:54 cd /tmp
+  489  2021-10-14 07:12:55 ls
+  490  2021-10-14 07:12:59 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  491  2021-10-14 07:13:00 ls
+  492  2021-10-14 07:13:04 ls scripts/
+  493  2021-10-14 07:13:41 ls deployment_packages/
+  494  2021-10-14 07:17:14 cd /tmp
+  495  2021-10-14 07:17:16 ls
+  496  2021-10-14 07:17:18 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  497  2021-10-14 07:17:19 ls
+  498  2021-10-14 07:21:26 cd /tmp
+  499  2021-10-14 07:21:28 ls
+  500  2021-10-14 07:21:31 la
+  501  2021-10-14 07:21:54 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  502  2021-10-14 07:21:54 ls
+  503  2021-10-14 07:22:02 rm -rf downloaded_packages/
+  504  2021-10-14 07:22:03 ls
+  505  2021-10-14 07:24:36 rm -rf vidi_airports/
+  506  2021-10-14 07:24:37 ls
+  507  2021-10-14 07:25:45 ls vidi_airports/
+  508  2021-10-14 07:26:03 mkdir vidi_airports/scripts
+  509  2021-10-14 07:26:04 ls
+  510  2021-10-14 07:26:18 mv vidi_airports/* vidi_airports/scripts/
+  511  2021-10-14 07:26:33 cd vidi_airports/
+  512  2021-10-14 07:26:35 ls
+  513  2021-10-14 07:26:45 ls scripts/
+  514  2021-10-14 07:26:48 cd ..
+  515  2021-10-14 07:29:50 mkdir vidi_airports/vidi_containers
+  516  2021-10-14 07:29:51 ls
+  517  2021-10-14 07:29:53 ls vidi_airports/
+  518  2021-10-14 07:31:48 ls vidi_airports/vidi_containers/
+  519  2021-10-14 07:31:49 ls
+  520  2021-10-14 07:32:05 ls vidi_airports/
+  521  2021-10-14 07:32:06 ls
+  522  2021-10-14 07:32:17 ls vidi_airports/vidi_containers/
+  523  2021-10-14 07:32:39 ls vidi_ports/
+  524  2021-10-14 07:32:48 rm -rf vidi_ports/
+  525  2021-10-14 07:32:49 ls
+  526  2021-10-14 07:33:23 cd vidi_airports/
+  527  2021-10-14 07:33:24 ls -a
+  528  2021-10-14 07:33:29 ls -ltr
+  529  2021-10-14 07:33:35 ls vidi_containers/
+  530  2021-10-14 07:33:36 ls
+  531  2021-10-14 07:33:58 rm -rf vidi_containers/
+  532  2021-10-14 07:33:59 ls
+  533  2021-10-14 07:34:28 ls scripts/
+  534  2021-10-14 07:34:32 ls vidi_containers/
+  535  2021-10-14 07:35:23 cd ..
+  536  2021-10-14 07:35:26 cat Makefile
+  537  2021-10-14 07:35:44 cat scripts/install-all-apps.sh 
+  538  2021-10-14 07:37:03 cd /tmp
+  539  2021-10-14 07:37:04 ls
+  540  2021-10-14 07:37:38 cd /tmp
+  541  2021-10-14 07:37:39 ls
+  542  2021-10-14 07:37:46 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  543  2021-10-14 07:39:06 ls vidi_airports/
+  544  2021-10-14 07:42:16 ls
+  545  2021-10-14 07:42:34 cd ..
+  546  2021-10-14 07:42:35 ls
+  547  2021-10-14 07:42:46 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  548  2021-10-14 07:42:47 ls
+  549  2021-10-14 07:42:52 ls vidi_airports/
+  550  2021-10-14 07:42:56 ls scripts/
+  551  2021-10-14 07:43:11 mkdir vidi_common
+  552  2021-10-14 07:43:52 ls -ltr
+  553  2021-10-14 07:44:18 chown -R viadmin:users vidi_common
+  554  2021-10-14 07:44:22 ls -ltr
+  555  2021-10-14 07:44:41 ls vidi_common/
+  556  2021-10-14 07:44:47 ls vidi_common/scripts/
+  557  2021-10-14 07:44:55 cd scripts
+  558  2021-10-14 07:44:56 ls
+  559  2021-10-14 07:45:03 rm -rf app-operations/
+  560  2021-10-14 07:45:04 ls
+  561  2021-10-14 07:45:20 rm check-if-version-is-updated.sh
+  562  2021-10-14 07:45:33 rm checkout-vidi-repo.sh
+  563  2021-10-14 07:45:41 rm parse-version.sh
+  564  2021-10-14 07:45:43 ls
+  565  2021-10-14 07:45:57 cd ../..
+  566  2021-10-14 07:46:14 mv /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/ /opt/vanderlande/vidi/
+  567  2021-10-14 07:46:35 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/ /opt/vanderlande/vidi/
+  568  2021-10-14 07:46:45 cd /opt/vanderlande/vidi/
+  569  2021-10-14 07:46:46 ls
+  570  2021-10-14 07:46:50 cd vidi_airports_szx_shenzhenairport_2242910_2242911/
+  571  2021-10-14 07:46:51 ls
+  572  2021-10-14 07:46:59 cat Makefile
+  573  2021-10-14 07:47:19 cd /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  574  2021-10-14 07:47:20 ls
+  575  2021-10-14 07:47:33 rm .env
+  576  2021-10-14 07:47:34 ls
+  577  2021-10-14 07:47:43 rm .gitignore
+  578  2021-10-14 07:48:34 ls
+  579  2021-10-14 07:49:14 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/ /opt/vanderlande/vidi/
+  580  2021-10-14 07:50:16 cd /tmp
+  581  2021-10-14 07:50:40 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/* /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911
+  582  2021-10-14 07:50:58 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  583  2021-10-14 07:50:59 l
+  584  2021-10-14 07:51:00 ls
+  585  2021-10-14 07:51:06 cat Makefile
+  586  2021-10-14 07:51:15 cat /env
+  587  2021-10-14 07:51:19 cat .env
+  588  2021-10-14 07:51:25 cat docker-compose.yml 
+  589  2021-10-14 07:51:30 make start-splunk 
+  590  2021-10-14 07:52:04 ls
+  591  2021-10-14 07:52:11 cat Makefile
+  592  2021-10-14 07:52:31 ls vidi_
+  593  2021-10-14 07:52:34 ls vidi_common/
+  594  2021-10-14 07:52:39 ls vidi_common/scripts/
+  595  2021-10-14 07:52:53 cat vidi_common/scripts/parse-version.sh 
+  596  2021-10-14 07:53:59 cat scripts/start-splunk.sh 
+  597  2021-10-14 07:54:59 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/* /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911
+  598  2021-10-14 07:55:04 cat scripts/start-splunk.sh 
+  599  2021-10-14 07:55:31 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/*/* /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911
+  600  2021-10-14 07:55:36 cat scripts/start-splunk.sh 
+  601  2021-10-14 07:55:49 cat /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/start-splunk.sh 
+  602  2021-10-14 07:56:22 cp /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/
+  603  2021-10-14 07:56:32 cat scripts/start-splunk.sh 
+  604  2021-10-14 07:56:44 cp -r /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/
+  605  2021-10-14 07:56:48 cat scripts/start-splunk.sh 
+  606  2021-10-14 07:56:52 ls
+  607  2021-10-14 07:56:59 rm build-all-apps.sh
+  608  2021-10-14 07:57:04 rm checkout-vidi-common.sh
+  609  2021-10-14 07:57:06 rm install-all-apps.sh
+  610  2021-10-14 07:57:09 rm start-splunk.sh
+  611  2021-10-14 07:57:10 ls
+  612  2021-10-14 07:57:32 cp -r /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/ /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/
+  613  2021-10-14 07:57:33 ls
+  614  2021-10-14 07:57:41 cat scripts/start-splunk.sh 
+  615  2021-10-14 07:57:48 ls
+  616  2021-10-14 07:57:56 ls scripts/
+  617  2021-10-14 07:58:09 cat scripts/scripts/start-splunk.sh 
+  618  2021-10-14 07:58:33 mv scripts/scripts/* scripts/*
+  619  2021-10-14 07:58:53 mv ./scripts/scripts/* ./scripts/*
+  620  2021-10-14 07:59:01 cd scripts/
+  621  2021-10-14 07:59:04 rm -rf scripts/
+  622  2021-10-14 07:59:05 ls
+  623  2021-10-14 07:59:13 cat start-splunk.sh 
+  624  2021-10-14 07:59:18 rm build-all-apps.sh
+  625  2021-10-14 07:59:21 rm checkout-vidi-common.sh
+  626  2021-10-14 07:59:23 rm install-all-apps.sh
+  627  2021-10-14 07:59:25 rm start-splunk.sh
+  628  2021-10-14 07:59:26 ls
+  629  2021-10-14 07:59:36 cp -r /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/ /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/
+  630  2021-10-14 07:59:38 ls
+  631  2021-10-14 07:59:46 rm -rf scripts/
+  632  2021-10-14 07:59:51 cp -r /tmp/vidi_airports_szx_shenzhenairport_2242910_2242911/scripts/ /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  633  2021-10-14 07:59:52 ls
+  634  2021-10-14 07:59:55 cd ..
+  635  2021-10-14 07:59:59 cat scripts/start-splunk.sh 
+  636  2021-10-14 08:00:05 make start-splunk 
+  637  2021-10-14 08:00:22 ls -ltr
+  638  2021-10-14 08:00:38 ls vidi_airports/
+  639  2021-10-14 08:00:42 cat versions 
+  640  2021-10-14 08:00:49 rm versions
+  641  2021-10-14 08:00:52 cat vidi_airports/versions 
+  642  2021-10-14 08:01:02 cat config/vidi_template_variables/general.yml 
+  643  2021-10-14 08:01:30 cat vidi_common/release_notes.md 
+  644  2021-10-14 08:01:47 cat Makefile 
+  645  2021-10-14 08:02:05 make start-splunk 
+  646  2021-10-14 08:02:10 exit
+  647  2021-10-14 08:03:32 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/
+  648  2021-10-14 08:03:40 chown -R vibes:vibes .
+  649  2021-10-14 08:03:43 exit
+  650  2021-10-14 08:16:31 cd /tmp
+  651  2021-10-14 08:16:32 ls
+  652  2021-10-14 08:16:36 rm -rf vidi_airports_szx_shenzhenairport_2242910_2242911/
+  653  2021-10-14 08:16:40 ls
+  654  2021-10-14 08:17:04 tar -xf test_zip_repo.tar.gz
+  655  2021-10-14 08:17:11 ls
+  656  2021-10-14 08:17:17 ls vidi_airports_szx_shenzhenairport_2242910_2242911/
+  657  2021-10-14 08:18:57 rm -rf vidi_airports_szx_shenzhenairport_2242910_2242911/
+  658  2021-10-14 08:18:58 ls
+  659  2021-10-14 08:23:46 rm test_zip_repo.tar.gz
+  660  2021-10-14 08:23:48 ls
+  661  2021-10-14 08:25:10 cd /opt/vanderlande/vidi/
+  662  2021-10-14 08:25:12 ls -ltr
+  663  2021-10-14 08:25:28 cd docker_bind_mounts/
+  664  2021-10-14 08:25:29 ls
+  665  2021-10-14 08:25:31 ls -ltr
+  666  2021-10-14 08:25:41 cd /tmp
+  667  2021-10-14 08:29:26 exit
+  668  2021-10-14 09:04:42 cat /etc/resolv.conf
+  669  2021-10-14 09:05:10 ping 127.0.0.1
+  670  2021-10-14 09:05:28 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+  671  2021-10-14 09:05:30 ping 127.0.0.1
+  672  2021-10-14 09:05:34 cat /etc/resolv.conf
+  673  2021-10-14 09:07:00 ping google.com
+  674  2021-10-14 09:07:36 cat /etc/resolv.conf
+  675  2021-10-14 09:08:00 echo 'nameserver 127.0.0.1' > /etc/resolv.conf
+  676  2021-10-14 09:08:02 cat /etc/resolv.conf
+  677  2021-10-14 09:09:26 echo 'search szx.lan' >> /etc/resolv.conf
+  678  2021-10-14 09:09:29 cat /etc/resolv.conf
+  679  2021-10-14 09:10:22 ping google.com
+  680  2021-10-14 09:12:43 ping devstash.vanderlande.com
+  681  2021-10-14 09:12:55 telnet devstash.vanderlande.com
+  682  2021-10-14 09:17:20 docker-compose --v
+  683  2021-10-14 09:17:38 which docker-compose
+  684  2021-10-14 09:17:51 docker-compose -v
+  685  2021-10-14 09:20:00 cat /etc/resolv.conf
+  686  2021-10-14 09:37:55 cd /tmp
+  687  2021-10-14 09:37:56 ls
+  688  2021-10-14 09:38:22 cp /tmp/Dockerfile /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/vidi_airports/vidi_containers/
+  689  2021-10-14 09:38:32 cd /opt/vanderlande/vidi/vidi_airports_szx_shenzhenairport_2242910_2242911/vidi_airports/vidi_containers/
+  690  2021-10-14 09:38:35 cat Dockerfile
+  691  2021-10-14 09:38:40 exit
+  692  2021-10-14 09:52:37 cd /tmp
+  693  2021-10-14 09:52:41 ls
+  694  2021-10-14 09:53:18 docker cp install_openjdk8_jdk.yml szx_vidi_standalone:/opt/ansible/roles/splunk_common/tasks/java_tasks/
+  695  2021-10-14 09:53:23 exit
+  696  2021-10-18 09:08:32 docker ps -a
+  697  2021-10-18 09:09:17 docker status
+  698  2021-10-18 09:09:26 docker stats
+  699  2021-10-18 09:10:19 cd /home/viadmin
+  700  2021-10-18 09:10:25 rpm -ivh kernel-default-4.12.14-122.60.1.x86_64.rpm 
+  701  2021-10-18 09:11:15 cd /etc/zypp/repos.d/
+  702  2021-10-18 09:11:15 cp dvd.repo sp5.repo
+  703  2021-10-18 09:11:17 vi sp5.repo
+  704  2021-10-18 09:11:43 zypper modifyrepo --disable dvd ha sdk 
+  705  2021-10-18 09:11:43 zypper refresh
+  706  2021-10-18 09:12:32 vi sp5.repo 
+  707  2021-10-18 09:12:48 zypper refresh
+  708  2021-10-18 09:13:11 ping lin10-015p
+  709  2021-10-18 09:13:26 curl http://10.31.8.34/install
+  710  2021-10-18 09:14:25 cat sp5.repo 
+  711  2021-10-18 09:15:06 ll
+  712  2021-10-18 09:15:45 zypper modifyrepo --disable Virtualization_containers
+  713  2021-10-18 09:15:58 zypper refresh
+  714  2021-10-18 09:16:17 zypper addlock binutils
+  715  2021-10-18 09:16:24 ps -ef | grep ^nagios | cut -c 10-15 | xargs kill -9
+  716  2021-10-18 09:16:24 ps -ef | grep ^vibes | cut -c 10-15 | xargs kill -9
+  717  2021-10-18 09:16:33 ps -ef | grep ^oracle | cut -c 10-15 | xargs kill -9
+  718  2021-10-18 09:16:45 ps -ef
+  719  2021-10-18 09:18:05 ls -l /boot | grep initrd
+  720  2021-10-18 09:18:13 zypper update --no-recommends
+  721  2021-10-18 09:22:53 cat /etc/os-release 
+  722  2021-10-18 09:22:58 reboot
+  723  2021-10-21 01:44:32 vim /etc/nrpe.cfg 
+  724  2021-10-21 01:45:05 exit
+  725  2021-11-06 02:07:00 whoami
+  726  2021-11-06 02:07:02 ll
+  727  2021-11-06 02:07:14 docker ps
+  728  2021-11-06 02:08:06 ll
+  729  2021-11-06 02:08:14 top
+  730  2021-11-06 02:08:31 docker ps
+  731  2021-11-11 10:00:36 vim /etc/nrpe.cfg
+  732  2021-11-11 10:02:27 /usr/lib/nagios/plugins/check_load -w 2,2,1 -c 3,2,1
+  733  2021-11-11 10:02:48 systemctl restart nrpe.service 
+  734  2021-11-11 10:03:06 /usr/lib/nagios/plugins/check_load -w 2,2,1 -c 3,2,1
+  735  2021-11-11 10:03:11 vim /etc/nrpe.cfg
+  736  2021-11-11 10:03:39 /usr/lib/nagios/plugins/check_procs -w 350 -c 500
+  737  2021-11-11 10:04:07 vim /etc/nrpe.cfg
+  738  2021-11-11 10:14:48 exit
+  739  2021-11-13 01:27:13 history
+  740  2021-11-13 01:28:16 cd /opt/ansible/roles/splunk_common/tasks/java_tasks/
+  741  2021-11-13 01:28:32 ping szx_vidi_standalone
+  742  2021-11-13 01:29:39 docker ps -a
+  743  2021-11-13 01:30:10 ntstat -tunlp | grep tcp
+  744  2021-11-13 01:30:16 netstat -tunlp | grep tcp
+  745  2021-11-13 01:30:49 docker ps
+  746  2021-12-02 10:09:25 ls
+  747  2021-12-02 10:10:03 cp Makefile /opt/vanderlande/vidi/local_deployment/
+  748  2021-12-02 10:11:10 cd /opt/vanderlande/vidi/local_deployment/
+  749  2021-12-02 10:11:11 ls
+  750  2021-12-02 10:11:16 cat Makefile
+  751  2021-12-02 10:11:21 cd /tmp
+  752  2021-12-02 10:11:40 cp docker-compose.yml /opt/vanderlande/vidi/local_deployment/
+  753  2021-12-02 10:11:45 cd /opt/vanderlande/vidi/local_deployment/
+  754  2021-12-02 10:11:46 ls
+  755  2021-12-02 10:12:01 ls -l
+  756  2021-12-02 10:12:18 chown vibes:vibes *
+  757  2021-12-02 10:12:21 ls -l
+  758  2021-12-02 10:12:26 cd ..
+  759  2021-12-02 10:12:29 ls -l
+  760  2021-12-02 10:12:41 exit
+  761  2021-12-02 10:26:11 cd /opt/vanderlande/vidi/
+  762  2021-12-02 10:26:12 ls
+  763  2021-12-02 10:26:16 rm -rf dummy
+  764  2021-12-02 10:26:18 ls
+  765  2021-12-02 10:26:21 exit
+  766  2021-12-07 10:22:05 cat /proc/cpuinfo 
+  767  2021-12-07 10:22:19 cat /etc/fstab 
+  768  2021-12-07 10:22:26 df -H
+  769  2021-12-07 10:23:50 cat /proc/meminfo 
+  770  2021-12-07 10:24:11 top
+  771  2021-12-19 11:46:27 docker ps
+  772  2021-12-19 11:49:02 exit
+  773  2021-12-23 12:41:13 df -h
+  774  2021-12-23 12:41:29 pvs
+  775  2022-01-10 08:36:40 cd /opt/vanderlande/vidi/docker_bind_mounts/splunk_mount_var/
+  776  2022-01-10 08:36:41 ls
+  777  2022-01-10 08:36:44 cd lib
+  778  2022-01-10 08:37:11 cd splunk/modinputs/server/splunk_app_db_connect/
+  779  2022-01-10 08:37:13 ls
+  780  2022-01-10 08:37:22 cat szx_fact_bag_summaries 
+  781  2022-01-10 08:39:03 cd /opt/vanderlande/vidi/docker_bind_mounts/splunk_mount_var/lib/splunk
+  782  2022-01-10 08:39:05 ls
+  783  2022-01-10 08:39:24 cat 2242910_2242911_bpi.dat
+  784  2022-01-10 08:39:29 cd 2242910_2242911_bpi
+  785  2022-01-10 08:39:30 ls
+  786  2022-01-10 08:39:38 cd db/
+  787  2022-01-10 08:39:39 ls
+  788  2022-01-10 08:39:51 cd ..
+  789  2022-01-10 08:39:55 cd colddb/
+  790  2022-01-10 08:39:58 ls
+  791  2022-01-10 08:40:01 cd ..
+  792  2022-01-10 08:40:06 cd thaweddb
+  793  2022-01-10 08:40:08 ls
+  794  2022-01-10 08:40:17 cd ../db/
+  795  2022-01-10 08:40:18 ls
+  796  2022-01-10 08:40:28 cd db_1640579999_1640334007_1/
+  797  2022-01-10 08:40:33 ls
+  798  2022-01-10 08:40:40 cd rawdata
+  799  2022-01-10 08:40:42 ls
+  800  2022-01-10 08:42:57 cat journal.gz
+  801  2022-01-10 08:42:59 xterm
+  802  2022-01-10 08:43:01 term
+  803  2022-01-10 08:43:01 xterm
+  804  2022-01-10 08:43:06 Zxterm
+  805  2022-01-10 08:43:06 xterm
+  806  2022-01-10 08:43:08 term
+  807  2022-01-10 08:43:17 exit
+  808  2022-01-10 08:46:17 cd splunk/modinputs/server/splunk_app_db_connect/
+  809  2022-01-10 08:47:02 cd /opt/vanderlande/vidi/docker_bind_mounts/splunk_mount_var/
+  810  2022-01-10 08:47:06 cd splunk/modinputs/server/splunk_app_db_connect/
+  811  2022-01-10 08:47:18 cd lib/splunk/modinputs/server/splunk_app_db_connect/
+  812  2022-01-10 08:47:20 ls
+  813  2022-01-10 08:47:30 cd splunk/modinputs/server/splunk_app_db_connect/
+  814  2022-01-10 08:47:35 cd /opt/vanderlande/vidi/docker_bind_mounts/splunk_mount_var/
+  815  2022-01-10 08:47:37 ls
+  816  2022-01-10 08:47:39 cd splunk_app_db_connect/
+  817  2022-01-10 08:47:45 cd ..
+  818  2022-01-10 08:47:47 ls
+  819  2022-01-10 08:47:51 cd lib/
+  820  2022-01-10 08:47:54 ls
+  821  2022-01-10 08:47:57 cd splunk/
+  822  2022-01-10 08:47:59 ls
+  823  2022-01-10 08:48:14 cd 2242910_2242911_bpi
+  824  2022-01-10 08:48:15 ls
+  825  2022-01-10 08:48:22 cd db/
+  826  2022-01-10 08:48:24 ls
+  827  2022-01-10 08:48:36 cd hot_v1_11/
+  828  2022-01-10 08:48:38 ls
+  829  2022-01-10 08:48:47 cat bucket_info.csv k
+  830  2022-01-10 08:48:50 cat bucket_info.csv
+  831  2022-03-14 03:02:36 cat /proc/cpuinfo 
+  832  2022-03-14 03:03:50 cat /proc/meminfo 
+  833  2022-03-14 03:04:03 df -h
+  834  2022-03-14 03:12:37 top
+  835  2022-04-18 12:17:16 lsblk
+  836  2022-04-18 12:17:22 pvs
+  837  2022-04-18 12:18:03 df -H
+  838  2022-04-18 12:18:53 lvextend -L 120G /dev/mapper/system-opt 
+  839  2022-04-18 12:19:34 resize2fs -p /dev/mapper/system-opt
+  840  2022-04-18 12:19:41 df -h
+  841  2022-04-18 12:20:03 exit
+  842  2022-04-19 16:19:01 systemctl restart nrpe
+  843  2022-04-19 16:19:05 exi
+  844  2022-04-19 16:19:05 exit
+  845  2022-04-27 15:39:30 vim /etc/nrpe.cfg 
+  846  2022-04-27 15:44:25 exitr
+  847  2022-04-27 15:44:28 exit
+  848  2022-05-04 12:46:16 cd /opt/docker/
+  849  2022-05-04 12:46:16 ls -l
+  850  2022-05-04 12:46:23 cd data_root/
+  851  2022-05-04 12:46:23 ls -l
+  852  2022-05-04 12:46:32 cd image/
+  853  2022-05-04 12:46:32 ls -l
+  854  2022-05-04 12:46:34 cd ..
+  855  2022-05-04 12:46:34 ls -l
+  856  2022-05-04 12:46:39 cd containers
+  857  2022-05-04 12:46:40 ls -l
+  858  2022-05-04 12:46:43 cd 45ecc1dc9ba243764ee29a6b1b0aa832365f4f2dc206156cf4b4c00de0acfe46/
+  859  2022-05-04 12:46:44 ls -l
+  860  2022-05-04 12:46:47 cd mounts/
+  861  2022-05-04 12:46:47 ls -l
+  862  2022-05-04 12:46:50 cd /opt
+  863  2022-05-04 12:46:50 ls -l
+  864  2022-05-04 12:46:56 cd ..
+  865  2022-05-04 12:46:57 ls -l
+  866  2022-05-04 12:47:24 cat /etc/os-release 
+  867  2022-05-04 12:48:01 docker ps
+  868  2022-05-04 12:48:28 docker exec -it 45ecc1dc9ba2 /bin/bash
+  869  2022-05-04 13:03:51 exit
+  870  2022-05-10 14:46:34 cd /opt/
+  871  2022-05-10 14:46:37 ls
+  872  2022-05-10 14:47:00 docker ps
+  873  2022-05-10 14:47:28 docker exec -it szx_vidi_standalone bash
+  874  2022-05-10 15:06:42 cd /tmp
+  875  2022-05-10 15:06:44 ls
+  876  2022-05-10 15:07:15 cat Makefile 
+  877  2022-05-10 15:07:39 cat docker-compose.yml 
+  878  2022-05-10 15:12:14 clear
+  879  2022-05-20 04:00:23 ll
+  880  2022-05-20 04:00:26 cd /opt/
+  881  2022-05-20 04:00:26 ll
+  882  2022-05-20 04:00:28 du -sh *
+  883  2022-05-20 04:00:36 cd docker/
+  884  2022-05-20 04:00:37 ll
+  885  2022-05-20 04:00:39 cd data_root/
+  886  2022-05-20 04:00:39 ll
+  887  2022-05-20 04:00:43 du -sh *
+  888  2022-05-20 04:00:50 docker ps
+  889  2022-05-20 04:01:12 df -TH
+  890  2022-05-20 09:02:57 docker-compose --help
+  891  2022-05-20 09:03:03 docker-compose ps
+  892  2022-05-20 09:03:27 cd /opt/
+  893  2022-05-20 09:03:28 ll
+  894  2022-05-20 09:03:29 cd docker/
+  895  2022-05-20 09:03:30 ll
+  896  2022-05-20 09:03:32 cd data_root/
+  897  2022-05-20 09:03:32 ll
+  898  2022-05-20 09:03:47 find / -name docker-commpose.yml
+  899  2022-05-24 01:47:23 cd /opt/
+  900  2022-05-24 01:47:24 ll
+  901  2022-05-24 01:47:26 cd vanderlande/
+  902  2022-05-24 01:47:27 ll
+  903  2022-05-24 01:47:29 cd vidi/
+  904  2022-05-24 01:47:29 ll
+  905  2022-05-24 01:47:31 cd local_deployment/
+  906  2022-05-24 01:47:32 ll
+  907  2022-05-24 01:47:42 cd ..
+  908  2022-05-24 01:47:42 ll
+  909  2022-05-24 01:47:49 du -sh *
+  910  2022-05-24 01:47:52 cd docker_bind_mounts/
+  911  2022-05-24 01:47:53 ll
+  912  2022-05-24 01:47:57 du -sh *
+  913  2022-05-24 01:48:03 cd splunk_mount_
+  914  2022-05-24 01:48:06 cd splunk_mount_var/
+  915  2022-05-24 01:48:07 ll
+  916  2022-05-24 01:48:12 du -sh *
+  917  2022-05-24 01:48:16 cd lib/
+  918  2022-05-24 01:48:17 ll
+  919  2022-05-24 01:48:19 cd splunk/
+  920  2022-05-24 01:48:19 ll
+  921  2022-05-24 01:48:24 du -sh *
+  922  2022-05-24 01:49:54 df -TH
+  923  2022-05-24 02:02:52 ping devstash.vanderlande.com
+  924  2022-05-24 02:03:05 telnet devstash.vanderlande.com 7999
+  925  2022-05-24 02:06:35 ll
+  926  2022-05-24 02:06:41 cd ..
+  927  2022-05-24 02:06:41 ll
+  928  2022-05-24 02:07:06 find . -name prd.yml
+  929  2022-05-24 02:07:21 find . |grep prd.yml
+  930  2022-05-24 02:09:26 find / -name vidi_template_variables
+  931  2022-05-24 02:09:41 cd /opt/vanderlande/vidi/archive/vidi_airports_szx_shenzhenairport_2242910_2242911/config
+  932  2022-05-24 02:09:42 ll
+  933  2022-05-24 02:10:03 cd vidi_template_variables/
+  934  2022-05-24 02:10:03 ll
+  935  2022-05-24 02:10:06 cd env/
+  936  2022-05-24 02:10:07 ll
+  937  2022-05-24 02:10:09 cat prd.yml 
+  938  2022-05-24 02:12:34 cd ..
+  939  2022-05-24 02:12:35 ll
+  940  2022-05-24 02:12:38 cat general.yml 
+  941  2022-05-24 02:12:53 cd /opt/vanderlande/vidi/
+  942  2022-05-24 02:12:53 ll
+  943  2022-05-24 02:12:55 cd local_deployment/
+  944  2022-05-24 02:12:55 ll
+  945  2022-05-24 02:12:57 cat docker-compose.yml 
+  946  2022-05-24 02:13:16 cat {SPLUNK_PASSWORD}
+  947  2022-05-24 02:14:03 cat $SPLUNK_PASSWORD
+  948  2022-05-24 02:14:37 env
+  949  2022-05-24 02:17:08 echo $SPLUNK_PASSWORD
+  950  2022-05-24 02:39:12 cd /home/
+  951  2022-05-24 02:39:13 ll
+  952  2022-05-24 02:40:59 su - vibes
+  953  2022-05-24 03:01:31 df -h
+  954  2022-05-24 03:01:42 lsblk
+  955  2022-05-24 03:01:51 pvs
+  956  2022-05-24 15:53:23 poweroff
+  957  2022-05-24 15:56:34 lsblk
+  958  2022-05-24 15:57:55 fdisk /dev/sdb
+  959  2022-05-24 15:59:12 partprobe
+  960  2022-05-24 15:59:17 pvs
+  961  2022-05-24 15:59:32 pvcreate /dev/sdb1
+  962  2022-05-24 15:59:40 vgs
+  963  2022-05-24 16:00:03 vgextend system /dev/sdb1 
+  964  2022-05-24 16:00:05 vgs
+  965  2022-05-24 16:00:24 lvs
+  966  2022-05-24 16:01:25 lvextend -L 240G /dev/system/opt 
+  967  2022-05-24 16:01:39 resize2fs -p /dev/system/opt
+  968  2022-05-24 16:02:06 df -hT
+  969  2022-05-24 16:02:54 docker ps
+  970  2022-05-24 16:03:09 docker ps -a
+  971  2022-05-24 16:03:34 df -h
+  972  2022-05-24 16:08:18 lsblk
+  973  2022-05-24 16:08:48 pvs
+  974  2022-05-24 16:10:55 history
+  975  2022-05-24 16:18:25 cd /opt/vanderlande/vidi/local_deployment/
+  976  2022-05-24 16:18:28 ls
+  977  2022-05-24 16:18:37 cat docker-compose.yml 
+  978  2022-05-24 16:21:38 history
+  979  2022-05-24 16:23:13 cd ..
+  980  2022-05-24 16:23:13 ls
+  981  2022-05-24 16:23:31 ll
+  982  2022-05-24 16:28:22 cat archive/vidi_airports_szx_shenzhenairport_2242910_2242911/readme.md
+  983  2022-05-24 16:45:45 vim /etc/nrpe.cfg 
+  984  2022-05-24 16:46:31 systemctl restart nrpe
+  985  2022-05-24 16:46:46 vim /etc/nrpe.cfg 
+  986  2022-05-24 16:47:38 systemctl restart nrpe
+  987  2022-05-24 16:49:20 vim /etc/nrpe.cfg 
+  988  2022-05-24 16:51:40 systemctl restart nrpe
+  989  2022-05-24 16:56:10 exit
+  990  2022-05-25 07:23:03 cd /opt/vanderlande/
+  991  2022-05-25 07:23:04 ll
+  992  2022-05-25 07:23:05 cd vidi/
+  993  2022-05-25 07:23:06 ll
+  994  2022-05-25 07:23:09 du -sh *
+  995  2022-05-25 07:23:25 su - vibes
+  996  2022-05-25 07:25:16 ll
+  997  2022-05-25 07:25:18 cd docker_bind_mounts/
+  998  2022-05-25 07:25:18 ll
+  999  2022-05-25 07:25:22 du -sh *
+ 1000  2022-05-25 07:25:34 su - vibes
+ 1001  2022-05-25 08:06:40 cd /opt/vanderlande/vidi/
+ 1002  2022-05-25 08:06:43 du -sh *
+ 1003  2022-05-25 08:06:53 df -TH
+ 1004  2022-05-25 08:08:59 history
+ 1005  2022-05-25 08:10:35 history > /tmp/root.txt
