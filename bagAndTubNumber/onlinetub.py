@@ -32,6 +32,7 @@ db = pymysql.connect(host='10.31.9.24',
 def writeMysql(sql):
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
+    sql = sql.replace("'None'", "NULL").replace("None", "NULL")
     try:
         # 执行sql语句
         cursor.execute(sql)
@@ -66,7 +67,7 @@ def count(beforeyesterday, yesterday):
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     conn = cx_Oracle.connect(user=r'owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns)  # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
     c = conn.cursor()
-    sqlquery = "SELECT eventts, lpc, bid, pid, l_carrier, DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) and EVENTTS < TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) AND L_CARRIER IS NOT NULL AND DESTINATION is not null ORDER BY EVENTTS".format(beforeyesterday, yesterday)
+    sqlquery = "SELECT eventts, lpc, bid, pid, l_carrier, l_DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) and EVENTTS < TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) AND L_CARRIER IS NOT NULL ORDER BY EVENTTS".format(beforeyesterday, yesterday)
     c.execute(sqlquery)  # use triple quotes if you want to spread your query across multiple lines
     i = 0
     for row in c:
