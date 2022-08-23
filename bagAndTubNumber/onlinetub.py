@@ -5,6 +5,7 @@
 #
 # v0.2
 
+
 import cx_Oracle
 import pymysql
 import logging
@@ -32,6 +33,7 @@ db = pymysql.connect(host='10.31.9.24',
 def writeMysql(sql):
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
+    sql = sql.replace("'None'", "NULL").replace("None", "NULL")
     try:
         # 执行sql语句
         cursor.execute(sql)
@@ -42,6 +44,7 @@ def writeMysql(sql):
         # Rollback in case there is any error
         db.rollback()
         logging.error(e)
+        logging.error(sql)
     # 关闭数据库连接
     # cursor.close()
     # db.close()
@@ -66,20 +69,18 @@ def count(beforeyesterday, yesterday):
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     conn = cx_Oracle.connect(user=r'owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns)  # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
     c = conn.cursor()
-    sqlquery = "SELECT eventts, lpc, bid, pid, l_carrier, DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) and EVENTTS < TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) AND L_CARRIER IS NOT NULL AND DESTINATION is not null ORDER BY EVENTTS".format(beforeyesterday, yesterday)
+    sqlquery = "SELECT eventts, lpc, bid, pid, l_carrier, l_DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) and EVENTTS < TO_TIMESTAMP( '{} 16:00:00', 'DD-MM-YYYY HH24:MI:SS' ) AND L_CARRIER IS NOT NULL ORDER BY EVENTTS".format(beforeyesterday, yesterday)
     c.execute(sqlquery)  # use triple quotes if you want to spread your query across multiple lines
     i = 0
     for row in c:
         tubid = int(row[4].split(",")[0][3:])
         baggage = [row[2], row[3], tubid]
         if baggage not in baggage_list:
+            localTime = row[0] + datetime.timedelta(hours=8)
+            eventts = localTime.strftime("%Y-%m-%d %H:%M:%S")
             baggage_list.append(baggage)
-            eventts = row[0].strftime("%d-%m-%Y %H:%M:%S")
-            if row[1]:
-                lpc = row[1]
-            else:
-                lpc = "NULL"
-            sqlquery = "insert into ics.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},{})".format(eventts, lpc, row[2], row[3], tubid, row[5])
+            # eventts = row[0].strftime("%d-%m-%Y %H:%M:%S")
+            sqlquery = "insert into ics.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},'{}')".format(eventts, row[1], row[2], row[3], tubid, row[5])
             writeMysql(sqlquery)      # 写入mysql
             tub_dictionary[tubid] += 1
             if int(tubid) > 20000:
@@ -89,7 +90,8 @@ def count(beforeyesterday, yesterday):
                 if tubid not in SBT_list:
                     SBT_list.append(tubid)
             logging.info("{} {} {} {} {} {}".format(row[0], row[1], row[2], row[3], tubid, row[5]))
-            if int(row[5]) > 200 and int(row[5]) < 283:
+            destination = int(row[5].split(",")[0][0])
+            if destination > 200 and destination < 283:
                 departureBag += 1
             else:
                 arriveBag += 1
@@ -133,8 +135,6 @@ def count(beforeyesterday, yesterday):
     except pymysql.MySQLError as e:
         logging.error(e)
     db.close()
-    # print(tub_dictionary)
-    # logging.info("nouseTub is {}, include of {};onetimeTub is {}, include of {};twotimeTub is {}, include of {}, threetimeTub is {}, include of {}; 4timeTub is {}, include of {} ; 5timeTub is {}, include of {}; over5timeTub is{}, include of {}".format(len(nouseTub_list), nouseTub_list, len(onetimeTub_list), onetimeTub_list, len(twotimeTub_list), twotimeTub_list, len(threetimeTub_list), threetimeTub_list, len(fourtimeTub_list), fourtimeTub_list, len(fivetimeTub_list), fivetimeTub_list,len(over5timeTub_list), over5timeTub_list))
 
 
 def main():
