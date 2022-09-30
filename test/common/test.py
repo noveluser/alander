@@ -1,49 +1,87 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 获取当日行李状态
-# 还有一个需要获取最新ID，读取接下来的行李，现在有可能有遗留
-# v0.2
+# 将导出的infeed数据按照特定格式提取到一个xls文件里
+# Alex.Wang
+# v0.1
 
-import cx_Oracle
-from my_mysql import Database
+import logging
+import pandas as pd
+import configparser
+import datetime
 
 
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//temp.log',
+                    # filename='/mnt/d/temp/temp/test/transfertxt.log',
+                    # filename='/root/1.log',
+                    filename='d://data//rso//1.log',
                     filemode='a')
 
 
-# envioments
-cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
-
-
-def accessOracle(query):
-    dsn_tns = cx_Oracle.makedsn('10.31.8.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
-    # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
-    conn = cx_Oracle.connect(user=r'owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns)  # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
-    c = conn.cursor()
-    c.execute(query)  # use triple quotes if you want to spread your query across multiple lines
-    result = c.fetchall()
-    conn.close()
-    return result
-
-
-def collectbaginfo():
-    sqlquery = "SELECT EVENTTS FROM WC_TRACKINGREPORT where rownum = 1"
-    logging.warning("{}".format(sqlquery))
-    data = accessOracle(sqlquery)
-    for row in data:
-        print(type(row[0]))
-        localTime = row[0] + datetime.timedelta(hours=8)
-        create_time = localTime.strftime("%Y-%m-%d %H:%M:%S")
-        print(create_time)
+def get_bagcount(infeedFile, olddf):
+    originDf = pd.read_csv(infeedFile)
+    df = originDf.fillna(0)   # 将NAN转换成0
+    bag_dictionary = {"SAT-DC01": 0, "SAT-DC02": 0, "SAT-DC03": 0, "SAT-DC04": 0, "SAT-DC05": 0, "SAT-DC06": 0, "SAT-DC07": 0, "SAT-DC08": 0, "SAT-DC09": 0}
+    for idx, row in df.iterrows():    # 迭代数据 以键值对的形式 获取 每行的数据
+        totalbagnumber = row["LocalBags"] + row["TransferBags"] + row["UnknownBags"]
+        # choice(row["REGISTER_LOCATION"], totalbagnumber)
+        if row["REGISTER_LOCATION"] == "SAT-DC01":
+            bag_dictionary["SAT-DC01"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC02":
+            bag_dictionary["SAT-DC02"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC03":
+            bag_dictionary["SAT-DC03"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC04":
+            bag_dictionary["SAT-DC04"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC05":
+            bag_dictionary["SAT-DC05"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC06":
+            bag_dictionary["SAT-DC06"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC07":
+            bag_dictionary["SAT-DC07"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC08":
+            bag_dictionary["SAT-DC08"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-DC09":
+            bag_dictionary["SAT-DC09"] = row["LocalBags"]
+        elif row["REGISTER_LOCATION"] == "SAT-OOG":
+            bag_dictionary["SAT-OOG"] = row["LocalBags"]
+        else:
+            # print(row)
+            pass
+    values = bag_dictionary.values()
+    bagcount_list = list(values)
+    df2 = pd.DataFrame([bagcount_list])
+    df1 = pd.concat([olddf, df2])
+    return df1
 
 
 def main():
-    collectbaginfo()
+    # 实例化configParser对象
+    config = configparser.ConfigParser()
+    # -read读取ini文件
+    config.read('c://work//conf//icsreport_monthly.ini')
+    # -sections得到所有的section，并以列表的形式返回
+    reportnames = config.sections()
+    for reportname in reportnames:
+        file_path = config.get(reportname, 'file_path')
+        startday = datetime.datetime.strptime(config.get(reportname, 'startDay'), "%Y%m%d")
+        period = config.get(reportname, 'period')
+        file_list = []
+        for i in range(int(period)):
+            nexttime = startday + datetime.timedelta(days=i)
+            nextday = nexttime.strftime("%Y-%m-%d")
+            outfeedFile = "{}{}.xlsx".format(file_path, nextday)
+            file_list.append(outfeedFile)
+    df = pd.DataFrame()
+    for element in file_list:
+        print(element)
+        originDf = pd.read_excel(element)
+        df1 = originDf.fillna(0)   # 将NAN转换成0
+        df = pd.concat([df, df1])
+    with pd.ExcelWriter("{}icsexpection.xlsx".format(file_path)) as writer:
+        df.to_excel(writer, sheet_name='sheet1', index=False)
 
 
 if __name__ == '__main__':

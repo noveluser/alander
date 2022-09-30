@@ -1,35 +1,19 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 获取当日行李状态
-# 还有一个需要获取最新ID，读取接下来的行李，现在有可能有遗留
-# v0.2
-
-
-import logging
-import sched
+import itertools as its
 import time
-import datetime
 
-
-logging.basicConfig(
-                    level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='c://work//log//writeonlinebag.log',
-                    filemode='a')
-
-
-
-
-
-
-def main():
-    a = "100"
-    print(len(a))
-    # if a < 1000:
-    #     flightnr = str(a).zfill(4)
-    # print(flightnr)
-
-
-if __name__ == '__main__':
-    main()
+# 迭代器,输入你认为的密码组成
+words = "1234567890"
+# 生成密码本的位数，五位数，repeat=5
+r = its.product(words, repeat=8)
+# 保存在文件中，追加
+dic = open("password.txt", "w")
+# i是元组
+for i in r:
+    # jion空格链接
+    dic.write("".join(i))
+    dic.write("".join("\n"))
+dic.close()
+print("密码本已生成")

@@ -18,10 +18,6 @@ logging.basicConfig(
                     filemode='a')
 
 
-# init Environment
-
-
-
 def accessOracle(query):
     dsn_tns = cx_Oracle.makedsn('10.31.8.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
@@ -35,7 +31,7 @@ def accessOracle(query):
 
 def collector(starttime, endtime, filename):
     # df = pd.DataFrame()
-    sqlquery = "SELECT     DEREGISTER_LOCATION,     FINAL_ACTIVE_PROCESS , count(FINAL_ACTIVE_PROCESS) FROM     FACT_BAG_SUMMARIES_V WHERE     REGISTER_DT > TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND REGISTER_DT < TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND DEREGISTER_LOCATION IN ( 'M41', 'M81', 'SAT-M10a', 'SAT-M10b' ) group by DEREGISTER_LOCATION, FINAL_ACTIVE_PROCESS".format(starttime, endtime)
+    sqlquery = "SELECT     DEREGISTER_LOCATION,     FINAL_ACTIVE_PROCESS , count(FINAL_ACTIVE_PROCESS) FROM     FACT_BAG_SUMMARIES_V WHERE     REGISTER_DT > TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND REGISTER_DT < TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND DEREGISTER_LOCATION IN ( 'M41', 'M81', 'SAT-M10a', 'SAT-M10b', 'T3-DP02','T3-DP01' ) group by DEREGISTER_LOCATION, FINAL_ACTIVE_PROCESS".format(starttime, endtime)
     data = accessOracle(sqlquery)
     df = pd.DataFrame(data)
     try:
@@ -48,10 +44,10 @@ def collector(starttime, endtime, filename):
 def main():
     starttime = datetime.datetime.now() - datetime.timedelta(days=7)
     endtime = datetime.datetime.now()
-    # startday = starttime.strftime("%d-%m-%Y")
-    # endday = endtime.strftime("%d-%m-%Y")
-    startday = "01-07-2022"
-    endday = "04-07-2022"
+    startday = starttime.strftime("%d-%m-%Y")
+    endday = endtime.strftime("%d-%m-%Y")
+    # startday = "01-07-2022"
+    # endday = "04-07-2022"
     workweek = starttime.strftime("%Y%m%d")
     file_path = "c://work//Datacollector//weeklyreport//"
     outputfile = "{}dump_{}.xlsx".format(file_path, workweek)

@@ -28,12 +28,14 @@ def main():
         currentDay = endDay.strftime("%d-%m-%Y")
         line = [currentDay]
         for i in range(6):
-            if i+1 > 5:
-                decision = "> 5"
+            mintimes = 2*i
+            if i+1 > 10:
+                maxtimes = 100
             else:
-                decision = "= {}".format(i+1)
-            query = "select count(*) from tubstatus where date = '{}' and usetimes {}".format(currentDay, decision)
+                maxtimes = 2*(i+1) + 1
+            query = "select count(*) from tubstatus where date = '{}' and usetimes > {} and usetimes < {}".format(currentDay, mintimes, maxtimes)
             queryResult = cursor.run_query(query)
+            # print("queryResult[0]")
             line.append(queryResult[0][0])
         df2 = pd.DataFrame([line])
         df = pd.concat([df, df2])
