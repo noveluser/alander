@@ -6,10 +6,6 @@
 # v0.2
 
 import cx_Oracle
-import logging
-import sched
-import time
-import datetime
 from my_mysql import Database
 
 
