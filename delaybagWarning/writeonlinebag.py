@@ -76,6 +76,8 @@ def main():
         # time.sleep(10)
         endIDquery = "select max(IDEVENT) from WC_PACKAGEINFO"
         endID = accessOracle(endIDquery)[0][0]
+        if endID - startID > 10000:
+            startID = endID - 10000
         s = sched.scheduler(time.time, time.sleep)
         s.enter(60, 1, collectbaginfo, (startID, endID))
         s.run()

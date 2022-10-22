@@ -18,8 +18,8 @@ from my_mysql import Database
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    # filename='/data/package/crontab/log/temp_delayarrive.log',
-                    filename='c://work//log//colectheartbeatdata.log',
+                    filename='/data/package/crontab/log/collectheartbeatdata.log',
+                    # filename='c://work//log//colectheartbeatdata.log',
                     filemode='a')
 
 
@@ -44,12 +44,16 @@ def accessOracle(query):
     return result
 
 
-def collectheartbeatdata(startID, endID):  
-    sqlquery = "SELECT count(*)  FROM WC_ELLIFESIGNREQUEST  WHERE IDEVENT > {}  AND IDEVENT < {}  AND L_AREAID = 'AreaID=12'".format(startID, endID)
-    data = accessOracle(sqlquery)
-    logging.info("12fsc have {} records".format(data[0][0]))
-    updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'FACT_BAG_SUMMARIES_V'".format(endID)
-    cursor.run_query(updateIDnumber)
+def collectheartbeatdata(startID, endID):
+    zone_list = ["AreaID=12", "AreaID=13", "AreaID=28", "AreaID=29"]
+    # zone_list = ["AreaID=12"]
+    for zone in zone_list:
+        sqlquery = "SELECT idevent, EVENTTS,L_AREAID  FROM WC_ELLIFESIGNREQUEST  WHERE IDEVENT > {}  AND IDEVENT < {}  AND L_AREAID = '{}'".format(startID, endID, zone)
+        data = accessOracle(sqlquery)
+        # logging.info("{} {} {}".format(startID, endID, data))
+        logging.info("{} FSC have {} heartbeat check records".format(zone[7:], len(data)))
+        updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_ELLIFESIGNREQUEST'".format(endID)
+        cursor.run_query(updateIDnumber)
 
 
 def main():
@@ -60,11 +64,11 @@ def main():
         # time.sleep(10)
         endIDquery = "select max(IDevent) from WC_ELLIFESIGNREQUEST"   # 读取FACT_BAG_SUMMARIES_V非常慢，超过10s,所以改用FACT_BAG_SUMMARIES，发现两个表的ID是保持一致的
         endID = accessOracle(endIDquery)[0][0]
+        if endID - startID > 20000:
+            startID = endID - 20000
         s = sched.scheduler(time.time, time.sleep)
-        print("start")
         s.enter(60, 1, collectheartbeatdata, (startID, endID))
         s.run()
-        print("end")
         startID = endID
 
 

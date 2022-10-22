@@ -64,7 +64,8 @@ def collectbaginfo(startID, endID):  # 先处理有LPC的
     updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'FACT_BAG_SUMMARIES_V'".format(endID)
     cursor.run_query(updateIDnumber)
     # 写入influxdb
-    searchbag = "select * from temp_delayarrivebag where register_time > curdate() "
+    # searchbag = "select * from temp_delayarrivebag where register_time > curdate() "  #临时写两天数据
+    searchbag = "select * from temp_delayarrivebag where TO_DAYS(NOW())-TO_DAYS(register_time) < 1"
     queryResult = cursor.run_query(searchbag)
     data = influxdata(queryResult)
     accessinfluxdb(data)

@@ -38,7 +38,7 @@ logging.basicConfig(
 
 def main():
     sheetName = 'Sheet1'
-    df = pd.read_excel("d://data//rso//202208/raw.xlsx", sheet_name=sheetName)
+    df = pd.read_excel("d://data//rso//202209/raw.xlsx", sheet_name=sheetName)
     # df1 = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     matchPushDf = notmatchPushDf = matchPullDf = notmatchPullDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     # matchPushDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
@@ -94,10 +94,10 @@ def main():
             #     # 已经记录到matchpull dataframe里
             #     continue
     # print(pullIDgroup)
-    matchPushDf.to_excel("d://data//rso//202208/matchPush_test.xlsx")
-    matchPullDf.to_excel("d://data//rso//202208/matchPull_test.xlsx")
-    notmatchPushDf.to_excel("d://data//rso//202208/notmatchPush_test.xlsx")
-    notmatchPullDf.to_excel("d://data//rso//202208/notmatchPull_test.xlsx")
+    matchPushDf.to_excel("d://data//rso//202209/matchPush_test.xlsx")
+    matchPullDf.to_excel("d://data//rso//202209/matchPull_test.xlsx")
+    notmatchPushDf.to_excel("d://data//rso//202209/notmatchPush_test.xlsx")
+    notmatchPullDf.to_excel("d://data//rso//202209/notmatchPull_test.xlsx")
 
 
 if __name__ == '__main__':
