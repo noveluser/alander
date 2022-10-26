@@ -7,10 +7,10 @@
 
 
 import time
+import datetime
 import sched
 import logging
 from asyncio import exceptions
-
 import cx_Oracle
 from my_mysql import Database
 
@@ -46,12 +46,17 @@ def accessOracle(query):
 
 def collectheartbeatdata(startID, endID):
     zone_list = ["AreaID=12", "AreaID=13", "AreaID=28", "AreaID=29"]
+    currenttime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # zone_list = ["AreaID=12"]
     for zone in zone_list:
         sqlquery = "SELECT idevent, EVENTTS,L_AREAID  FROM WC_ELLIFESIGNREQUEST  WHERE IDEVENT > {}  AND IDEVENT < {}  AND L_AREAID = '{}'".format(startID, endID, zone)
         data = accessOracle(sqlquery)
         # logging.info("{} {} {}".format(startID, endID, data))
         logging.info("{} FSC have {} heartbeat check records".format(zone[7:], len(data)))
+        orignal_sqlquery = "insert into ics.temp_heartbeatstatic (time, fsc, checknumber)  values ('{}',{},{})".format(currenttime, int(zone[7:]), len(data))
+        optimizal_sqlquery = orignal_sqlquery.replace("None", "Null")
+        cursor.run_query(optimizal_sqlquery)
+        # 更新id位置
         updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_ELLIFESIGNREQUEST'".format(endID)
         cursor.run_query(updateIDnumber)
 
