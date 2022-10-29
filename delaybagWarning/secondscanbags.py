@@ -37,7 +37,7 @@ def accessOracle(query):
 
 
 def collectbaginfo(scanqueuenumber):
-    findbagquery = "select lpc, pid,flightnr from temp_bags where status {} and TO_DAYS(bsm_time) > TO_DAYS(NOW()) - 2 ".format(scanqueuenumber)
+    findbagquery = "select lpc, pid, latest_time, flightnr from temp_bags where status {} and TO_DAYS(bsm_time) > TO_DAYS(NOW()) - 2 ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
     for row in data:
         if row[0]:
@@ -82,13 +82,14 @@ def collectbaginfo(scanqueuenumber):
                 latest_time = localtime.strftime("%Y-%m-%d %H:%M:%S")
             else:
                 latest_time = None
-            if latest_time:
+            if row[2] != latest_time:       # 存在更新的记录
                 if row[0]:
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
                 else:
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, flightnr, location, item[5], tubid, status, ID)             # 更新temp_bags当前位置
             else:
-                updatebagstatus = "update temp_bags set status = '{}' where {}".format("notsorted", ID)             # 更新temp_bags当前位置
+                if not status:
+                    updatebagstatus = "update temp_bags set status = '{}' where {}".format("notsorted", ID)             # 更新temp_bags当前位置
             optimizal_sqlquery = updatebagstatus.replace("None", "Null")
             result = cursor.run_query(optimizal_sqlquery)
             logging.info(optimizal_sqlquery)

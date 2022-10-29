@@ -3,7 +3,8 @@
 
 
 a = None
-if a != 1:
+b = 1
+if b == a:
     print("ok")
 else:
     print("error")
