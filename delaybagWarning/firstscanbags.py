@@ -44,15 +44,20 @@ def collectbaginfo():
     if endID - startID > 10000:
         startID = endID - 10000
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
-    sqlquery = "SELECT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} ".format(startID, endID)
+    sqlquery = "SELECT DISTINCT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} and EXECUTEDTASK = 'AutoScan' ".format(startID, endID)
+    # 注意，我这里筛选了EXECUTEDTASK = 'AutoScan'，暂不知是否存在没有autoscan，但是行李正常的情况，也许存在中转行李这种情况，后面再查
     data = accessOracle(sqlquery)
     for row in data:
         searchlpcquery = "WITH ar AS ( SELECT * FROM WC_PACKAGEINFO WHERE pid = {} AND EXECUTEDTASK IS NOT NULL ) , br as ( SELECT EVENTTS, lpc, pid, ( DEPAIRLINE || DEPFLIGHT ) flightnr, CURRENTSTATIONID, L_DESTINATIONSTATIONID  FROM WC_PACKAGEINFO  WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM ar ) ) select br.*,std FROM br left join FACT_FLIGHT_SUMMARIES_V ffs on br.FLIGHTNR = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE +8/24 )".format(row[0])
+        # baginfo格式EVENTTS, lpc, pid, flightnr, CURRENTSTATIONID, L_DESTINATIONSTATIONID，STD
         baginfo = accessOracle(searchlpcquery)
         for item in baginfo:
-            searchbag = "select pid from ics.temp_bags where pid = {} and TO_DAYS(bsm_time) > TO_DAYS(NOW())-2 ".format(item[2])
-            pid = cursor.run_query(searchbag)
-            if not pid:
+            if item[1] and item[1] != 0:       # 存在LPC可能拥有多个PID的情况，此时以LPC为准。但MCS会输入特殊LPC000000，所以必须不为0
+                searchbag = "select lpc from ics.temp_bags where lpc = {} and TO_DAYS(bsm_time) > TO_DAYS(NOW())-2 ".format(item[1])
+            else:
+                searchbag = "select pid from ics.temp_bags where pid = {} and TO_DAYS(bsm_time) > TO_DAYS(NOW())-2 ".format(item[2])
+            identification = cursor.run_query(searchbag)
+            if not identification:
                 if not item[6]:     # 为解决字符串为空时无法写入sql的问题的临时解决办法
                     STD = 'Null'
                 else:
@@ -68,6 +73,8 @@ def collectbaginfo():
                 logging.info(optimizal_sqlquery)
                 cursor.run_query(optimizal_sqlquery)
                 logging.info(item[1])
+                if not item[4]:
+                    logging.error("异常 {}".format(item))
     updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
     cursor.run_query(updateIDnumber)
 
