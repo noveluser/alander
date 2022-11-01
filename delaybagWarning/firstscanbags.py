@@ -67,7 +67,7 @@ def collectbaginfo():
                 else:
                     flightnr = "'{}'".format(item[3])
                 localBMSTime = item[0] + datetime.timedelta(hours=8)
-                register_time = localBMSTime.strftime("%Y-%m-%d %H:%M:%S")
+                register_time = localBMSTime.strftime("%Y-%m-%d %H:%M:%S.%f")
                 orignal_sqlquery = "insert into ics.temp_bags (bsm_time, lpc, pid, flightnr, current_location, orginal_destination, STD)  values ('{}',{},{},{},'{}','{}',{})".format(register_time, item[1], item[2], flightnr, item[4], item[5], STD)
                 optimizal_sqlquery = orignal_sqlquery.replace("None", "Null")
                 logging.info(optimizal_sqlquery)

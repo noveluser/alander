@@ -2,9 +2,9 @@
 # coding=utf-8
 
 
-a = None
-b = 1
-if b == a:
+a = '2022-10-29 10:47:30'
+b = None
+if b != a:
     print("ok")
 else:
     print("error")
