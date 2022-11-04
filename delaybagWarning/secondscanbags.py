@@ -67,8 +67,11 @@ def updatebaglocation(scanqueuenumber):
                         status = "unkonwn"
                     if item[4] in ["12.43.1", "13.43.1", "28.43.1", "29.43.1"]:   # 当最新位置是43.1时，就是去MCS
                         status = "mcs"
-                    logging.info("time1 {} time2 {}".format(row[2], localtime))
-                    updatebagstatus = "update temp_bags set latest_time = '{}' ,current_location='{}',final_destination = '{}', status = '{}' where {}".format(latest_time, item[4], item[5], status, ID)             # 更新temp_bags当前位置
+                    if item[6]:    # 如果有托盘号，取数字，否则直接取None
+                        tubid = int(item[6].split(",")[0][3:])
+                    else:
+                        tubid = 'Null'
+                    updatebagstatus = "update temp_bags set latest_time = '{}', current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time,  item[4], item[5], tubid, status, ID)
                     optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
                     result = cursor.run_query(optimizal_sqlquery)
@@ -93,7 +96,7 @@ def updatebagstatus(scanqueuenumber):
         baginfo = accessOracle(searchlpcquery)
         for item in baginfo:
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
-            # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充
+            # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充，这两个值只在第一次扫描中输入，二次，三次扫描不更新Lpc和flightnr,先观察2天
             if item[3]:     # 如果有更新记录，则updata，否则无操作
                 localtime = item[3] + datetime.timedelta(hours=8)
                 latest_time = localtime.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -114,18 +117,22 @@ def updatebagstatus(scanqueuenumber):
                     tubid = int(item[6].split(",")[0][3:])
                 else:
                     tubid = 'Null'
-                logging.info("time1 {} time2 {}".format(row[2], localtime))
-                if row[0]:      # 当LPC存在时，不更新lpc,flightnr
-                    updatebagstatus = "update temp_bags set latest_time = '{}' ,current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
-                else:       # 当LPC不存在时，从traking获取lpc和flightnr
-                    if item[1]:     # 如果lpc不存在baginfo中，,试图获取traking记录
-                        lpc = item[1]
-                    else:
-                        lpc = None
-                    if item[7]:     # 如果航班不存在baginfo表记录
-                        flightnr = "'{}{}'".format(item[7].split("_")[0], item[7].split("_")[1])
-                    else:
-                        flightnr = 'Null'
+                # 不管lpc是否存在，都从track里更新lpc和flightnr，观察两天看是否存在更新错误的情况
+                if item[1]:     # 如果lpc不存在baginfo中，,试图获取traking记录
+                    lpc = item[1]
+                else:
+                    lpc = None
+                if item[7]:     # 如果航班不存在baginfo表记录
+                    flightnr = "'{}{}'".format(item[7].split("_")[0], item[7].split("_")[1])
+                else:
+                    flightnr = 'Null'
+                if row[0] and len(row) >= 4:      # LPC及flightnr都存在
+                    updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
+                elif row[0] and len(row) < 4:   # LPC存在，flightnr不存在，只更新flightnr
+                    updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, flightnr, item[4], item[5], tubid, status, ID)
+                elif not row[0] and len(row) >= 4:   # LPC不存在，flightnr存在,只更新lpc
+                    updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, item[4], item[5], tubid, status, ID)
+                else:     # LPC及flightnr都不存在
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, ID)
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
