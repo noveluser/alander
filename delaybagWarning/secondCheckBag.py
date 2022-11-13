@@ -5,7 +5,7 @@
 #
 # v0.2
 
-from asyncio import exceptions
+
 import cx_Oracle
 import logging
 import time
@@ -28,7 +28,7 @@ def accessOracle(query):
     try:
         c.execute(query)  # use triple quotes if you want to spread your query across multiple lines
         result = c.fetchall()
-    except exceptions as e:
+    except Exception as e:
         logging.error(e)
         result = []
     finally:

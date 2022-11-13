@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 将安检日志从数据库导出到xls
+# 将icsexpection日志里Push与pull类型匹配
 # Alex.Wang
 # v0.3
 
@@ -38,11 +38,7 @@ logging.basicConfig(
 
 def main():
     sheetName = 'Sheet1'
-<<<<<<< HEAD
-    df = pd.read_excel("d://data//rso//202209/raw.xlsx", sheet_name=sheetName)
-=======
-    df = pd.read_excel("d://data//rso//202207/raw.xlsx", sheet_name=sheetName)
->>>>>>> c53b07ed82695170428fdf596f288854036f8b02
+    df = pd.read_excel("d://data//rso//202210/raw.xlsx", sheet_name=sheetName)
     # df1 = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     matchPushDf = notmatchPushDf = matchPullDf = notmatchPullDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     # matchPushDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
@@ -68,9 +64,6 @@ def main():
                 else:  # 如果日志超出半小时，跳出循环，搜索页只计算到＜30mins
                     i = 200
                 i += 1
-            if idx == 69:
-                print(searchRowNumber)
-            # print(idx, searchRowNumber, maxRowNumber)
             j = 1
             while j < searchRowNumber+1:
                 id = row["ID"]
@@ -98,17 +91,10 @@ def main():
             #     # 已经记录到matchpull dataframe里
             #     continue
     # print(pullIDgroup)
-<<<<<<< HEAD
-    matchPushDf.to_excel("d://data//rso//202209/matchPush_test.xlsx")
-    matchPullDf.to_excel("d://data//rso//202209/matchPull_test.xlsx")
-    notmatchPushDf.to_excel("d://data//rso//202209/notmatchPush_test.xlsx")
-    notmatchPullDf.to_excel("d://data//rso//202209/notmatchPull_test.xlsx")
-=======
-    matchPushDf.to_excel("d://data//rso//202207/matchPush_test.xlsx")
-    matchPullDf.to_excel("d://data//rso//202207/matchPull_test.xlsx")
-    notmatchPushDf.to_excel("d://data//rso//202207/notmatchPush_test.xlsx")
-    notmatchPullDf.to_excel("d://data//rso//202207/notmatchPull_test.xlsx")
->>>>>>> c53b07ed82695170428fdf596f288854036f8b02
+    matchPushDf.to_excel("d://data//rso//202210/matchPush_test.xlsx")
+    matchPullDf.to_excel("d://data//rso//202210/matchPull_test.xlsx")
+    notmatchPushDf.to_excel("d://data//rso//202210/notmatchPush_test.xlsx")
+    notmatchPullDf.to_excel("d://data//rso//202210/notmatchPull_test.xlsx")
 
 
 if __name__ == '__main__':

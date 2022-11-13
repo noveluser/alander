@@ -3,7 +3,7 @@
 
 # influxdb 1.0版
 
-from asyncio import exceptions
+
 import datetime
 from influxdb import InfluxDBClient
 import time
@@ -39,7 +39,7 @@ def bagdata():
     for row in queryResult:
         try:
             destination = int(row[3])
-        except:   # 遗留问题，如何优雅的输出exceptions
+        except Exception as e:
             if "220" in row[3]:
                 destination = 1000    # 弃包和早到总称
             elif row[3] == "None":
@@ -48,6 +48,7 @@ def bagdata():
             else:
                 destination = 1002   # 其他异常
                 logging.error("1002 error-{}-{}".format(row[1], row[3]))
+            logging.error(e)
         match row[7]:
             case "arrived":
                 status = 1
@@ -108,7 +109,7 @@ def bagdata():
     for row in queryResult:
         try:
             destination = int(row[3])
-        except:   # 遗留问题，如何优雅的输出exceptions
+        except Exception as e:
             if row[3] == "100,110,200,210,220,221,42,82":
                 destination = 1000    # 弃包和中转总称
             elif row[3] == "220,221,41,42,81,82":
@@ -119,6 +120,7 @@ def bagdata():
             else:
                 destination = 1002   # 其他异常
                 logging.error("1002 error-{}-{}".format(row[1], row[3]))
+            logging.error(e)
         match row[8]:
             case "arrived":
                 status = 1
@@ -156,7 +158,7 @@ def bagdata():
     for row in queryResult:
         try:
             destination = int(row[3])
-        except:   # 遗留问题，如何优雅的输出exceptions
+        except Exception as e:
             if row[3] == "100,110,200,210,220,221,42,82":
                 destination = 1000    # 弃包和中转总称
             elif row[3] == "220,221,41,42,81,82":
@@ -167,6 +169,7 @@ def bagdata():
             else:
                 destination = 1002   # 其他异常
                 logging.error("1002 error-{}-{}".format(row[1], row[3]))
+            logging.error(e)
         overcirclebag_dist = {
             'measurement': 'overcirclebags',
             'tags': {

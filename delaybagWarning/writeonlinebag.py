@@ -5,7 +5,7 @@
 # 还有一个需要获取最新ID，读取接下来的行李，现在有可能有遗留
 # v0.2
 
-from asyncio import exceptions
+
 import cx_Oracle
 import logging
 import sched
@@ -60,16 +60,16 @@ def collectbaginfo(startID, endID):
                 cursor.run_query(updateBSMtime)
                 # logging.info("{} {}".format(strlocalBMSTime, row[0]))
                 # 修改创建时间为bsm时间 结束
-            except exceptions as e:
+            except Exception as e:
                 logging.error(updateBSMtime)
                 logging.error(e)
             logging.info("write down online bag data for lpc:{} ".format(row[0]))
-    updateIDnumber = "update ics.IDnumber set currentIDnumber= {}".format(endID)
+    updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'writeonlinebag' ".format(endID)
     cursor.run_query(updateIDnumber)
 
 
 def main():
-    startIDquery = "select currentIDNumber from IDnumber"
+    startIDquery = "select idnumber from commonidrecord where user = 'writeonlinebag' and checktablename = 'WC_PACKAGEINFO'"    
     startID = cursor.run_query(startIDquery)[0][0]
     while True:
         # schedule.run_pending()

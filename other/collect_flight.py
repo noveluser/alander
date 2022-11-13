@@ -8,8 +8,6 @@
 
 import schedule
 import logging
-from asyncio import exceptions
-from influxdb import InfluxDBClient
 import cx_Oracle
 from my_mysql import Database
 
@@ -34,7 +32,7 @@ def accessOracle(query):
     try:
         c.execute(query)  # use triple quotes if you want to spread your query across multiple lines
         result = c.fetchall()
-    except exceptions as e:
+    except Exception as e:
         logging.error(e)
         result = []
     finally:

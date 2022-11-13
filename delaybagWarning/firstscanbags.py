@@ -5,11 +5,10 @@
 # 包括空框，UFO等等
 # v0.2
 
-from asyncio import exceptions
+
 import cx_Oracle
 import logging
 import schedule
-import time
 import datetime
 from my_mysql import Database
 

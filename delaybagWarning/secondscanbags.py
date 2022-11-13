@@ -6,7 +6,6 @@
 # v0.2
 
 
-from asyncio import exceptions
 import cx_Oracle
 import logging
 import schedule
@@ -38,7 +37,7 @@ def accessOracle(query):
 
 def updatebaglocation(scanqueuenumber):
     # findbagquery = "select lpc, pid, latest_time, status, flightnr from temp_bags where status {} and TO_DAYS(bsm_time) > TO_DAYS(NOW()) - 2 ".format(scanqueuenumber)
-    findbagquery = "select lpc, pid, latest_time, status, flightnr from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 6 HOUR) ".format(scanqueuenumber)
+    findbagquery = "select lpc, pid, latest_time, status, flightnr from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 3 HOUR) ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
     for row in data:
         if row[0]:
@@ -52,21 +51,23 @@ def updatebaglocation(scanqueuenumber):
         for item in baginfo:
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
             # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充
-            if item[3]:     # 如果有更新记录，则updata，否则除非status为空才更新为unkonwn
+            if item[0] == item[5]:
+                status = "arrived"
+            elif int(item[0]) in [41, 42, 81, 82, 220, 221]:   # 已到达弃包处
+                status = "dump"
+            elif int(item[0]) in [100, 110, 200, 210]:
+                status = "store"
+            else:
+                status = "unkonwn"
+            if item[4] in ["12.43.1", "13.43.1", "28.43.1", "29.43.1"]:   # 当最新位置是43.1时，就是去MCS
+                status = "mcs"
+            if item[3] or status == 'arrived':     # 如果有更新记录或行李状态发生变化时，则update
+                logging.info("pid={},locate={}".format(item[2], item[3]))
                 localtime = item[3] + datetime.timedelta(hours=8)
                 latest_time = localtime.strftime("%Y-%m-%d %H:%M:%S.%f")
                 # 当行李安检未通过时，有LPC，但行李不会进入系统，可能去开包间，这时WC_TRACKINGREPORT不会有记录，存在有LPC，但无track记录的情况，这时如果status已更新，不需要更新记录
                 if row[2] != localtime:       # 存在更新的记录,注意row[2]是timestamp，而latest_time是字符串，不能直接比较
-                    if item[0] == item[5]:
-                        status = "arrived"
-                    elif int(item[0]) in [41, 42, 81, 82, 220, 221]:   # 已到达弃包处
-                        status = "dump"
-                    elif int(item[0]) in [100, 110, 200, 210]:
-                        status = "store"
-                    else:
-                        status = "unkonwn"
-                    if item[4] in ["12.43.1", "13.43.1", "28.43.1", "29.43.1"]:   # 当最新位置是43.1时，就是去MCS
-                        status = "mcs"
+
                     if item[6]:    # 如果有托盘号，取数字，否则直接取None
                         tubid = int(item[6].split(",")[0][3:])
                     else:
@@ -76,6 +77,12 @@ def updatebaglocation(scanqueuenumber):
                     logging.info(optimizal_sqlquery)
                     result = cursor.run_query(optimizal_sqlquery)
                     logging.info("{} 位置已更新至{},uptade result:{}".format(ID, item[4], result))
+                elif status != row[3]:  # 如果不存在更新记录，但行李状态发生变化，只更新状态.这种情况发生在packageinfo更新记录速度比tracking慢的时候
+                    updatebagstatus = "update temp_bags set status = '{}' where {}".format(status, ID)
+                    optimizal_sqlquery = updatebagstatus.replace("None", "Null")
+                    logging.info(optimizal_sqlquery)
+                    result = cursor.run_query(optimizal_sqlquery)
+                    logging.info("{} 状态已更新至{},uptade result:{}".format(ID, status, result))
                 else:
                     logging.info("lpc={},pid={}位置未变动".format(row[0], row[1]))
             else:
@@ -111,13 +118,14 @@ def updatebagstatus(scanqueuenumber):
                     status = "store"
                 else:
                     status = "unkonwn"
+                    logging.info("pid={},CURRENTSTATIONID={},L_DESTINATION={}".format(item[2], item[0], item[5]))
                 if item[4] in ["12.43.1", "13.43.1", "28.43.1", "29.43.1"]:   # 当最新位置是43.1时，就是去MCS
                     status = "mcs"
                 if item[6]:    # 如果有托盘号，取数字，否则直接取None
                     tubid = int(item[6].split(",")[0][3:])
                 else:
                     tubid = 'Null'
-                # 不管lpc是否存在，都从track里更新lpc和flightnr，观察两天看是否存在更新错误的情况
+                # 更正row[4],查看row[4]不存在时是否报错
                 if item[1]:     # 如果lpc不存在baginfo中，,试图获取traking记录
                     lpc = item[1]
                 else:
@@ -126,11 +134,11 @@ def updatebagstatus(scanqueuenumber):
                     flightnr = "'{}{}'".format(item[7].split("_")[0], item[7].split("_")[1])
                 else:
                     flightnr = 'Null'
-                if row[0] and len(row) >= 4:      # LPC及flightnr都存在
+                if row[0] and row[4]:      # LPC及flightnr都存在
                     updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
-                elif row[0] and len(row) < 4:   # LPC存在，flightnr不存在，只更新flightnr
+                elif row[0] and not row[4]:   # LPC存在，flightnr不存在，只更新flightnr
                     updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, flightnr, item[4], item[5], tubid, status, ID)
-                elif not row[0] and len(row) >= 4:   # LPC不存在，flightnr存在,只更新lpc
+                elif not row[0] and row[4]:   # LPC不存在，flightnr存在,只更新lpc
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, item[4], item[5], tubid, status, ID)
                 else:     # LPC及flightnr都不存在
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, ID)
@@ -147,7 +155,7 @@ def updatebagstatus(scanqueuenumber):
 
 def main():
     schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
-    schedule.every(60).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
+    schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
     while True:
         schedule.run_pending()
 

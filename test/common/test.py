@@ -2,7 +2,24 @@
 # coding=utf-8
 
 
-row = [None, 1,2,3,4,5]
-orignal_sqlquery = "insert into ics.flight (create_time, flightnr, std, ARRIVALORDEPARTURE, INTERNATIONALORDOMESTIC, HANDLER)  values ('{}','{}','{}','{}','{}','{}')".format(row[0], row[1], row[2], row[3], row[4], row[5])
-optimizal_sqlquery = orignal_sqlquery.replace("'None'", "Null")
-print(optimizal_sqlquery)
+from my_mysql import Database
+import datetime
+from asyncio import exceptions
+
+
+cursor = Database(dbname='ics', username='it', password='1111111', host='10.110.191.24', port='3306')
+
+a = 'a'
+try:
+    destination = int(a)
+    # except:   # 遗留问题，如何优雅的输出exceptions
+except Exception as e:
+    if "220" in a:
+        destination = 1000    # 弃包和早到总称
+    elif a == "None":
+        print("destination write error.{}".format(a))
+        destination = None
+    else:
+        destination = 1002   # 其他异常
+        print("1002 error-{}".format( a))
+    print(e)
