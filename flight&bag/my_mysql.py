@@ -41,7 +41,7 @@ class Database:
         try:
             self.open_connection()
             with self.conn.cursor() as cur:
-                if ('select' or 'SELECT') in query:
+                if "select" in query or "SELECT" in query:
                     records = []
                     cur.execute(query)
                     result = cur.fetchall()

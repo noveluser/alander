@@ -49,12 +49,14 @@ def updatebaglocation(scanqueuenumber):
         searchlpcquery = "WITH baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS (  SELECT   IDEVENT,   lpc,   pid,   EVENTTS,   AREAID,   ZONEID,   EQUIPMENTID,   L_DESTINATION,   L_CARRIER,   PROCESSPLANIDNAME   FROM   WC_TRACKINGREPORT track   WHERE   {}   ),  maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) ) SELECT  CURRENTSTATIONID,  maxbaginfo.lpc,  maxbaginfo.pid,  EVENTTS,  ( AREAID || '.' || ZONEID || '.' || EQUIPMENTID ) location,  L_DESTINATION,  L_CARRIER,  PROCESSPLANIDNAME  FROM  maxbaginfo  LEFT JOIN maxtrakinginfo ON maxbaginfo.{} = maxtrakinginfo.{}".format(ID, ID, judging_condition, judging_condition)
         baginfo = accessOracle(searchlpcquery)
         for item in baginfo:
+            if item[5] is None:
+                logging.error("destination为空。{}".format(item))
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
             # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充
-            if item[0] == item[5]:
-                status = "arrived"
-            elif int(item[0]) in [41, 42, 81, 82, 220, 221]:   # 已到达弃包处
+            if int(item[0]) in [41, 42, 81, 82, 220, 221]:    # 已到达弃包处
                 status = "dump"
+            elif item[0] == item[5]:
+                status = "arrived"
             elif int(item[0]) in [100, 110, 200, 210]:
                 status = "store"
             else:
@@ -110,15 +112,15 @@ def updatebagstatus(scanqueuenumber):
                 # 当行李安检未通过时，有LPC，但行李不会进入系统，可能去开包间，这时WC_TRACKINGREPORT不会有记录，存在有LPC，但无track记录的情况，这时如果status已更新，不需要更新记录
                 # if row[2] != localtime:       # 存在更新的记录,注意row[2]是timestamp，而latest_time是字符串，不能直接比较
                 # 需增加一个到达MCS的目的地
-                if item[0] == item[5]:
-                    status = "arrived"
-                elif int(item[0]) in [41, 42, 81, 82, 220, 221]:   # 已到达弃包处
+                if int(item[0]) in [41, 42, 81, 82, 220, 221]:    # 已到达弃包处
                     status = "dump"
+                elif item[0] == item[5]:
+                    status = "arrived"
                 elif int(item[0]) in [100, 110, 200, 210]:
                     status = "store"
                 else:
                     status = "unkonwn"
-                    logging.info("pid={},CURRENTSTATIONID={},L_DESTINATION={}".format(item[2], item[0], item[5]))
+                    logging.info("pid={},CURRENTSTATIONID={},DESTINATION={}".format(item[2], item[0], item[5]))
                 if item[4] in ["12.43.1", "13.43.1", "28.43.1", "29.43.1"]:   # 当最新位置是43.1时，就是去MCS
                     status = "mcs"
                 if item[6]:    # 如果有托盘号，取数字，否则直接取None

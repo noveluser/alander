@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 获取当日到港行李及运输时长
+# 收集航班信息并写入mysql
 # author wangle
 # v0.1
 

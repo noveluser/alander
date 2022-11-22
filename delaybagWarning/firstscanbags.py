@@ -40,10 +40,11 @@ def collectbaginfo():
     startID = cursor.run_query(startIDquery)[0][0]
     endIDquery = "select max(IDEVENT) from WC_PACKAGEINFO"
     endID = accessOracle(endIDquery)[0][0]
-    if endID - startID > 10000:
-        startID = endID - 10000
+    # if endID - startID > 10000:
+    #     startID = endID - 10000
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
-    sqlquery = "SELECT DISTINCT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} and EXECUTEDTASK = 'AutoScan' ".format(startID, endID)
+    sqlquery = "SELECT DISTINCT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} and EXECUTEDTASK = 'AutoScan' order by pid ".format(startID, endID)
+    logging.info(sqlquery)
     # 注意，我这里筛选了EXECUTEDTASK = 'AutoScan'，暂不知是否存在没有autoscan，但是行李正常的情况，也许存在中转行李这种情况，后面再查
     data = accessOracle(sqlquery)
     for row in data:
@@ -71,7 +72,6 @@ def collectbaginfo():
                 optimizal_sqlquery = orignal_sqlquery.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
                 cursor.run_query(optimizal_sqlquery)
-                logging.info(item[1])
                 if not item[4]:
                     logging.error("异常 {}".format(item))
     updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
