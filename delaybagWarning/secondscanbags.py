@@ -8,9 +8,10 @@
 
 import cx_Oracle
 import logging
-import schedule
 import datetime
+import time
 from my_mysql import Database
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 logging.basicConfig(
@@ -167,10 +168,23 @@ def updatebagstatus(scanqueuenumber):
 
 
 def main():
-    schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
-    schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
-    while True:
-        schedule.run_pending()
+    # schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
+    # schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
+    # while True:
+    #     schedule.run_pending()
+    scheduler = BackgroundScheduler()
+    # 添加任务
+    scheduler.add_job(updatebagstatus, 'interval', ["is null", ], minutes=1)
+    scheduler.add_job(updatebaglocation, 'interval', ["not in ('arrived', 'dump')", ], minutes=10)
+    scheduler.start()
+    try:
+        # This is here to simulate application activity (which keeps the main thread alive).
+        while True:
+            time.sleep(10)
+    except Exception as e:
+        # Not strictly necessary if daemonic mode is enabled but should be done if possible
+        logging.info(e)
+        scheduler.shutdown()
 
 
 if __name__ == '__main__':

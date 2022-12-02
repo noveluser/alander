@@ -42,7 +42,7 @@ def accessOracle(query):
 
 
 def collectinfo():  # 收集航班信息
-    sqlquery = "SELECT flightdate,FLIGHTNR, std,ARRIVALORDEPARTURE,INTERNATIONALORDOMESTIC, HANDLER,HANDLING_TERMINAL, UPDATETS FROM FACT_FLIGHT_SUMMARIES_V  WHERE  trunc(EVENTTS)=trunc( SYSDATE + 8/24,'dd')  ORDER BY std"
+    sqlquery = "SELECT flightdate,FLIGHTNR, std,ARRIVALORDEPARTURE,INTERNATIONALORDOMESTIC, HANDLER,HANDLING_TERMINAL, INTIME_ALLOCATED_SORT,UPDATETS FROM FACT_FLIGHT_SUMMARIES_V  WHERE  trunc(EVENTTS)=trunc( SYSDATE + 8/24,'dd')  ORDER BY std"
     flightdata = accessOracle(sqlquery)
     for row in flightdata:
         find_sameflight_sqlquery = "select create_time, flightnr, std, ARRIVALORDEPARTURE, INTERNATIONALORDOMESTIC, HANDLER, HANDLING_TERMINAL, original_destination from flight where create_time = '{}' and flightnr = '{}'".format(row[0], row[1])
@@ -62,6 +62,7 @@ def main():
         s = sched.scheduler(time.time, time.sleep)
         s.enter(3600, 1, collectinfo)
         s.run()
+    # collectinfo()
 
 
 if __name__ == "__main__":

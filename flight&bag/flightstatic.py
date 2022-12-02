@@ -14,7 +14,8 @@ from my_mysql import Database
 
 
 logging.basicConfig(
-                    level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    level=logging.INFO,
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     filename='/data/package/crontab/log/flightstatic.log',
                     # filename='c://work//log//test.log',
@@ -67,13 +68,11 @@ def influxFlightData(datalist):
 
 def main():
     flightquery = "select flightnr,std,ARRIVALORDEPARTURE,`HANDLER`,original_destination,first_destination,first_sort_bags,second_destination,second_SORT__BAGS,third_destination,third_SORT_BAGS from flight where to_days(create_time) = to_days(now()) order by std"
-    # schedule.every(600).seconds.do(collectinfo, flightquery)
-    # while True:
-    #     schedule.run_pending()
     while True:
         s = sched.scheduler(time.time, time.sleep)
         s.enter(3600, 1, collectinfo, flightquery)
         s.run()
+    # collectinfo(flightquery)
 
 
 if __name__ == "__main__":
