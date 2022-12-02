@@ -92,7 +92,7 @@ def updatebaglocation(scanqueuenumber):
 
 
 def updatebagstatus(scanqueuenumber):
-    findbagquery = "select lpc, pid, latest_time, status, flightnr from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 6 HOUR) ".format(scanqueuenumber)
+    findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 6 HOUR) ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
     for row in data:
         if row[0]:
@@ -102,10 +102,21 @@ def updatebagstatus(scanqueuenumber):
             ID = "pid = {}".format(row[1])
             judging_condition = "pid"
         searchlpcquery = "WITH baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS (  SELECT   IDEVENT,   lpc,   pid,   EVENTTS,   AREAID,   ZONEID,   EQUIPMENTID,   L_DESTINATION,   L_CARRIER,   PROCESSPLANIDNAME   FROM   WC_TRACKINGREPORT track   WHERE   {}   ),  maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) ) SELECT  CURRENTSTATIONID,  maxbaginfo.lpc,  maxbaginfo.pid,  EVENTTS,  ( AREAID || '.' || ZONEID || '.' || EQUIPMENTID ) location,  L_DESTINATION,  L_CARRIER,  PROCESSPLANIDNAME  FROM  maxbaginfo  LEFT JOIN maxtrakinginfo ON maxbaginfo.{} = maxtrakinginfo.{}".format(ID, ID, judging_condition, judging_condition)
+        # searchlpcquery = "WITH  securitycheck as ( select  L_SCREENINGRESULT,pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2' ), baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE pid = {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS ( SELECT IDEVENT, lpc, pid, EVENTTS, AREAID, ZONEID, EQUIPMENTID, L_DESTINATION, L_CARRIER, PROCESSPLANIDNAME FROM WC_TRACKINGREPORT track WHERE pid = {} ), maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) )   SELECT maxbaginfo.CURRENTSTATIONID, maxbaginfo.lpc, maxbaginfo.pid, maxtrakinginfo.EVENTTS, (maxtrakinginfo.AREAID || '.' || maxtrakinginfo.ZONEID || '.' || maxtrakinginfo.EQUIPMENTID) LOCATION, maxtrakinginfo.L_DESTINATION, maxtrakinginfo.L_CARRIER, securitycheck.L_SCREENINGRESULT, maxtrakinginfo.PROCESSPLANIDNAME  FROM  securitycheck  LEFT JOIN maxbaginfo on securitycheck.pid = maxbaginfo.pid left join maxtrakinginfo on securitycheck.pid = maxtrakinginfo.pid".format(row[1], row[1], row[1])
         baginfo = accessOracle(searchlpcquery)
         for item in baginfo:
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
             # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充，这两个值只在第一次扫描中输入，二次，三次扫描不更新Lpc和flightnr,先观察2天
+            searchsecuritycheckquery = "select  L_SCREENINGRESULT, pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2'".format(row[1])
+            securitycheckdata = accessOracle(searchsecuritycheckquery)
+            if securitycheckdata:
+                result = securitycheckdata[0][0].split('\n')[0].split(',')[3].split("=")[1]
+                if result == "CLEARED":
+                    securitycheck_result = 1
+                else:
+                    securitycheck_result = 0
+            else:
+                securitycheck_result = None
             if item[3]:     # 如果有更新记录，则updata，否则无操作
                 localtime = item[3] + datetime.timedelta(hours=8)
                 latest_time = localtime.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -133,22 +144,22 @@ def updatebagstatus(scanqueuenumber):
                 else:
                     lpc = None
                 if item[7]:     # 如果航班不存在baginfo表记录
-                    flightnr = "'{}{}'".format(item[7].split("_")[0], item[7].split("_")[1])
+                    flightnr = "'{}{}'".format(item[7].split("_")[0], item[7].split("_")[1][0:4])
                 else:
                     flightnr = 'Null'
                 if row[0] and row[4]:      # LPC及flightnr都存在
-                    updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
+                    updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, item[4], item[5], tubid, status, securitycheck_result, ID)
                 elif row[0] and not row[4]:   # LPC存在，flightnr不存在，只更新flightnr
-                    updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, flightnr, item[4], item[5], tubid, status, ID)
+                    updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
                 elif not row[0] and row[4]:   # LPC不存在，flightnr存在,只更新lpc
-                    updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, item[4], item[5], tubid, status, ID)
+                    updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, item[4], item[5], tubid, status, securitycheck_result, ID)
                 else:     # LPC及flightnr都不存在
-                    updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, ID)
+                    updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
                 result = cursor.run_query(optimizal_sqlquery)
             else:
-                updatebagstatus = "update temp_bags set status = '{}' where {}".format("notsorted", ID)             # 更新temp_bags当前位置
+                updatebagstatus = "update temp_bags set status = '{}', checked = {} where {}".format("notsorted", securitycheck_result, ID)             # 更新temp_bags当前位置
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
                 result = cursor.run_query(optimizal_sqlquery)

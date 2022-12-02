@@ -6,7 +6,8 @@
 # v0.1
 
 
-import schedule
+import sched
+import time
 import logging
 from influxdb import InfluxDBClient
 from my_mysql import Database
@@ -66,10 +67,13 @@ def influxFlightData(datalist):
 
 def main():
     flightquery = "select flightnr,std,ARRIVALORDEPARTURE,`HANDLER`,original_destination,first_destination,first_sort_bags,second_destination,second_SORT__BAGS,third_destination,third_SORT_BAGS from flight where to_days(create_time) = to_days(now()) order by std"
-    schedule.every(600).seconds.do(collectinfo, flightquery)
+    # schedule.every(600).seconds.do(collectinfo, flightquery)
+    # while True:
+    #     schedule.run_pending()
     while True:
-        schedule.run_pending()
-    # collectinfo()
+        s = sched.scheduler(time.time, time.sleep)
+        s.enter(3600, 1, collectinfo, flightquery)
+        s.run()
 
 
 if __name__ == "__main__":

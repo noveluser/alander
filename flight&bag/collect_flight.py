@@ -6,7 +6,8 @@
 # v0.1
 
 
-import schedule
+import sched
+import time
 import logging
 import cx_Oracle
 from my_mysql import Database
@@ -41,16 +42,15 @@ def accessOracle(query):
 
 
 def collectinfo():  # 收集航班信息
-    sqlquery = "SELECT flightdate,FLIGHTNR, std,ARRIVALORDEPARTURE,INTERNATIONALORDOMESTIC, HANDLER,HANDLING_TERMINAL,INTIME_ALLOCATED_SORT FROM FACT_FLIGHT_SUMMARIES_V  WHERE  trunc(EVENTTS)=trunc(sysdate) ORDER BY std"
+    sqlquery = "SELECT flightdate,FLIGHTNR, std,ARRIVALORDEPARTURE,INTERNATIONALORDOMESTIC, HANDLER,HANDLING_TERMINAL, UPDATETS FROM FACT_FLIGHT_SUMMARIES_V  WHERE  trunc(EVENTTS)=trunc( SYSDATE + 8/24,'dd')  ORDER BY std"
     flightdata = accessOracle(sqlquery)
     for row in flightdata:
         find_sameflight_sqlquery = "select create_time, flightnr, std, ARRIVALORDEPARTURE, INTERNATIONALORDOMESTIC, HANDLER, HANDLING_TERMINAL, original_destination from flight where create_time = '{}' and flightnr = '{}'".format(row[0], row[1])
-
         search_result = cursor.run_query(find_sameflight_sqlquery)
         if not search_result:
-            orignal_sqlquery = "insert into ics.flight (create_time, flightnr, std, ARRIVALORDEPARTURE, INTERNATIONALORDOMESTIC, HANDLER, HANDLING_TERMINAL, original_destination)  values ('{}','{}','{}','{}','{}','{}','{}','{}')".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+            orignal_sqlquery = "insert into ics.flight (create_time, flightnr, std, ARRIVALORDEPARTURE, INTERNATIONALORDOMESTIC, HANDLER, HANDLING_TERMINAL, original_destination, update_time)  values ('{}','{}','{}','{}','{}','{}','{}','{}', '{}')".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         else:
-            orignal_sqlquery = "update ics.flight set create_time = '{}', flightnr = '{}', std = '{}', ARRIVALORDEPARTURE = '{}', INTERNATIONALORDOMESTIC = '{}', HANDLER = '{}', HANDLING_TERMINAL = '{}', original_destination = '{}' where create_time = '{}' and flightnr = '{}'".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[0], row[1])
+            orignal_sqlquery = "update ics.flight set create_time = '{}', flightnr = '{}', std = '{}', ARRIVALORDEPARTURE = '{}', INTERNATIONALORDOMESTIC = '{}', HANDLER = '{}', HANDLING_TERMINAL = '{}', original_destination = '{}', update_time = '{}' where create_time = '{}' and flightnr = '{}' ".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[0], row[1])
         optimizal_sqlquery = orignal_sqlquery.replace("'None'", "Null")
         logging.info(optimizal_sqlquery)
         result = cursor.run_query(optimizal_sqlquery)
@@ -58,9 +58,10 @@ def collectinfo():  # 收集航班信息
 
 
 def main():
-    schedule.every(3600).seconds.do(collectinfo)
     while True:
-        schedule.run_pending()
+        s = sched.scheduler(time.time, time.sleep)
+        s.enter(3600, 1, collectinfo)
+        s.run()
 
 
 if __name__ == "__main__":

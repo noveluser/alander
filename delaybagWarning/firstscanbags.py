@@ -8,8 +8,9 @@
 
 import cx_Oracle
 import logging
-import schedule
+import sched
 import datetime
+import time
 from my_mysql import Database
 
 
@@ -40,8 +41,8 @@ def collectbaginfo():
     startID = cursor.run_query(startIDquery)[0][0]
     endIDquery = "select max(IDEVENT) from WC_PACKAGEINFO"
     endID = accessOracle(endIDquery)[0][0]
-    # if endID - startID > 10000:
-    #     startID = endID - 10000
+    if endID - startID > 50000:
+        endID = startID + 50000
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
     sqlquery = "SELECT DISTINCT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} and EXECUTEDTASK = 'AutoScan' order by pid ".format(startID, endID)
     logging.info(sqlquery)
@@ -79,9 +80,10 @@ def collectbaginfo():
 
 
 def main():
-    schedule.every(60).seconds.do(collectbaginfo)
     while True:
-        schedule.run_pending()
+        s = sched.scheduler(time.time, time.sleep)
+        s.enter(60, 1, collectbaginfo)
+        s.run()
 
 
 if __name__ == '__main__':
