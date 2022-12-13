@@ -10,8 +10,9 @@ import cx_Oracle
 import logging
 import datetime
 import time
+import schedule
 from my_mysql import Database
-from apscheduler.schedulers.background import BackgroundScheduler
+# from apscheduler.schedulers.background import BackgroundScheduler
 
 
 logging.basicConfig(
@@ -78,12 +79,22 @@ def updatebaglocation(scanqueuenumber):
                     updatebagstatus = "update temp_bags set latest_time = '{}', current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time,  item[4], item[5], tubid, status, ID)
                     optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
+                    '''每个execute前加上互斥锁'''
+                    # lock = threading.Lock()
+                    # lock.acquire()
+                    # result = cursor.run_query(optimizal_sqlquery)
+                    # lock.release()
                     result = cursor.run_query(optimizal_sqlquery)
                     logging.info("{} 位置已更新至{},uptade result:{}".format(ID, item[4], result))
                 elif status != row[3]:  # 如果不存在更新记录，但行李状态发生变化，只更新状态.这种情况发生在packageinfo更新记录速度比tracking慢的时候
                     updatebagstatus = "update temp_bags set status = '{}' where {}".format(status, ID)
                     optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
+                    '''每个execute前加上互斥锁'''
+                    # lock = threading.Lock()
+                    # lock.acquire()
+                    # result = cursor.run_query(optimizal_sqlquery)
+                    # lock.release()
                     result = cursor.run_query(optimizal_sqlquery)
                     logging.info("{} 状态已更新至{},uptade result:{}".format(ID, status, result))
                 else:
@@ -95,6 +106,7 @@ def updatebaglocation(scanqueuenumber):
 def updatebagstatus(scanqueuenumber):
     findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 6 HOUR) ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
+    logging.info("本次更新计划存在{}个行李".format(len(data)))
     for row in data:
         if row[0]:
             ID = "lpc = {}".format(row[0])
@@ -168,23 +180,23 @@ def updatebagstatus(scanqueuenumber):
 
 
 def main():
-    # schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
-    # schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
-    # while True:
-    #     schedule.run_pending()
-    scheduler = BackgroundScheduler()
-    # 添加任务
-    scheduler.add_job(updatebagstatus, 'interval', ["is null", ], minutes=1)
-    scheduler.add_job(updatebaglocation, 'interval', ["not in ('arrived', 'dump')", ], minutes=10)
-    scheduler.start()
-    try:
-        # This is here to simulate application activity (which keeps the main thread alive).
-        while True:
-            time.sleep(10)
-    except Exception as e:
-        # Not strictly necessary if daemonic mode is enabled but should be done if possible
-        logging.info(e)
-        scheduler.shutdown()
+    schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
+    schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
+    while True:
+        schedule.run_pending()
+    # scheduler = BackgroundScheduler()
+    # # 添加任务
+    # scheduler.add_job(updatebagstatus, 'interval', ["is null", ], minutes=1)
+    # scheduler.add_job(updatebaglocation, 'interval', ["not in ('arrived', 'dump')", ], minutes=2)
+    # scheduler.start()
+    # try:
+    #     # This is here to simulate application activity (which keeps the main thread alive).
+    #     while True:
+    #         time.sleep(10)
+    # except Exception as e:
+    #     # Not strictly necessary if daemonic mode is enabled but should be done if possible
+    #     logging.info(e)
+    #     scheduler.shutdown()
 
 
 if __name__ == '__main__':

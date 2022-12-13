@@ -70,7 +70,7 @@ def main():
     flightquery = "select flightnr,std,ARRIVALORDEPARTURE,`HANDLER`,original_destination,first_destination,first_sort_bags,second_destination,second_SORT__BAGS,third_destination,third_SORT_BAGS from flight where to_days(create_time) = to_days(now()) order by std"
     while True:
         s = sched.scheduler(time.time, time.sleep)
-        s.enter(3600, 1, collectinfo, flightquery)
+        s.enter(600, 1, collectinfo, (flightquery,))
         s.run()
     # collectinfo(flightquery)
 

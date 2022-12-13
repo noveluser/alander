@@ -11,8 +11,13 @@ from queue import Queue
 class Database:
     """Database connection class."""
 
-    def __init__(self, pool_size=10, **kwargs):
-        self.kwargs = kwargs
+    def __init__(self, host, username, password, port, dbname, pool_size=10):
+        self.host = host
+        self.username = username
+        self.password = password
+        self.port = port
+        self.dbname = dbname
+        # self.conn = None
         self.pool_size = pool_size
 
         # 创建队列用于存储连接
@@ -31,13 +36,20 @@ class Database:
         """Connect to MySQL Database."""
         try:
             return pymysql.connect(
+                host=self.host,
+                user=self.username,
+                passwd=self.password,
+                db=self.dbname,
                 cursorclass=pymysql.cursors.DictCursor,
-                connect_timeout=5,
-                **self.kwargs
+                connect_timeout=5
             )
         except pymysql.MySQLError as e:
             logging.error(e)
             sys.exit()
+            # pass
+        finally:
+            # logging.info('Connection opened successfully.')
+            pass
 
     def get_connection(self):
         # 从队列中获取一个连接
@@ -53,20 +65,28 @@ class Database:
         # 从队列中获取一个连接
         connection = self.get_connection()
         """Execute SQL query."""
-        with connection.cursor() as cur:
-            if 'select' in query or 'SELECT' in query:
-                records = []
-                cur.execute(query)
-                result = cur.fetchall()
-                for row in result:
-                    records.append(row)
+        try:
+            # self.open_connection()
+            with connection.cursor() as cur:
+                if 'select' in query or 'SELECT' in query:
+                    records = []
+                    cur.execute(query)
+                    result = cur.fetchall()
+                    for row in result:
+                        records.append(row)
+                    cur.close()
+                    return records
+                result = cur.execute(query)
+                connection.commit()
+                affected = f"{cur.rowcount} rows affected."
                 cur.close()
-                return records
-            result = cur.execute(query)
-            connection.commit()
-            affected = f"{cur.rowcount} rows affected."
-            cur.close()
-            return affected
+                return affected
+        except pymysql.MySQLError as e:
+            logging.error(e)
+            sys.exit()
+            # pass
+        finally:
+            self.return_connection(connection)
 
     def close(self):
         # 循环队列，关闭所有连接
@@ -74,7 +94,7 @@ class Database:
             connection = self.queue.get()
             connection.close()
 
-    def __enter__(self):
+    def __enter__(self, query):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

@@ -2,33 +2,26 @@
 # coding=utf-8
 
 
-from datetime import datetime
+# 导入需要的库
+from my_mysql import Database
 import time
-import os
-from apscheduler.schedulers.background import BackgroundScheduler
+
+# envioments
+# pool = Database(pool_size=10, host='10.110.191.24', user='it', password='1111111', database='ics', port=3306)
 
 
-def tick(a):
-    # print('Tick! The time is: %s' % datetime.now())
-    print(a)
+if __name__ == "__main__":
+    # findbagquery = "SELECT * FROM temp_bags LIMIT 1"
+    # for i in range(5):
+    #     result = pool.run_query(findbagquery)
+    #     print(result)
+    # pool.close()
+    with Database(pool_size=10, host='10.110.191.24', user='it', password='1111111', database='ics', port=3306) as pool:
+        findbagquery = "SELECT * FROM temp_bags LIMIT 1"
+        for i in range(5):
+            result = pool.run_query(findbagquery)
+            print(result)
 
 
-def tickagain(a):
-    # print('Tick! The time is: %s' % datetime.now())
-    print(a)
 
 
-if __name__ == '__main__':
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(tick, 'interval', ["ok", ], seconds=2)
-    scheduler.add_job(tickagain, 'interval', ["error", ], seconds=4)
-    scheduler.start()
-    print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
-
-    try:
-        # This is here to simulate application activity (which keeps the main thread alive).
-        while True:
-            time.sleep(2)
-    except (KeyboardInterrupt, SystemExit):
-        # Not strictly necessary if daemonic mode is enabled but should be done if possible
-        scheduler.shutdown()

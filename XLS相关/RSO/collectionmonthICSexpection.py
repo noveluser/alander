@@ -20,8 +20,6 @@ logging.basicConfig(
                     filemode='a')
 
 
-
-
 def main():
     # 实例化configParser对象
     config = configparser.ConfigParser()
