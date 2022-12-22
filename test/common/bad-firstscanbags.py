@@ -10,16 +10,22 @@ import cx_Oracle
 import logging
 import datetime
 import time
-from my_newmysql import NewDatabase
+from my_mysql_old import Database
+from my_mysql import NewDatabase
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
 logging.basicConfig(
                     level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='/data/package/crontab/log/firstscanbags.log',
-                    # filename='c://work//log//1.log',
+                    # filename='/data/package/crontab/log/firstscanbags.log',
+                    filename='c://work//log//1.log',
                     filemode='a')
+
+
+# envioments
+# cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
+# cursor = Database(pool_size=10, host='10.31.9.24', user='it', password='1111111', database='ics', port=3306)
 
 
 def accessOracle(query):
@@ -38,17 +44,6 @@ def executemysql(query):
         return pool.run_query(query)
 
 
-def highFrequencyWord(query):
-    recentpid_list = []
-    pidResult = executemysql(query)
-    if pidResult:
-        for item in pidResult:
-            recentpid_list.append(item.get("pid"))
-        return pidResult
-    else:
-        return []
-
-
 def collectbaginfo():
     startIDquery = "select idnumber from commonidrecord where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' "
     try:
@@ -57,18 +52,15 @@ def collectbaginfo():
         logging.error(e)
     endIDquery = "select max(IDEVENT) from WC_PACKAGEINFO"
     endID = accessOracle(endIDquery)[0][0]
-    if endID - startID > 2000:
-        endID = startID + 2000
-    updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
-    executemysql(updateIDnumber)
+    if endID - startID > 10000:
+        endID = startID + 10000
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
     sqlquery = "SELECT DISTINCT pid FROM WC_PACKAGEINFO WHERE IDEVENT > {} AND IDEVENT <= {} and EXECUTEDTASK = 'AutoScan' order by pid ".format(startID, endID)
-    logging.info(sqlquery)
     # 注意，我这里筛选了EXECUTEDTASK = 'AutoScan'，暂不知是否存在没有autoscan，但是行李正常的情况，也许存在中转行李这种情况，后面再查
     data = accessOracle(sqlquery)
     for row in data:
+        print(len(pid_list))
         if row[0] not in pid_list:
-            pid_list.append(row[0])
             searchlpcquery = "WITH ar AS ( SELECT * FROM WC_PACKAGEINFO WHERE pid = {} AND EXECUTEDTASK IS NOT NULL ) , br as ( SELECT EVENTTS, lpc, pid, ( DEPAIRLINE || DEPFLIGHT ) flightnr, CURRENTSTATIONID, L_DESTINATIONSTATIONID  FROM WC_PACKAGEINFO  WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM ar ) ) select br.*,std FROM br left join FACT_FLIGHT_SUMMARIES_V ffs on br.FLIGHTNR = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE +8/24 )".format(row[0])
             # baginfo格式EVENTTS, lpc, pid, flightnr, CURRENTSTATIONID, L_DESTINATIONSTATIONID，STD
             baginfo = accessOracle(searchlpcquery)
@@ -93,31 +85,44 @@ def collectbaginfo():
                     optimizal_sqlquery = orignal_sqlquery.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
                     executemysql(optimizal_sqlquery)
+                    # with NewDatabase(pool_size=10, host='10.31.9.24', user='it', password='1111111', database='ics', port=3306) as pool:
+                    #     pool.run_query(optimizal_sqlquery)
                     if not item[4]:
                         logging.error("异常 {}".format(item))
+            pid_list.append(row[0])
         else:
             logging.info("pass {}".format(row[0]))
+    updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
+    executemysql(updateIDnumber)
+    logging.info("step 6")
 
 
-if __name__ == '__main__':
+def highFrequencyWord(query):
+    recentpid_list = []
+    pidResult = executemysql(query)
+    if pidResult:
+        for item in pidResult:
+            recentpid_list.append(item.get("pid"))
+        return pidResult
+    else:
+        return None
+
+
+if __name__ == "__main__":
     highquery = "SELECT pid FROM  temp_bags  WHERE  (status not in ('arrived', 'dump') or status is null)  AND bsm_time >= DATE_ADD(NOW(),INTERVAL - 1 HOUR)  order by id"
-    pid_list = highFrequencyWord(highquery)
+    pid_list = executemysql(highquery)
     scheduler = BackgroundScheduler()
     # 添加任务
     # scheduler.add_job(executemysql, 'interval', [query, ], seconds=10)
-    scheduler.add_job(collectbaginfo, 'interval', max_instances=10, seconds=30)
+    scheduler.add_job(collectbaginfo, 'interval', max_instances=10, seconds=60)
     scheduler.add_job(highFrequencyWord, 'interval', [highquery, ], hours=1)
-    '''收到教训，如果job间隔太短的话，那么多线程会积压，同时启动好几个，而这些相同参数的job，会给数据库插入同样的LPC，造成数据重复，所以目前把时间间隔调整成30S,如果能够把startID和endID的计算独立出来也是一个办法'''
     scheduler.start()
     try:
         # This is here to simulate application activity (which keeps the main thread alive).
         while True:
-            time.sleep(5)
+            time.sleep(10)
     except Exception as e:
         # Not strictly necessary if daemonic mode is enabled but should be done if possible
         logging.error(e)
         scheduler.shutdown()
-    # while True:
-    #     s = sched.scheduler(time.time, time.sleep)
-    #     s.enter(60, 1, collectbaginfo)
-    #     s.run()
+

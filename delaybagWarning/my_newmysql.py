@@ -8,7 +8,7 @@ from threading import Thread, Lock
 from queue import Queue
 
 
-class Database:
+class NewDatabase:
     """Database connection class."""
 
     def __init__(self, pool_size=10, **kwargs):
@@ -55,13 +55,10 @@ class Database:
         """Execute SQL query."""
         with connection.cursor() as cur:
             if 'select' in query or 'SELECT' in query:
-                records = []
                 cur.execute(query)
                 result = cur.fetchall()
-                for row in result:
-                    records.append(row)
                 cur.close()
-                return records
+                return result
             result = cur.execute(query)
             connection.commit()
             affected = f"{cur.rowcount} rows affected."
