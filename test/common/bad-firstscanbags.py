@@ -10,7 +10,6 @@ import cx_Oracle
 import logging
 import datetime
 import time
-from my_mysql_old import Database
 from my_mysql import NewDatabase
 from apscheduler.schedulers.background import BackgroundScheduler
 
