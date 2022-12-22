@@ -110,7 +110,7 @@ if __name__ == '__main__':
     '''收到教训，如果job间隔太短的话，那么多线程会积压，同时启动好几个，而这些相同参数的job，会给数据库插入同样的LPC，造成数据重复，所以目前把时间间隔调整成30S,如果能够把startID和endID的计算独立出来也是一个办法'''
     scheduler.start()
     try:
-        # This is here to simulate application activity (which keeps the main thread alive).
+        # This is here to simulate application activity (which keeps the main thread alive).。。。
         while True:
             time.sleep(5)
     except Exception as e:
