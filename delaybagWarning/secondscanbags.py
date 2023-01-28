@@ -108,6 +108,7 @@ def updatebagstatus(scanqueuenumber):
     data = cursor.run_query(findbagquery)
     logging.info("本次更新计划存在{}个行李".format(len(data)))
     for row in data:
+        # start = time.perf_counter()
         if row[0]:
             ID = "lpc = {}".format(row[0])
             judging_condition = "lpc"
@@ -117,6 +118,8 @@ def updatebagstatus(scanqueuenumber):
         searchlpcquery = "WITH baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS (  SELECT   IDEVENT,   lpc,   pid,   EVENTTS,   AREAID,   ZONEID,   EQUIPMENTID,   L_DESTINATION,   L_CARRIER,   PROCESSPLANIDNAME   FROM   WC_TRACKINGREPORT track   WHERE   {}   ),  maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) ) SELECT  CURRENTSTATIONID,  maxbaginfo.lpc,  maxbaginfo.pid,  EVENTTS,  ( AREAID || '.' || ZONEID || '.' || EQUIPMENTID ) location,  L_DESTINATION,  L_CARRIER,  PROCESSPLANIDNAME  FROM  maxbaginfo  LEFT JOIN maxtrakinginfo ON maxbaginfo.{} = maxtrakinginfo.{}".format(ID, ID, judging_condition, judging_condition)
         # searchlpcquery = "WITH  securitycheck as ( select  L_SCREENINGRESULT,pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2' ), baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE pid = {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS ( SELECT IDEVENT, lpc, pid, EVENTTS, AREAID, ZONEID, EQUIPMENTID, L_DESTINATION, L_CARRIER, PROCESSPLANIDNAME FROM WC_TRACKINGREPORT track WHERE pid = {} ), maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) )   SELECT maxbaginfo.CURRENTSTATIONID, maxbaginfo.lpc, maxbaginfo.pid, maxtrakinginfo.EVENTTS, (maxtrakinginfo.AREAID || '.' || maxtrakinginfo.ZONEID || '.' || maxtrakinginfo.EQUIPMENTID) LOCATION, maxtrakinginfo.L_DESTINATION, maxtrakinginfo.L_CARRIER, securitycheck.L_SCREENINGRESULT, maxtrakinginfo.PROCESSPLANIDNAME  FROM  securitycheck  LEFT JOIN maxbaginfo on securitycheck.pid = maxbaginfo.pid left join maxtrakinginfo on securitycheck.pid = maxtrakinginfo.pid".format(row[1], row[1], row[1])
         baginfo = accessOracle(searchlpcquery)
+        # step1DuringTime = time.perf_counter() - start
+        # logging.info("step1耗时 {}".format(step1DuringTime))
         for item in baginfo:
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
             # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充，这两个值只在第一次扫描中输入，二次，三次扫描不更新Lpc和flightnr,先观察2天
@@ -168,19 +171,25 @@ def updatebagstatus(scanqueuenumber):
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, item[4], item[5], tubid, status, securitycheck_result, ID)
                 else:     # LPC及flightnr都不存在
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
+                # step2DuringTime = time.perf_counter() - step1DuringTime
+                # logging.info("step2耗时 {}".format(step2DuringTime))
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
                 result = cursor.run_query(optimizal_sqlquery)
+                # step3DuringTime = time.perf_counter() - step2DuringTime
+                # logging.info("step3耗时 {}".format(step3DuringTime))
             else:
                 updatebagstatus = "update temp_bags set status = '{}', checked = {} where {}".format("notsorted", securitycheck_result, ID)             # 更新temp_bags当前位置
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
                 result = cursor.run_query(optimizal_sqlquery)
             logging.info("{} uptade result:{}".format(ID, result))
+        # elapsed = time.perf_counter() - start
+        # logging.info("耗时 {}".format(elapsed))
 
 
 def main():
-    schedule.every(600).seconds.do(updatebagstatus, scanqueuenumber="is null")
+    schedule.every(120).seconds.do(updatebagstatus, scanqueuenumber="is null")
     schedule.every(110).seconds.do(updatebaglocation, scanqueuenumber="not in ('arrived', 'dump')")
     while True:
         schedule.run_pending()
