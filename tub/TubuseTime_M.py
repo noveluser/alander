@@ -24,7 +24,7 @@ logging.basicConfig(
 def main():
     df = pd.DataFrame()
     endDay = startDate
-    while endDay < startDate + datetime.timedelta(days=30):
+    while endDay < startDate + datetime.timedelta(days=31):
         currentDay = endDay.strftime("%d-%m-%Y")
         line = [currentDay]
         type = ["< 25000", ">= 25000"]
@@ -42,8 +42,8 @@ def main():
 
 
 if __name__ == '__main__':
-    file_path = "d://data//rso//202211//"
+    file_path = "d://data//rso//202212//"
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
-    startDay = '01-11-2022 00:00:00'
+    startDay = '01-12-2022 00:00:00'
     startDate = datetime.datetime.strptime(startDay, "%d-%m-%Y %H:%M:%S")
     main()

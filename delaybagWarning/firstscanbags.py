@@ -57,8 +57,8 @@ def collectbaginfo():
         logging.error(e)
     endIDquery = "select max(IDEVENT) from WC_PACKAGEINFO"
     endID = accessOracle(endIDquery)[0][0]
-    if endID - startID > 2000:
-        endID = startID + 2000
+    if endID - startID > 5000:
+        endID = startID + 5000
     updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
     executemysql(updateIDnumber)
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
