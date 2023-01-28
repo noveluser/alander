@@ -5,7 +5,7 @@
 # 导入需要的库
 from my_mysql import NewDatabase
 from apscheduler.schedulers.background import BackgroundScheduler
-import time
+
 
 # envioments
 # pool = Database(pool_size=10, host='10.110.191.24', user='it', password='1111111', database='ics', port=3306)
