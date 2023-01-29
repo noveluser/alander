@@ -186,7 +186,7 @@ def updatebagstatus(scanqueuenumber):
                 # result = cursor.run_query(optimizal_sqlquery)
                 step2DuringTime = time.perf_counter()
                 logging.info("step2耗时 {}".format(step2DuringTime-step1DuringTime))
-        if len(querylist) > 10:
+        if len(querylist) >= 20:
             logging.info("本次更新{}件行李".format(len(querylist)))
             step3DuringTime = time.perf_counter()
             logging.info("step3耗时 {}".format(step3DuringTime-step2DuringTime))
