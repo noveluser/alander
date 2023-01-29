@@ -63,3 +63,24 @@ class Database:
                 self.conn.close()
                 self.conn = None
                 # logging.info('Database connection closed.')
+
+    def run_many_query(self, querylist):
+        """Execute many SQL query."""
+        try:
+            self.open_connection()
+            with self.conn.cursor() as cur:
+                for query in querylist:
+                    cur.execute(query)
+                self.conn.commit()
+                affected = f"{cur.rowcount} rows affected."
+                cur.close()
+                return affected
+        except pymysql.MySQLError as e:
+            logging.error(e)
+            sys.exit()
+            # pass
+        finally:
+            if self.conn:
+                self.conn.close()
+                self.conn = None
+                # logging.info('Database connection closed.')

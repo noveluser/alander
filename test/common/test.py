@@ -3,56 +3,51 @@
 
 
 # 导入需要的库
-from my_mysql import NewDatabase
-from apscheduler.schedulers.background import BackgroundScheduler
+import pymysql
 
 
-# envioments
-# pool = Database(pool_size=10, host='10.110.191.24', user='it', password='1111111', database='ics', port=3306)
+# envornment
 
 
-def executemysql(query):
-    with NewDatabase(pool_size=10, host='10.31.9.24', user='it', password='1111111', database='ics', port=3306) as pool:
-        result = pool.run_query(query)
-        # print(result[0].get("pid"))
-        print(result)
-    return result
+class MySQL:
+    def __init__(self, host, username, password, dbname):
+        self.host = host
+        self.user = username
+        self.password = password
+        self.db = dbname
+
+    def insert_batch(self, data):
+        try:
+            connection = pymysql.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                db=self.db,
+                cursorclass=pymysql.cursors.DictCursor
+            )
+
+            cursor = connection.cursor()
+
+            # Use a for loop to insert many rows
+            ID = 'lpc = 89058766'
+            for row in data:
+                sql = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], ID)
+                # cursor.execute("INSERT INTO " + table + " (field1, field2, field3) VALUES (%s, %s, %s)", row)
+                cursor.execute(sql)
+            connection.commit()
+            print(cursor.rowcount, "Record inserted successfully into table")
+
+        except Error as e:
+            print("Error while connecting to MySQL", e)
+        finally:
+            if (connection.ping()):
+                cursor.close()
+                connection.close()
+                print("MySQL connection is closed")
 
 
-def highFrequencyWord():
-    query = "SELECT pid FROM  temp_bags  WHERE  (status not in ('arrived', 'dump') or status is null)  AND bsm_time >= DATE_ADD(NOW(),INTERVAL - 1 HOUR)  order by id"
-    result = executemysql(query)
-    return result
-
-
-def collectbaginfo():
-    startIDquery = "SELECT pid FROM  temp_bags  WHERE  (status not in ('arrived', 'dump') or status is null)  AND bsm_time >= DATE_ADD(NOW(),INTERVAL + 10 HOUR)  order by id"
-    startID = executemysql(startIDquery)
-    return startID
-
-
-if __name__ == "__main__":
-    recentpid_list = []
-    pidResult = highFrequencyWord()
-    # if pidResult:
-    #     for item in pidResult:
-    #         recentpid_list.append(item.values())
-    # print(recentpid_list)
-    # scheduler = BackgroundScheduler()
-    # # 添加任务
-    # # scheduler.add_job(executemysql, 'interval', [query, ], seconds=10)
-    # scheduler.add_job(collectbaginfo, 'interval', seconds=5)
-    # scheduler.start()
-    # try:
-    #     # This is here to simulate application activity (which keeps the main thread alive).
-    #     while True:
-    #         time.sleep(5)
-    # except Exception as e:
-    #     # Not strictly necessary if daemonic mode is enabled but should be done if possible
-    #     print(e)
-    #     scheduler.shutdown()
-
-
-
-
-
+if __name__ == '__main__':
+    cursor = MySQL(dbname='ics', username='it', password='1111111', host='10.31.9.24')
+    ID = 'lpc = 89058766'
+    data = [('2000-01-28 09:32:30.219000', 89058766, '\'ZH0000\'', '3133.7.2', '217', 178, 'arrived', 'Null')]
+    cursor.insert_batch(data)

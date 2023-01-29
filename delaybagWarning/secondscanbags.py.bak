@@ -104,10 +104,9 @@ def updatebaglocation(scanqueuenumber):
 
 
 def updatebagstatus(scanqueuenumber):
-    findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 1 HOUR) ".format(scanqueuenumber)
+    findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 6 HOUR) ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
     logging.info("本次更新计划存在{}个行李".format(len(data)))
-    querylist = []
     for row in data:
         start = time.perf_counter()
         if row[0]:
@@ -120,7 +119,7 @@ def updatebagstatus(scanqueuenumber):
         # searchlpcquery = "WITH  securitycheck as ( select  L_SCREENINGRESULT,pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2' ), baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE pid = {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS ( SELECT IDEVENT, lpc, pid, EVENTTS, AREAID, ZONEID, EQUIPMENTID, L_DESTINATION, L_CARRIER, PROCESSPLANIDNAME FROM WC_TRACKINGREPORT track WHERE pid = {} ), maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) )   SELECT maxbaginfo.CURRENTSTATIONID, maxbaginfo.lpc, maxbaginfo.pid, maxtrakinginfo.EVENTTS, (maxtrakinginfo.AREAID || '.' || maxtrakinginfo.ZONEID || '.' || maxtrakinginfo.EQUIPMENTID) LOCATION, maxtrakinginfo.L_DESTINATION, maxtrakinginfo.L_CARRIER, securitycheck.L_SCREENINGRESULT, maxtrakinginfo.PROCESSPLANIDNAME  FROM  securitycheck  LEFT JOIN maxbaginfo on securitycheck.pid = maxbaginfo.pid left join maxtrakinginfo on securitycheck.pid = maxtrakinginfo.pid".format(row[1], row[1], row[1])
         baginfo = accessOracle(searchlpcquery)
         step1DuringTime = time.perf_counter()
-        logging.info("step1耗时 {}".format(step1DuringTime-start))
+        logging.info("step1耗时 {}".format(step1DuringTime - start))
         for item in baginfo:
             # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
             # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充，这两个值只在第一次扫描中输入，二次，三次扫描不更新Lpc和flightnr,先观察2天
@@ -172,40 +171,21 @@ def updatebagstatus(scanqueuenumber):
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, item[4], item[5], tubid, status, securitycheck_result, ID)
                 else:     # LPC及flightnr都不存在
                     updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
+                step2DuringTime = time.perf_counter()
+                logging.info("step2耗时 {}".format(step2DuringTime - step1DuringTime))
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
-                # result = cursor.run_query(optimizal_sqlquery)
-                querylist.append(optimizal_sqlquery)
-                step2DuringTime = time.perf_counter()
-                logging.info("step2耗时 {}".format(step2DuringTime-step1DuringTime))
+                result = cursor.run_query(optimizal_sqlquery)
+                step3DuringTime = time.perf_counter()
+                logging.info("step3耗时 {}".format(step3DuringTime - step2DuringTime))
             else:
                 updatebagstatus = "update temp_bags set status = '{}', checked = {} where {}".format("notsorted", securitycheck_result, ID)             # 更新temp_bags当前位置
                 optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                 logging.info(optimizal_sqlquery)
-                querylist.append(optimizal_sqlquery)
-                # result = cursor.run_query(optimizal_sqlquery)
-                step2DuringTime = time.perf_counter()
-                logging.info("step2耗时 {}".format(step2DuringTime-step1DuringTime))
-        if len(querylist) > 10:
-            logging.info("本次更新{}件行李".format(len(querylist)))
-            step3DuringTime = time.perf_counter()
-            logging.info("step3耗时 {}".format(step3DuringTime-step2DuringTime))
-            result = cursor.run_many_query(querylist)
-            step4DuringTime = time.perf_counter()
-            logging.info("step4耗时 {}".format(step4DuringTime-step3DuringTime))
-            querylist = []
-    result = cursor.run_many_query(querylist)
-    # times = int(len(querylist)/100) + 1
-    # logging.info("更新总次数{}".format(times))
-    # for i in range(times):
-    #     step3DuringTime = time.perf_counter()
-    #     logging.info("step3耗时 {}".format(step3DuringTime-step2DuringTime))
-    #     sort_query_list = querylist[i*100: i*100+99]
-    #     result = cursor.run_many_query(sort_query_list)
-    #     logging.info("本次更新 uptade result:{}".format(result))
-    #     step4DuringTime = time.perf_counter()
-    #     logging.info("step4耗时 {}".format(step4DuringTime-step3DuringTime))
-    logging.info("总耗时 {}".format(time.perf_counter()-start))
+                result = cursor.run_query(optimizal_sqlquery)
+            logging.info("{} uptade result:{}".format(ID, result))
+        elapsed = time.perf_counter() - start
+        logging.info("总耗时 {}".format(elapsed))
 
 
 def main():
