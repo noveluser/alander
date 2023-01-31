@@ -104,7 +104,7 @@ def updatebaglocation(scanqueuenumber):
 
 
 def updatebagstatus(scanqueuenumber):
-    findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 1 HOUR) ".format(scanqueuenumber)
+    findbagquery = "select lpc, pid, latest_time, status, flightnr, checked from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 3 HOUR) ".format(scanqueuenumber)
     data = cursor.run_query(findbagquery)
     logging.info("本次更新计划存在{}个行李".format(len(data)))
     querylist = []
