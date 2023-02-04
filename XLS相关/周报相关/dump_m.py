@@ -46,8 +46,8 @@ def main():
     endtime = datetime.datetime.now()
     # startday = starttime.strftime("%d-%m-%Y")
     # endday = endtime.strftime("%d-%m-%Y")
-    startday = "01-12-2022"
-    endday = "01-01-2023"
+    startday = "01-01-2023"
+    endday = "01-02-2023"
     workweek = starttime.strftime("%Y%m%d")
     file_path = "c://work//Datacollector//weeklyreport//"
     outputfile = "{}dump_{}.xlsx".format(file_path, workweek)
