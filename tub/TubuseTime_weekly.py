@@ -29,7 +29,7 @@ def main():
         line = [currentDay]
         for i in range(6):
             mintimes = 2*i
-            if 2*(i+1) > 10:
+            if i == 5:
                 maxtimes = 100
             else:
                 maxtimes = 2*(i+1) + 1
