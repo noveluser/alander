@@ -60,8 +60,12 @@ def count(beforeyesterday, yesterday):
     over5timeTub_list = []
     baggage_list = []
     tub_dictionary = dict.fromkeys(range(1, 2281), 0)
+    logging.info(tub_dictionary)
     for i in range(25001, 25061):
         tub_dictionary[i] = 0
+    """新增2个托盘"""
+    tub_dictionary[2315] = 0
+    tub_dictionary[2316] = 0
     OBT_list = []
     SBT_list = []
     departureBag = arriveBag = 0
@@ -79,9 +83,9 @@ def count(beforeyesterday, yesterday):
             localTime = row[0] + datetime.timedelta(hours=8)
             eventts = localTime.strftime("%Y-%m-%d %H:%M:%S")
             baggage_list.append(baggage)
-            # eventts = row[0].strftime("%d-%m-%Y %H:%M:%S")
-            sqlquery = "insert into ics.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},'{}')".format(eventts, row[1], row[2], row[3], tubid, row[5])
-            writeMysql(sqlquery)      # 写入mysql
+            # # eventts = row[0].strftime("%d-%m-%Y %H:%M:%S")
+            # sqlquery = "insert into ics.icsbag (created_time, lpc, bid, pid, l_carrier,destination) values ('{}',{},{},{},{},'{}')".format(eventts, row[1], row[2], row[3], tubid, row[5])
+            # writeMysql(sqlquery)      # 写入mysql
             tub_dictionary[tubid] += 1
             if int(tubid) > 20000:
                 if tubid not in OBT_list:
@@ -97,19 +101,19 @@ def count(beforeyesterday, yesterday):
                 arriveBag += 1
             i += 1
             """完成ICSbag表的批量写入"""
-            if i > 100:
-                try:
-                    db.commit()
-                    # print("finish 100")
-                except pymysql.MySQLError as e:
-                    logging.error(e)
-                i = 0
+            # if i > 100:
+            #     try:
+            #         db.commit()
+            #         # print("finish 100")
+            #     except pymysql.MySQLError as e:
+            #         logging.error(e)
+            #     i = 0
     conn.close()
     """写入最后少于100部分进入commit"""
-    try:
-        db.commit()
-    except pymysql.MySQLError as e:
-        logging.error(e)
+    # try:
+    #     db.commit()
+    # except pymysql.MySQLError as e:
+    #     logging.error(e)
     logging.info("{}departure bags count {}, arrived bags count {}, Total {}, use SBT count {}, OBT count{}".format(yesterday, departureBag, arriveBag, len(baggage_list), len(SBT_list), len(OBT_list)))
     for id, number in tub_dictionary.items():
         match number:
@@ -139,9 +143,9 @@ def count(beforeyesterday, yesterday):
 
 def main():
     currentTime = datetime.datetime.now()
-    firstdayTime = currentTime - datetime.timedelta(days=2)
+    firstdayTime = currentTime - datetime.timedelta(days=7)
     firstday = firstdayTime.strftime("%d-%m-%Y")
-    enddayTime = currentTime - datetime.timedelta(days=1)
+    enddayTime = currentTime - datetime.timedelta(days=6)
     endday = enddayTime.strftime("%d-%m-%Y")
     count(firstday, endday)
 

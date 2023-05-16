@@ -205,7 +205,7 @@ def updatebagstatus(scanqueuenumber):
     #     logging.info("本次更新 uptade result:{}".format(result))
     #     step4DuringTime = time.perf_counter()
     #     logging.info("step4耗时 {}".format(step4DuringTime-step3DuringTime))
-    logging.info("总耗时 {}".format(time.perf_counter()-start))
+    # logging.info("总耗时 {}".format(time.perf_counter()-start))
 
 
 def main():

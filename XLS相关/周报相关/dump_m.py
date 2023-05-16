@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 获取一月弃包行李状态
+# 获取一个月弃包行李状态
 # 
 # v0.2
 
@@ -31,7 +31,7 @@ def accessOracle(query):
 
 def collector(starttime, endtime, filename):
     # df = pd.DataFrame()
-    sqlquery = "SELECT     DEREGISTER_LOCATION,     FINAL_ACTIVE_PROCESS , count(FINAL_ACTIVE_PROCESS) FROM     FACT_BAG_SUMMARIES_V WHERE     REGISTER_DT > TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND REGISTER_DT < TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND DEREGISTER_LOCATION IN ( 'M41', 'M81', 'SAT-M10a', 'SAT-M10b', 'T3-DP02','T3-DP01' ) group by DEREGISTER_LOCATION, FINAL_ACTIVE_PROCESS".format(starttime, endtime)
+    sqlquery = "SELECT     DEREGISTER_LOCATION,     FINAL_ACTIVE_PROCESS , count(FINAL_ACTIVE_PROCESS) FROM     FACT_BAG_SUMMARIES_V WHERE     REGISTER_DT > TO_TIMESTAMP( '{} 00:00:00', 'DD-MM-YYYY HH24:MI:SS' )     AND REGISTER_DT <= TO_TIMESTAMP( '{} 23:59:59', 'DD-MM-YYYY HH24:MI:SS' )     AND DEREGISTER_LOCATION IN ( 'M41', 'M81', 'SAT-M10a', 'SAT-M10b', 'T3-DP02','T3-DP01' ) group by DEREGISTER_LOCATION, FINAL_ACTIVE_PROCESS".format(starttime, endtime)
     data = accessOracle(sqlquery)
     df = pd.DataFrame(data)
     try:
@@ -42,15 +42,16 @@ def collector(starttime, endtime, filename):
 
 
 def main():
-    starttime = datetime.datetime.now() - datetime.timedelta(days=7)
-    endtime = datetime.datetime.now()
-    # startday = starttime.strftime("%d-%m-%Y")
-    # endday = endtime.strftime("%d-%m-%Y")
-    startday = "01-02-2023"
-    endday = "01-03-2023"
+    """每月初第一天凌晨4点执行"""
+    endtime = datetime.datetime.now() - datetime.timedelta(days=1)
+    starttime = endtime.replace(day=1)
+    startday = starttime.strftime("%d-%m-%Y")
+    endday = endtime.strftime("%d-%m-%Y")
+    # startday = "01-03-2023"
+    # endday = "01-04-2023"
     workweek = starttime.strftime("%Y%m%d")
     file_path = "c://work//Datacollector//weeklyreport//"
-    outputfile = "{}dump_{}.xlsx".format(file_path, workweek)
+    outputfile = "{}dump_m_{}.xlsx".format(file_path, workweek)
     collector(startday, endday, outputfile)
 
 
