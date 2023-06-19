@@ -63,7 +63,8 @@ def count(beforeyesterday, yesterday):
     logging.info(tub_dictionary)
     for i in range(25001, 25061):
         tub_dictionary[i] = 0
-    """新增2个托盘"""
+    """新增3个托盘"""
+    tub_dictionary[2314] = 0
     tub_dictionary[2315] = 0
     tub_dictionary[2316] = 0
     OBT_list = []
@@ -143,9 +144,9 @@ def count(beforeyesterday, yesterday):
 
 def main():
     currentTime = datetime.datetime.now()
-    firstdayTime = currentTime - datetime.timedelta(days=7)
+    firstdayTime = currentTime - datetime.timedelta(days=2)
     firstday = firstdayTime.strftime("%d-%m-%Y")
-    enddayTime = currentTime - datetime.timedelta(days=6)
+    enddayTime = currentTime - datetime.timedelta(days=1)
     endday = enddayTime.strftime("%d-%m-%Y")
     count(firstday, endday)
 
