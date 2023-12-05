@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # query = { "name": "John" }
     # col.delete_one(query)
 
-    query = {"expirationDate": {"$lt": (datetime.datetime.now() - datetime.timedelta(days=40))}}
+    query = {"expirationDate": {"$lt": (datetime.datetime.now() - datetime.timedelta(days=30))}}
     result = col.delete_many(query)
     logging.info("{} documents deleted.".format(result.deleted_count))
 

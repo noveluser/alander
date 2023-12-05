@@ -38,7 +38,7 @@ logging.basicConfig(
 
 def main():
     sheetName = 'Sheet1'
-    df = pd.read_excel("d://data//rso//202305/raw.xlsx", sheet_name=sheetName)
+    df = pd.read_excel("d://data//rso//模板/raw.xlsx", sheet_name=sheetName)
     # df1 = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     matchPushDf = notmatchPushDf = matchPullDf = notmatchPullDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
     # matchPushDf = pd.DataFrame(columns=["EVENTTS", "date", "hour", "time", "ICSEVENT", "ID", "LIC", "STATUS", "zone"])
@@ -58,24 +58,24 @@ def main():
             i = 0
             # for i in range(0, maxRowNumber):   # 为何for循环i> maxRowNumber时还继续循环？
             while i < maxRowNumber:
-                nextEventTime = df.iloc[[idx+i], [0]].values[0][0]
+                nextEventTime = df.iloc[[idx + i], [0]].values[0][0]
                 if eventTime + datetime.timedelta(minutes=30) > nextEventTime:
                     searchRowNumber = i
                 else:  # 如果日志超出半小时，跳出循环，搜索页只计算到＜30mins
                     i = 200
                 i += 1
             j = 1
-            while j < searchRowNumber+1:
+            while j < searchRowNumber + 1:
                 id = row["ID"]
-                if df.iloc[[idx+j], [4]].values[0][0] == "ICS-PULLED-LOSTANDFOUND" and df.iloc[[idx+j], [5]].values[0][0] == id:
+                if df.iloc[[idx + j], [4]].values[0][0] == "ICS-PULLED-LOSTANDFOUND" and df.iloc[[idx + j], [5]].values[0][0] == id:
                     # 将匹配的Push放入matchPushDf
                     matchPushDfTemp = df.loc[[idx]]
                     matchPushDf = pd.concat([matchPushDf, matchPushDfTemp])
                     # 将匹配的Pull放入matchPushDf
-                    matchPullDfTemp = df.loc[[idx+j]]
+                    matchPullDfTemp = df.loc[[idx + j]]
                     matchPullDf = pd.concat([matchPullDf, matchPullDfTemp])
                     flag = 1   # 存在push and pull
-                    pullIDgroup.append(idx+j)
+                    pullIDgroup.append(idx + j)
                     j = 200
                 j += 1
             if flag == 0:
@@ -91,10 +91,10 @@ def main():
             #     # 已经记录到matchpull dataframe里
             #     continue
     # print(pullIDgroup)
-    matchPushDf.to_excel("d://data//rso//202305/matchPush_test.xlsx")
-    matchPullDf.to_excel("d://data//rso//202305/matchPull_test.xlsx")
-    notmatchPushDf.to_excel("d://data//rso//202305/notmatchPush_test.xlsx")
-    notmatchPullDf.to_excel("d://data//rso//202305/notmatchPull_test.xlsx")
+    matchPushDf.to_excel("d://data//rso//模板/matchPush_test.xlsx")
+    matchPullDf.to_excel("d://data//rso//模板/matchPull_test.xlsx")
+    notmatchPushDf.to_excel("d://data//rso//模板/notmatchPush_test.xlsx")
+    notmatchPullDf.to_excel("d://data//rso//模板/notmatchPull_test.xlsx")
 
 
 if __name__ == '__main__':
