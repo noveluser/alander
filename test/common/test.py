@@ -5,7 +5,7 @@ from my_mysql import Database
 # import pymysql
 import pandas as pd
 import logging
-import os
+import json
 
 
 logging.basicConfig(
@@ -16,12 +16,30 @@ logging.basicConfig(
 
 
 def main():
-    path = "d://1//4//"
-    # 遍历目录下的所有文件
-    for root, dirs, files in os.walk(path):
-        for filename in files:
-            # 打印文件名
-            file_path = os.path.join(root, filename)
+    # 假设data是你的JSON数据
+    data = {"3111.17.98":
+            {
+                "areaid": 3108,
+                "zoneid": 9,
+                "equipmentid": 98
+            },
+            "3118.03.98":
+            {
+                "areaid": 3108,
+                "zoneid": 17,
+                "equipmentid": 98
+            }
+            }
+    ido_list = ["3111.17.98", "3118.03.98"]
+
+    # 读取age字段的值
+    for k, v in data.items():
+        # age = data[item]["areaid"]
+        if type(v) is dict:
+            print(v["areaid"])
+            print(k)
+            # for nk,nv in v.items():
+            #     print(nk, "---", nv)
 
 
 
