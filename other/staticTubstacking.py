@@ -26,10 +26,10 @@ import json
 # cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
 cursor = pymysql.connect(host='10.31.9.24', user='it', password='1111111', database='ics')
 
-IDO = {"3111.17.98":
+IDO = {"3117.11.98":
        {
            "areaid": 3117,
-           "zoneid": 17,
+           "zoneid": 11,
            "equipmentid": 98
        },
        "3118.03.98":
@@ -122,7 +122,7 @@ def main():
     startday = starttime.strftime("%Y-%m-%d")
     endday = endtime.strftime("%Y-%m-%d")
     df = pd.DataFrame()
-    #    IDO_list = ["3111.17.98", "3118.03.98", "3117.53.97", "3118.43.97", "3148.11.98", "3147.03.98", "3148.51.97", "3147.47.97", "3107.21.97", "3107.15.97", "3110.15.97", "3110.21.97", "3105.11.98", "3147.03.98", "3108.09.98", "3108.17.98"]
+    #    IDO_list = ["3117.11.98", "3118.03.98", "3117.53.97", "3118.43.97", "3148.11.98", "3147.03.98", "3148.51.97", "3147.47.97", "3107.21.97", "3107.15.97", "3110.15.97", "3110.21.97", "3105.11.98", "3147.03.98", "3108.09.98", "3108.17.98"]
     for ido_location, ido in IDO.items():
         if type(ido) is dict:
             sqlquery = "SELECT AREAID, ZONEID,EQUIPMENTID,date(EVENTTS) as date, sum( `VALUE` )  total FROM ido_statis  WHERE 1 = 1  AND STATISTICALID IN ( 1,2,3,4,5,6,7,8 )  and EVENTTS > '{}'  AND EVENTTS <= '{}' + INTERVAL '1' DAY  and AREAID = {} and ZONEID = {} and equipmentid = {} GROUP BY date(EVENTTS), AREAID, ZONEID ORDER BY date(EVENTTS), AREAID, ZONEID".format(startday, endday, ido['areaid'], ido["zoneid"], ido["equipmentid"])
@@ -130,7 +130,7 @@ def main():
             df1 = pd.read_sql_query(sqlquery, cursor)
             df = pd.concat([df, df1])
             # 将DataFrame中的数据输出到xls文件
-        with pd.ExcelWriter( "{}tubstacking_{}.xlsx".format(file_path, endday)) as writer:
+        with pd.ExcelWriter("{}tubstacking_{}.xlsx".format(file_path, endday)) as writer:
             df.to_excel(writer, sheet_name='sheet1', index=False)
 
 

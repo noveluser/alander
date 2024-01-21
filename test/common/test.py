@@ -2,7 +2,7 @@
 # coding=utf-8
 
 from my_mysql import Database
-# import pymysql
+import datetime
 import pandas as pd
 import logging
 import json
@@ -17,29 +17,15 @@ logging.basicConfig(
 
 def main():
     # 假设data是你的JSON数据
-    data = {"3111.17.98":
-            {
-                "areaid": 3108,
-                "zoneid": 9,
-                "equipmentid": 98
-            },
-            "3118.03.98":
-            {
-                "areaid": 3108,
-                "zoneid": 17,
-                "equipmentid": 98
-            }
-            }
-    ido_list = ["3111.17.98", "3118.03.98"]
-
-    # 读取age字段的值
-    for k, v in data.items():
-        # age = data[item]["areaid"]
-        if type(v) is dict:
-            print(v["areaid"])
-            print(k)
-            # for nk,nv in v.items():
-            #     print(nk, "---", nv)
+    # startday = datetime.datetime.strptime(config.get(reportname, 'startDay'), "%Y%m%d")
+    today = datetime.datetime.now().date()
+    file_list = []
+    for i in range(8, 1, -1):
+        nexttime = today - datetime.timedelta(days=i)
+        nextday = nexttime.strftime("%Y-%m-%d")
+        outfeedFile = "all-{}.xlsx".format(nextday)
+        file_list.append(outfeedFile)
+    print(file_list)
 
 
 
