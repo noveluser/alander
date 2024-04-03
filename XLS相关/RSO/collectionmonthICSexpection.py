@@ -16,7 +16,7 @@ logging.basicConfig(
                     datefmt='%Y-%m-%d %H:%M:%S',
                     # filename='/mnt/d/temp/temp/test/transfertxt.log',
                     # filename='/root/1.log',
-                    filename='d://data//rso//1.log',
+                    filename='c://temp//log//1.log',
                     filemode='a')
 
 
