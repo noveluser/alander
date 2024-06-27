@@ -48,7 +48,7 @@ def main():
         # device_code = "{}.{}.{}".format(row["ICSEVENT"], row["ID"], row["zone"])
         event = row["ICSEVENT"]
         flag = 0
-        # eventTime = datetime.datetime.strptime(row["EVENTTS"], "%Y/%m/%d %H:%M")
+        print(idx)
         eventTime = row["EVENTTS"]
         if event == "ICS-PUSHED-LOSTANDFOUND":
             searchRowNumber = 0   # 默认搜索接下来0行
