@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
-# 转换时间戳为正常时间格式
+# 转换FSC日志的时间戳为正常时间格式
 # 
 # 
 
