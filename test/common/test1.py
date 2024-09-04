@@ -78,6 +78,7 @@ def packageinfo(lpc):
 	#         AND FLIGHTDATE = TO_CHAR( SYSDATE, 'YYYY-MM-DD' )
     #     """.format(lpc, lpc)
     UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) AND lpc = :lpc AND L_CARRIER IS NOT NULL ORDER BY EVENTTS ), BAGINFO AS ( SELECT LPC, ( DEPAIRLINE || DEPFLIGHT ) AS flightnr, ROW_NUMBER ( ) OVER ( ORDER BY IDEVENT DESC ) AS rn  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  AND ROWNUM = 1  ORDER BY IDEVENT DESC  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr JOIN ( SELECT L_CARRIER FROM TUBINFO WHERE ROWNUM = 1 ) tubinfo ON 1 = 1  WHERE bg.rn = 1  AND FLIGHTDATE = TO_CHAR( SYSDATE, 'YYYY-MM-DD' )"
+    print(UrgencyPackageQuery)
     return accessOracle(UrgencyPackageQuery, {'lpc': lpc})
 
     
@@ -90,6 +91,7 @@ def main():
                 bagresult = packageinfo(lpc)
                 if bagresult:
                     bagresult = bagresult[0]
+                    print(bagresult)
                     logging.info("bag:'%s',flight:'%s','%s','%s','%s'",
                                  bagresult[0],
                                  bagresult[1],

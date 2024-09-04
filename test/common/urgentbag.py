@@ -6,7 +6,7 @@
 # v0.1
 
 
-import oracledb
+import cx_Oracle
 import logging
 
 
@@ -14,20 +14,23 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
-    filename='c://work//log//urgent.log',
+    filename='urgentbag.log',
     filemode='a'
 )
 
 
 # 定义文件名
-filename = 'c://work//log//lpc.txt'
+filename = 'lpc.txt'
+
 
 
 def accessOracle(query, params=None):
     dsn_tns = '10.31.8.21:1521/ORABPI'
     try:
-        with oracledb.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
+        logging.info(f"Connecting to Oracle DB...")
+        with cx_Oracle.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
             with conn.cursor() as c:
+                logging.info(f"Executing query: {query} with params: {params}")
                 c.execute(query, params)
                 return c.fetchall()
     except Exception as e:
@@ -78,7 +81,10 @@ def packageinfo(lpc):
 	#         AND FLIGHTDATE = TO_CHAR( SYSDATE, 'YYYY-MM-DD' )
     #     """.format(lpc, lpc)
     UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) AND lpc = :lpc AND L_CARRIER IS NOT NULL ORDER BY EVENTTS ), BAGINFO AS ( SELECT LPC, ( DEPAIRLINE || DEPFLIGHT ) AS flightnr, ROW_NUMBER ( ) OVER ( ORDER BY IDEVENT DESC ) AS rn  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  AND ROWNUM = 1  ORDER BY IDEVENT DESC  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr JOIN ( SELECT L_CARRIER FROM TUBINFO WHERE ROWNUM = 1 ) tubinfo ON 1 = 1  WHERE bg.rn = 1  AND FLIGHTDATE = TO_CHAR( SYSDATE, 'YYYY-MM-DD' )"
+    # UrgencyPackageQuery ="select lpc from  WC_PACKAGEINFO where lpc = 3781561182" 
+    # return accessOracle(UrgencyPackageQuery)
     return accessOracle(UrgencyPackageQuery, {'lpc': lpc})
+    
 
     
 
@@ -90,7 +96,9 @@ def main():
                 bagresult = packageinfo(lpc)
                 if bagresult:
                     bagresult = bagresult[0]
-                    logging.info("bag:'%s',flight:'%s','%s','%s','%s'",
+                    message = "行李:'{}', 航班:'{}','{}','{}','{}'".format(bagresult[0],  bagresult[1],  bagresult[2].strftime('%Y-%m-%d %H:%M:%S'), bagresult[3], bagresult[4])
+                    print(message)
+                    logging.info("行李:'%s',flight:'%s','%s','%s','%s'",
                                  bagresult[0],
                                  bagresult[1],
                                  bagresult[2].strftime('%Y-%m-%d %H:%M:%S'),
