@@ -9,7 +9,7 @@
 
 import tkinter as tk
 from tkinter import messagebox, ttk
-import cx_Oracle
+import oracledb
 import logging
 import time
 
@@ -19,7 +19,7 @@ logging.basicConfig(
     encoding='utf-8',
     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
-    filename='urgentbag.log',
+    filename='log/urgentbag.log',
     filemode='a'
 )
 
@@ -30,11 +30,11 @@ filename = 'lpc.txt'
 def accessOracle(query, params=None):
     dsn_tns = '10.31.8.21:1521/ORABPI'
     try:
-        with cx_Oracle.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
+        with oracledb.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
             with conn.cursor() as c:
                 c.execute(query, params)
                 return c.fetchall()
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         logging.error(f"Database error occurred: {e}")
         return None
     except Exception as e:
