@@ -6,8 +6,8 @@
 # v0.9
 
 import tkinter as tk
-from tkinter import messagebox, filedialog
-import cx_Oracle
+from tkinter import messagebox, ttk
+import oracledb
 import logging
 import pandas as pd
 from datetime import datetime, timedelta
@@ -28,16 +28,15 @@ DB_CONFIG = {
     'password': 'owner31bpi',
     'dsn': '10.31.8.21:1521/ORABPI'
 }
-    
 
 def accessOracle(query, params=None):
-    dsn_tns = '10.31.8.21:1521/ORABPI'
+    """访问 Oracle 数据库并执行查询."""
     try:
-        with cx_Oracle.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
+        with oracledb.connect(**DB_CONFIG) as conn:
             with conn.cursor() as c:
                 c.execute(query, params)
                 return c.fetchall()
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         logging.error(f"Database error occurred: {e}")
         return None
     except Exception as e:
@@ -88,6 +87,7 @@ def packageinfo(depairline: str, depflight: str, date: str):
         'depairline': depairline,  # 确保是字符串
         'depflight': depflight       # 确保是字符串
     }
+    logging.info(bagQuery)
 
     return accessOracle(bagQuery, params)
 
@@ -164,23 +164,29 @@ def save_to_excel(data, file_path):
         logging.info("未查询到结果.")
         return False
 
+def read_flights():
+    """从文本文件读取航班号并返回大写列表."""
+    try:
+        with open('flight.txt', 'r', encoding='utf-8') as file:
+            flight_lines = file.read().strip().splitlines()
+            return [line.upper() for line in flight_lines]
+    except FileNotFoundError:
+        print("未找到文件：flight.txt")
+        return []
+    except Exception as e:
+        print(f"读取文件时发生错误：{e}")
+        return []
+
 def run_query():
-    """从文本文件读取航班号并执行查询."""
-    file_path = filedialog.askopenfilename(title="选择航班号文件", filetypes=[("Text Files", "*.txt")])
-    if not file_path:
-        return
-
+    """执行查询并保存结果."""
     all_data = []  # 存储所有航班的数据
-    date_input = date_entry.get().strip()  # 获取日期输入
-    if not date_input:
-        date_input = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')  # 默认为昨天
+    date_input = date_entry.get().strip() or (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')  # 默认为昨天
 
-    with open(file_path, 'r') as file:
-        flight_lines = file.readlines()
-
-    for flight_input in flight_lines:
-        flight_input = flight_input.strip().upper()  # 处理每一行输入
-        if len(flight_input) != 6 or not flight_input[:2].isalpha() or not flight_input[2:].isdigit():
+    flights = read_flights()
+    progress_bar['maximum'] = len(flights)
+    progress_bar['value'] = 0  
+    for flight_input in flights:
+        if len(flight_input) != 6 :
             messagebox.showwarning("输入警告", f"无效航班号：{flight_input}")
             continue
 
@@ -189,21 +195,23 @@ def run_query():
 
         try:
             bagresult = packageinfo(airline, flightnt, date_input)
-            # print(bagresult)
             if bagresult:
-                all_data.extend(bagresult)  # 添加到所有数据中
+                all_data.extend(bagresult)
             else:
                 logging.warning(f"未查询到航班 {flight_input} 的信息.")
         except Exception as e:
             logging.error(f"发生错误: {e}")
             messagebox.showerror("错误", f"查询航班 {flight_input} 时发生错误: {e}")
+        progress_bar['value'] += 1
+        root.update_idletasks()
 
     if all_data:
         save_to_excel(all_data, 'flighbag.xlsx')
         messagebox.showinfo("成功", "所有航班的数据已保存到 Excel 文件。")
     else:
         messagebox.showwarning("无结果", "没有查询到任何行李信息。")
-
+    # 设置定时器，1分钟后关闭程序
+    root.after(60000, root.quit)  # **60000毫秒 = 1分钟
 
 # 创建主窗口
 root = tk.Tk()
@@ -223,6 +231,9 @@ date_entry.insert(0, default_date)
 execute_button = tk.Button(root, text="执行", command=run_query)
 execute_button.pack(pady=20)
 
+# 创建进度条
+progress_bar = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
+progress_bar.pack(pady=10)
 
 # 运行主循环
 if __name__ == '__main__':
