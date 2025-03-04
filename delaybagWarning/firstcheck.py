@@ -19,10 +19,6 @@ logging.basicConfig(
                     filemode='a')
 
 
-# envioments
-cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
-
-
 def accessOracle(query):
     dsn_tns = cx_Oracle.makedsn('10.31.8.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
     # dsn_tns = cx_Oracle.makedsn('10.110.190.21', '1521', service_name='ORABPI')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
@@ -42,9 +38,10 @@ def accessOracle(query):
 def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的紧急行李
     before30mins = (datetime.datetime.now() - datetime.timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.onlinebag where created_time > '{}' and status is NULL and (created_time < '{}' or STD < NOW()+INTERVAL 1 HOUR) ".format(today, before30mins)
+    searchbag = "select lpc, created_time, DEPAIRLINE, DEPFLIGHT, STD from ics.onlinebag where created_time > '{}' and status is NULL and (created_time < '{}' or STD < NOW()+INTERVAL 1 HOUR) order by created_time ".format(today, before30mins)
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(searchbag)
+    # logging.info(searchbag)
     for lpc_list in queryResult:
         sqlquery = "WITH cr AS ( SELECT  IDEVENT FROM WC_PACKAGEINFO WHERE lpc = {} and L_DESTINATIONSTATIONID is not null  ORDER BY EVENTTS DESC ) SELECT CURRENTSTATIONID, L_DESTINATIONSTATIONID FROM  WC_PACKAGEINFO where IDEVENT = ( SELECT max( IDEVENT ) FROM cr )".format(lpc_list[0])
         destinationResult = accessOracle(sqlquery)

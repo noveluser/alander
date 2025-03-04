@@ -19,7 +19,7 @@ logging.basicConfig(
     encoding='utf-8',
     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
-    filename='log/urgentbag.log',
+    filename='urgentbag.log',
     filemode='a'
 )
 
@@ -43,7 +43,7 @@ def accessOracle(query, params=None):
 
 
 def packageinfo(lpc):
-    UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER, L_DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) - 1 AND lpc = :lpc order by IDEVENT desc FETCH FIRST 1 ROWS ONLY  ), BAGINFO AS ( SELECT LPC, ( DEPAIRLINE || DEPFLIGHT ) AS flightnr, ROW_NUMBER ( ) OVER ( ORDER BY IDEVENT DESC ) AS rn  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  AND ROWNUM = 1  ORDER BY IDEVENT DESC  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, s.END_USER_ID, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr left JOIN TUBINFO tubinfo ON 1 = 1  left JOIN DIM_STATIONS s ON tubinfo.L_DESTINATION = s.DESTINATION_ID WHERE bg.rn = 1  AND FLIGHTDATE = TO_CHAR(SYSDATE + INTERVAL '8' HOUR, 'YYYY-MM-DD')"
+    UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER, L_DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) - 1 AND lpc = :lpc order by IDEVENT desc FETCH FIRST 1 ROWS ONLY  ), BAGINFO AS ( SELECT LPC, ( DEPAIRLINE || DEPFLIGHT ) AS flightnr, IDEVENT  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  ORDER BY IDEVENT DESC FETCH FIRST 1 ROW ONLY  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, s.END_USER_ID, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr left JOIN TUBINFO tubinfo ON 1 = 1  left JOIN DIM_STATIONS s ON tubinfo.L_DESTINATION = s.DESTINATION_ID WHERE FLIGHTDATE = TO_CHAR(SYSDATE + INTERVAL '8' HOUR, 'YYYY-MM-DD')"
     return accessOracle(UrgencyPackageQuery, {'lpc': lpc})
 
 
@@ -68,7 +68,7 @@ def query_packages():
                     f"航班:'{bagresult[0][1]}', "
                     f"托盘:'{bagresult[0][5]}', "
                     f"资源关闭时间：'{bagresult[0][2].strftime('%Y-%m-%d %H:%M:%S')}', "
-                    f"航班目的地：'{bagresult[0][3]}', "
+                    # f"航班目的地：'{bagresult[0][3]}', "
                     f"行李目的地：'{bagresult[0][4]}'"
                 )
                 results.append(message)
