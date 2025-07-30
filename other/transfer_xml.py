@@ -76,8 +76,9 @@ def correct_xml_string_formatted(xml_string):
 
 # 示例用法
 if __name__ == "__main__":
-    input_xml_file = "c://1//1//2.xml"
-    output_xml_file = "c://1//1//processed_lines.xml" # 输出文件名更具描述性
+    oldfilename = "BLLS"
+    input_xml_file = "c://1//3//{}.txt".format(oldfilename)
+    output_xml_file = "c://1//3//processed_{}.xml".format(oldfilename)
 
     process_xml_lines_and_save(input_xml_file, output_xml_file) # 使用默认设置 (实体替换开启，写入模式)
     # process_xml_lines_and_save(input_xml_file, output_xml_file, perform_entity_replace=False) # 关闭实体替换

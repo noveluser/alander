@@ -1,0 +1,126 @@
+
+
+
+# post request2
+
+@CART_HostAddress = http://10.31.8.23:9900/DUMMY
+# @EVENTTIME = $datetime iso8601
+@EVENTTIME=20250513104803
+@eventtype = DFIE
+@FLID = 202311112000
+@AIRLINE=TS
+@FLIGHTNR=4004
+@FPTT=20250513180000
+@FPLT=20250513180000
+@FLIGHTDATE=20250513
+
+
+
+POST {{CART_HostAddress}}
+Content-Type: application/xml
+Accept: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<MSG>
+    <META>
+        <SNDR>FIMS</SNDR>
+        <RCVR/>
+        <SEQN>1</SEQN>
+        <DDTM>{{EVENTTIME}}</DDTM>
+        <TYPE>DFOE</TYPE>
+        <STYP>DFIE</STYP>
+        <SORC/>
+        <MGID>9db2249153c7433e946df4eade-00028</MGID>
+        <RMID/>
+        <APOT>ZGSZ</APOT>
+    </META>
+    <DFLT>
+        <FLID>{{FLID}}</FLID>
+        <AFID/>
+        <FFID>{{AIRLINE}}-{{FLIGHTNR}}-{{FPTT}}-D</FFID>
+        <AWCD>{{AIRLINE}}</AWCD>
+        <FLNO>{{FLIGHTNR}}</FLNO>
+        <FEXD>{{FLIGHTDATE}}</FEXD>
+        <FIMD>{{FLIGHTDATE}}</FIMD>
+        <FLIO>D</FLIO>
+        <BAPT>SZX</BAPT>
+        <FLTK>W/Z</FLTK>
+        <FATT>DOM</FATT>
+        <MFID/>
+        <MFFI/>
+        <CONT>1</CONT>
+        <PROX>214</PROX>
+        <CFTP>B738</CFTP>
+        <CFNO>B5118</CFNO>
+        <STAT/>
+        <MSTA/>
+        <ABST/>
+        <ABRS/>
+        <IARS/>
+        <BORT/>
+        <MBOR/>
+        <TBRT/>
+        <MTBR/>
+        <LBDT/>
+        <MLBD/>
+        <POKT/>
+        <MPOK/>
+        <APOT/>
+        <VIP>0</VIP>
+        <SFLG/>
+        <PAST/>
+        <AIRL>
+            <ARPT>
+                <APNO>1</APNO>
+                <APCD>SZX</APCD>
+                <FPTT>{{FPTT}}</FPTT>
+                <FETT/>
+                <FRTT/>
+                <FPLT/>
+                <FELT/>
+                <FRLT/>
+                <APAT>DOM</APAT>
+                <FLAG/>
+                <APRT/>
+                <APRS/>
+            </ARPT>
+            <ARPT>
+                <APNO>2</APNO>
+                <APCD>KUL</APCD>
+                <FPTT/>
+                <FETT/>
+                <FRTT/>
+                <FPLT>{{FPLT}}</FPLT>
+                <FELT/>
+                <FRLT/>
+                <APAT>DOM</APAT>
+                <FLAG/>
+                <APRT/>
+                <APRS/>
+            </ARPT>
+        </AIRL>
+        <GTLS/>
+        <BLLS/>
+        <EXNO/>
+        <CHLS/>
+        <CKLS>
+            <FCES/>
+            <FCEE/>
+            <FCRS/>
+            <FCRE/>
+            <MCES/>
+            <MCEE/>
+            <MCRS/>
+            <MCRE/>
+            <FCDP/>
+            <MCDP/>
+        </CKLS>
+        <STLS/>
+        <TMCD>
+            <NMCD/>
+            <JMCD>T3</JMCD>
+        </TMCD>
+        <RWAY/>
+        <LABELS/>
+    </DFLT>
+</MSG>

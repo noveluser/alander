@@ -1,0 +1,7 @@
+<{%
+  // 生成 ISO8601 时间戳
+  const eventTime = new Date().toISOString();
+  
+  // 输出到 REST Client 控制台
+  client.log("当前时间戳: " + eventTime);
+%}

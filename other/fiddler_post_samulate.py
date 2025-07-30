@@ -20,9 +20,12 @@ def send_xml_file(xml_filepath, output_file):
 
         # 获取当前时间并格式化
         current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        # ESTR_time = (datetime.datetime.now()+ datetime.timedelta(minutes=15)).strftime("%Y%m%d%H%M%S")
 
         # 替换 XML 中的字段（假设要替换 <DDTM> 字段）
         xml_data = xml_data.replace("__LOCAL_EVENTTIME__", f"{current_time}")
+        # xml_data = xml_data.replace("__LOCAL_EVENTTIME__", f"{current_time}")
+        
 
         headers["Content-Length"] = str(len(xml_data))
 
@@ -47,6 +50,7 @@ def send_xml_file(xml_filepath, output_file):
         print(f"发生错误：{e}")
 
 if __name__ == "__main__":
-    xml_file = r"c://1//1//xml//BLLS_2.xml"
-    output_file = r"c://1//1//output.txt"
+
+    xml_file = r"c://1//1//1.xml"
+    output_file = r"c://1//1//output.txt"  
     send_xml_file(xml_file, output_file)

@@ -42,7 +42,7 @@ def secondcheck():
     cursor = Database(dbname='ics', username='it', password='1111111', host='10.31.9.24', port='3306')
     queryResult = cursor.run_query(searchbag)
     for lpc_list in queryResult:
-        sqlquery = "select lpc, sum( CASE WHEN EXECUTEDTASK = 'AutoScan' THEN 1 ELSE 0 END ) autoscan  FROM WC_PACKAGEINFO  WHERE lpc ={} AND TARGETPROCESSID LIKE 'BSIS%' and CURRENTSTATIONID in (581,582,583,584,585,586,587,588) GROUP BY lpc".format(lpc_list[0])
+        sqlquery = "select lpc, sum( CASE WHEN EXECUTEDTASK = 'AutoScan' THEN 1 ELSE 0 END ) autoscan  FROM WC_PACKAGEINFO  WHERE lpc ={} AND TARGETPROCESSID LIKE 'BSIS%' and CURRENTSTATIONID in (581,582,583,584,585,586,587,588) and EVENTTS > TO_TIMESTAMP( '{}', 'YYYY-MM-DD' )GROUP BY lpc".format(lpc_list[0], today)
         Result = accessOracle(sqlquery)
         if Result[0][1] > 4:
             add_mulcirclebag = "insert into ics.overcirclebag (created_time, lpc, autoscantimes) values ('{}', '{}', {})".format(today, Result[0][0], Result[0][1])
@@ -51,9 +51,20 @@ def secondcheck():
 
 
 def main():
+    check_interval = 60  # 可配置参数
     while True:
-        secondcheck()
-        time.sleep(60)
+        try:
+            start_time = time.time()
+            secondcheck()
+            elapsed = time.time() - start_time
+            # 动态调整休眠时间保证间隔准确
+            sleep_time = max(0, check_interval - elapsed)
+            logging.info(f"检查完成，耗时{elapsed:.2f}秒，下次检查将在{sleep_time}秒后")
+            time.sleep(sleep_time)
+        except Exception as e:
+            logging.error(f"检查过程中发生异常: {str(e)}", exc_info=True)
+            # 异常后保持运行，可根据需要调整重试策略
+            time.sleep(10)  # 短暂休眠后重试
 
 
 if __name__ == '__main__':

@@ -1,0 +1,67 @@
+
+
+
+# post request2
+# post http://10.31.8.51:3000/postbaggage
+@CART_HostAddress = http://10.31.8.51:3000
+ 
+@EVENTTIME=$datetime iso8601
+POST {{CART_HostAddress}}/postbaggage
+Content-Type: application/xml
+Accept: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Bags>
+      <Header>
+            <MessageTime>{{EVENTTIME}}</MessageTime>
+            <Source>
+                  <ProcessID>MDS_03997173</ProcessID>
+            </Source>
+            <Target>
+                  <ProcessID>BSIS_03997185</ProcessID>
+            </Target>
+      </Header>
+      <BagData>
+            <PackageIdentifier>
+                  <BaggageTag>
+                        <LPC>0952000001</LPC>
+                  </BaggageTag>
+            </PackageIdentifier>
+            <OriginalMessageType>BSM</OriginalMessageType>
+            <Status>RECEIVED</Status>
+            <BSISBagSource>
+                  <VersionAndSupplementaryData>
+                        <DataDictionaryVersionNumber>1</DataDictionaryVersionNumber>
+                        <BaggageSourceIndicator>L</BaggageSourceIndicator>
+                        <AirportCode>SZX</AirportCode>
+                  </VersionAndSupplementaryData>
+                  <OperationalOutboundFlightInformation>
+                        <Flight>
+                              <Airline>MM</Airline>
+                              <FlightNumber>1037</FlightNumber>
+                              <Date>2025-04-10</Date>
+                        </Flight>
+                        <AirportCode>AMS</AirportCode>
+                        <ClassOfTravel>E</ClassOfTravel>
+                  </OperationalOutboundFlightInformation>
+                  <BaggageReconciliationData>
+                        <AuthorityToLoad>Y</AuthorityToLoad>
+                        <PassengerStatus>C</PassengerStatus>
+                  </BaggageReconciliationData>
+                  <ChangeOfStatusIndicator>NEW</ChangeOfStatusIndicator>
+                  <OperationalOutboundFlightInformationExternal>
+                        <Flight>
+                              <Airline>MM</Airline>
+                              <FlightNumber>1037</FlightNumber>
+                              <Date>2025-04-10</Date>
+                        </Flight>
+                        <AirportCode>AMS</AirportCode>
+                        <ClassOfTravel>E</ClassOfTravel>
+                  </OperationalOutboundFlightInformationExternal>
+                  <AMDExtensionIn>
+                        <MessageSourceProcessID>MDS_03997173</MessageSourceProcessID>
+                  </AMDExtensionIn>
+                  <MessageType>BSM</MessageType>
+            </BSISBagSource>
+      </BagData>
+</Bags>
