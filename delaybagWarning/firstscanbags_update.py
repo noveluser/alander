@@ -63,17 +63,17 @@ def collectbaginfo():
     logging.info(sqlquery)
     # 注意，我这里筛选了EXECUTEDTASK = 'AutoScan'，暂不知是否存在没有autoscan，但是行李正常的情况，也许存在中转行李这种情况，后面再查
     data = accessOracle(sqlquery)
-    logging.info("本次操作{}条记录需要被输入".format(len(data)))
+    logging.info("本次操作{}条记录需要被输入 {}".format(len(data), log_flag))
     for row in data:
         # 如果pid不在current_bags表里，那么加入，这个表需要定时清除
         logging.info(row)
         search_pid_query = "select pid from current_bags where pid = {} and TO_DAYS(create_time) >  TO_DAYS(NOW())-1 ;".format(row[2])
         if not executemysql(search_pid_query):
-            create_time = row[0].strftime("%Y-%m-%d %H:%M:%S.%f")
+            create_time = (row[0]+ datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S.%f")
             # 日后研究有无直接用oracle下的timestamp格式的字段
             add_pid_query_current_bags = "insert into ics.current_bags (create_time, pid)  values ('{}',{})".format(create_time, row[2])
             executemysql(add_pid_query_current_bags)
-            logging.info("mysql语句{}已执行".format(add_pid_query_current_bags))
+            # logging.info("mysql语句{}已执行".format(add_pid_query_current_bags))
             # 再加入temp_bags里
             lpc = row[1] or 'NULL'
             flightnr = row[5] or 'NULL'
@@ -81,7 +81,7 @@ def collectbaginfo():
             optimizal_add_pid_query_temp_bags = add_pid_query_temp_bags.replace("None", "Null")
             # logging.info(add_pid_query_temp_bags)
             executemysql(optimizal_add_pid_query_temp_bags)
-            logging.info("write {} to temp_bags".format(row[2]))
+            logging.info("write {} to temp_bags {}".format(row[2], log_flag))
         else:
             logging.info("pass {}".format(row[2]))
         #     searchlpcquery = "WITH ar AS ( SELECT * FROM WC_PACKAGEINFO WHERE pid = {} AND EXECUTEDTASK IS NOT NULL ) , br as ( SELECT EVENTTS, lpc, pid, ( DEPAIRLINE || DEPFLIGHT ) flightnr, CURRENTSTATIONID, L_DESTINATIONSTATIONID  FROM WC_PACKAGEINFO  WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM ar ) ) select br.*,std FROM br left join FACT_FLIGHT_SUMMARIES_V ffs on br.FLIGHTNR = ffs.FLIGHTNR  AND ffs.STD > TRUNC( SYSDATE +8/24 )".format(row[0])
@@ -114,6 +114,7 @@ def collectbaginfo():
         #     logging.info("pass {}".format(row[0]))
 
 if __name__ == '__main__':
+    log_flag = "wang"
     check_interval = 5  # 可配置参数
     while True:
         try:

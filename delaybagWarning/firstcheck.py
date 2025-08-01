@@ -43,6 +43,7 @@ def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的�
     queryResult = cursor.run_query(searchbag)
     # logging.info(searchbag)
     for lpc_list in queryResult:
+        logging.info(lpc_list)
         sqlquery = "WITH cr AS ( SELECT  IDEVENT FROM WC_PACKAGEINFO WHERE lpc = {} and L_DESTINATIONSTATIONID is not null  ORDER BY EVENTTS DESC ) SELECT CURRENTSTATIONID, L_DESTINATIONSTATIONID FROM  WC_PACKAGEINFO where IDEVENT = ( SELECT max( IDEVENT ) FROM cr )".format(lpc_list[0])
         destinationResult = accessOracle(sqlquery)
         for row in destinationResult:
