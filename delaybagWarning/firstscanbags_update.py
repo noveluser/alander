@@ -59,7 +59,7 @@ def collectbaginfo():
     updateIDnumber = "update ics.commonidrecord set IDnumber= {} where checktablename = 'WC_PACKAGEINFO' and user = 'firstscanbags' ".format(endID)
     executemysql(updateIDnumber)
     '''先尽快完成实体，先跳过SQL写法,先用多次SQL查询，效率上会有影响，数据查询不会有问题'''
-    sqlquery = "SELECT 	 EVENTTS,lpc, pid, CURRENTSTATIONID,L_DESTINATIONSTATIONID, flightnr,IDEVENT  FROM 	( SELECT EVENTTS, IDEVENT, lpc, pid, CURRENTSTATIONID,L_DESTINATIONSTATIONID,  	( DEPAIRLINE || DEPFLIGHT ) flightnr, ROW_NUMBER ( ) OVER ( PARTITION BY pid ORDER BY IDEVENT ) AS rn  FROM 	WC_PACKAGEINFO  WHERE 	IDEVENT > {}  AND IDEVENT <= {} 	AND EXECUTEDTASK = 'AutoScan'  	)  WHERE 	rn = 1  ORDER BY pid ".format(startID, endID)
+    sqlquery = "SELECT 	 EVENTTS,lpc, pid, CURRENTSTATIONID,L_DESTINATIONSTATIONID, flightnr,CASE   WHEN COMMONPROCESSDEFINITIONNAME = 'RECLAIM' THEN 'A'  WHEN  COMMONPROCESSDEFINITIONNAME is NULL THEN 'MCS' 				ELSE 'D'  END AS flighttype, IDEVENT  FROM 	( SELECT EVENTTS, IDEVENT, lpc, pid, CURRENTSTATIONID,L_DESTINATIONSTATIONID,  	( DEPAIRLINE || DEPFLIGHT ) flightnr,  COMMONPROCESSDEFINITIONNAME, ROW_NUMBER ( ) OVER ( PARTITION BY pid ORDER BY IDEVENT ) AS rn  FROM 	WC_PACKAGEINFO  WHERE 	IDEVENT > {}  AND IDEVENT <= {} 	AND EXECUTEDTASK = 'AutoScan'  	)  WHERE 	rn = 1  ORDER BY pid ".format(startID, endID)
     logging.info(sqlquery)
     # 注意，我这里筛选了EXECUTEDTASK = 'AutoScan'，暂不知是否存在没有autoscan，但是行李正常的情况，也许存在中转行李这种情况，后面再查
     data = accessOracle(sqlquery)
@@ -67,19 +67,19 @@ def collectbaginfo():
     for row in data:
         # 如果pid不在current_bags表里，那么加入，这个表需要定时清除
         logging.info(row)
-        search_pid_query = "select pid from current_bags where pid = {} and TO_DAYS(create_time) >  TO_DAYS(NOW())-1 ;".format(row[2])
+        search_pid_query = "select pid from current_bags where pid = {} ;".format(row[2])
         if not executemysql(search_pid_query):
             create_time = (row[0]+ datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S.%f")
             # 日后研究有无直接用oracle下的timestamp格式的字段
             add_pid_query_current_bags = "insert into ics.current_bags (create_time, pid)  values ('{}',{})".format(create_time, row[2])
             executemysql(add_pid_query_current_bags)
-            # logging.info("mysql语句{}已执行".format(add_pid_query_current_bags))
+            logging.info("mysql语句{}已执行".format(add_pid_query_current_bags))
             # 再加入temp_bags里
             lpc = row[1] or 'NULL'
-            flightnr = row[5] or 'NULL'
-            add_pid_query_temp_bags = "INSERT INTO ics.temp_bags (bsm_time, lpc, pid, current_location, orginal_destination, flightnr) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(create_time, lpc, row[2], row[3], row[4], flightnr)
+            flightnr = row[5] or ''
+            add_pid_query_temp_bags = "INSERT INTO ics.temp_bags (bsm_time, lpc, pid, current_location, orginal_destination, flightnr, flighttype) VALUES ('{}', {}, {}, '{}', '{}', '{}', '{}')".format(create_time, lpc, row[2], row[3], row[4], flightnr, row[6])
             optimizal_add_pid_query_temp_bags = add_pid_query_temp_bags.replace("None", "Null")
-            # logging.info(add_pid_query_temp_bags)
+            logging.info(add_pid_query_temp_bags)
             executemysql(optimizal_add_pid_query_temp_bags)
             logging.info("write {} to temp_bags {}".format(row[2], log_flag))
         else:
@@ -113,47 +113,48 @@ def collectbaginfo():
         # else:
         #     logging.info("pass {}".format(row[0]))
 
-if __name__ == '__main__':
-    log_flag = "wang"
-    check_interval = 5  # 可配置参数
-    while True:
-        try:
-            start_time = time.time()
-            collectbaginfo()
-            elapsed = time.time() - start_time
-            # 动态调整休眠时间保证间隔准确
-            sleep_time = max(0, check_interval - elapsed)
-            logging.info(f"检查完成，耗时{elapsed:.2f}秒，下次检查将在{sleep_time}秒后")
-            time.sleep(sleep_time)
-        except Exception as e:
-            logging.error(f"检查过程中发生异常: {str(e)}", exc_info=True)
-            # 异常后保持运行，可根据需要调整重试策略
-            time.sleep(10)  # 短暂休眠后重试
-
-
-# def worker(queue):
+# if __name__ == '__main__':
+#     log_flag = "wang"
+#     check_interval = 5  # 可配置参数
 #     while True:
 #         try:
+#             start_time = time.time()
 #             collectbaginfo()
-#             queue.put({"status": "success", "timestamp": time.time()})
+#             elapsed = time.time() - start_time
+#             # 动态调整休眠时间保证间隔准确
+#             sleep_time = max(0, check_interval - elapsed)
+#             logging.info(f"检查完成，耗时{elapsed:.2f}秒，下次检查将在{sleep_time}秒后")
+#             time.sleep(sleep_time)
 #         except Exception as e:
-#             queue.put({"status": "error", "message": str(e)})
+#             logging.error(f"检查过程中发生异常: {str(e)}", exc_info=True)
+#             # 异常后保持运行，可根据需要调整重试策略
+#             time.sleep(10)  # 短暂休眠后重试
 
 
-# if __name__ == '__main__':
-#     queue = Queue()
-#     p = Process(target=worker, args=(queue,))
-#     p.start()
+def worker(queue):
+    while True:
+        try:
+            collectbaginfo()
+            queue.put({"status": "success", "timestamp": time.time()})
+        except Exception as e:
+            queue.put({"status": "error", "message": str(e)})
+
+
+if __name__ == '__main__':
+    log_flag = "wang"
+    queue = Queue()
+    p = Process(target=worker, args=(queue,))
+    p.start()
     
-#     try:
-#         while True:
-#             # 设置超时（如1秒），避免主进程无意义等待
-#             result = queue.get(timeout=600)
-#             if result["status"] == "success":
-#                 print(f"检查成功，耗时{result.get('cost', 0):.2f}秒")
-#             else:
-#                 print(f"检查失败: {result['message']}\n{result['traceback']}")
-#             time.sleep(1)
-#     except KeyboardInterrupt:
-#         p.terminate()
-#         p.join()  # 等待子进程退出
+    try:
+        while True:
+            # 设置超时（如1秒），避免主进程无意义等待
+            result = queue.get(timeout=60)
+            if result["status"] == "success":
+                logging.info(f"检查成功，耗时{result.get('cost', 0):.2f}秒")
+            else:
+                logging.error(f"检查失败: {result['message']}\n{result['traceback']}")
+            time.sleep(1)
+    except KeyboardInterrupt:
+        p.terminate()
+        p.join()  # 等待子进程退出
