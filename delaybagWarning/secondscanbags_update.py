@@ -49,6 +49,7 @@ def updatebaglocation(scanqueuenumber):
             searchlpcquery = "WITH baginfo AS ( SELECT CURRENTSTATIONID, IDEVENT, pid, lpc FROM WC_PACKAGEINFO WHERE {} ), maxbaginfo AS ( SELECT * FROM baginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM baginfo ) ), trackinginfo AS (  SELECT   IDEVENT,   lpc,   pid,   EVENTTS,   AREAID,   ZONEID,   EQUIPMENTID,   L_DESTINATION,   L_CARRIER,   PROCESSPLANIDNAME   FROM   WC_TRACKINGREPORT track   WHERE   {}   ),  maxtrakinginfo AS ( SELECT * FROM trackinginfo WHERE IDEVENT = ( SELECT max( IDEVENT ) FROM trackinginfo ) ) SELECT  CURRENTSTATIONID,  maxbaginfo.lpc,  maxbaginfo.pid,  EVENTTS,  ( AREAID || '.' || ZONEID || '.' || EQUIPMENTID ) location,  L_DESTINATION,  L_CARRIER,  PROCESSPLANIDNAME  FROM  maxbaginfo  LEFT JOIN maxtrakinginfo ON maxbaginfo.{} = maxtrakinginfo.{}".format(ID, ID, judging_condition, judging_condition)
             baginfo = accessOracle(searchlpcquery)
             for item in baginfo:
+                logging.info("{} location update".format(item))
                 if item[5] is None:
                     logging.error("destination为空。{}".format(item))
                 # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
@@ -125,16 +126,16 @@ def updatebagstatus(scanqueuenumber):
             for item in baginfo:
                 # item格式为CURRENTSTATIONID, lpc, pid, EVENTTS, location, L_DESTINATION, L_CARRIER,flightnr
                 # 当packageinfo未找到lpc及flightnr时，要从trackingreport中补充，这两个值只在第一次扫描中输入，二次，三次扫描不更新Lpc和flightnr,先观察2天
-                searchsecuritycheckquery = "select  L_SCREENINGRESULT, pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2'".format(row[1])
-                securitycheckdata = accessOracle(searchsecuritycheckquery)
-                if securitycheckdata:
-                    result = securitycheckdata[0][0].split('\n')[0].split(',')[3].split("=")[1]
-                    if result == "CLEARED":
-                        securitycheck_result = 1
-                    else:
-                        securitycheck_result = 0
-                else:
-                    securitycheck_result = None
+                # searchsecuritycheckquery = "select  L_SCREENINGRESULT, pid from  WC_TASKREPORT where pid = {} and tasktype = 'ScreenL1L2'".format(row[1])
+                # securitycheckdata = accessOracle(searchsecuritycheckquery)
+                # if securitycheckdata:
+                #     result = securitycheckdata[0][0].split('\n')[0].split(',')[3].split("=")[1]
+                #     if result == "CLEARED":
+                #         securitycheck_result = 1
+                #     else:
+                #         securitycheck_result = 0
+                # else:
+                #     securitycheck_result = None
                 if item[3]:     # 如果有更新记录，则updata，否则无操作
                     localtime = item[3] + datetime.timedelta(hours=8)
                     latest_time = localtime.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -166,13 +167,13 @@ def updatebagstatus(scanqueuenumber):
                     else:
                         flightnr = 'Null'
                     if row[0] and row[4]:      # LPC及flightnr都存在
-                        updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, item[4], item[5], tubid, status, securitycheck_result, ID)
+                        updatebagstatus = "update temp_bags set latest_time = '{}' , current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, item[4], item[5], tubid, status, ID)
                     elif row[0] and not row[4]:   # LPC存在，flightnr不存在，只更新flightnr
-                        updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
+                        updatebagstatus = "update temp_bags set latest_time = '{}', flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, flightnr, item[4], item[5], tubid, status,  ID)
                     elif not row[0] and row[4]:   # LPC不存在，flightnr存在,只更新lpc
-                        updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, item[4], item[5], tubid, status, securitycheck_result, ID)
+                        updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, item[4], item[5], tubid, status,  ID)
                     else:     # LPC及flightnr都不存在
-                        updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}', checked = {} where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status, securitycheck_result, ID)
+                        updatebagstatus = "update temp_bags set latest_time = '{}' ,lpc = {}, flightnr = {}, current_location='{}',final_destination = '{}', tubid = {}, status = '{}' where {}".format(latest_time, lpc, flightnr, item[4], item[5], tubid, status,  ID)
                     optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
                     # result = cursor.run_query(optimizal_sqlquery)
@@ -180,26 +181,26 @@ def updatebagstatus(scanqueuenumber):
                     step2DuringTime = time.perf_counter()
                     logging.info("step2耗时 {}".format(step2DuringTime-step1DuringTime))
                 else:
-                    updatebagstatus = "update temp_bags set status = '{}', checked = {} where {}".format("notsorted", securitycheck_result, ID)             # 更新temp_bags当前位置
+                    updatebagstatus = "update temp_bags set status = '{}' where {}".format("notsorted",  ID)             # 更新temp_bags当前位置
                     optimizal_sqlquery = updatebagstatus.replace("None", "Null")
                     logging.info(optimizal_sqlquery)
                     querylist.append(optimizal_sqlquery)
                     # result = cursor.run_query(optimizal_sqlquery)
                     step2DuringTime = time.perf_counter()
                     logging.info("step2耗时 {}".format(step2DuringTime-step1DuringTime))
-            if len(querylist) >= 20:
-                logging.info("本次更新{}件行李".format(len(querylist)))
-                step3DuringTime = time.perf_counter()
-                logging.info("step3耗时 {}".format(step3DuringTime-step2DuringTime))
-                result = cursor.run_many_query(querylist)
-                step4DuringTime = time.perf_counter()
-                logging.info("step4耗时 {}".format(step4DuringTime-step3DuringTime))
-                querylist = []
         else:     # 当lpc不存在时，先不处理这部分
             ID = "pid = {}".format(row[1])
             judging_condition = "pid"
             logging.info("{}暂不处理".format(ID))
             continue
+    if len(querylist) >= 20:
+        logging.info("本次更新{}件行李".format(len(querylist)))
+        step3DuringTime = time.perf_counter()
+        logging.info("step3耗时 {}".format(step3DuringTime-step2DuringTime))
+        result = cursor.run_many_query(querylist)
+        step4DuringTime = time.perf_counter()
+        logging.info("step4耗时 {}".format(step4DuringTime-step3DuringTime))
+        querylist = []
         
     result = cursor.run_many_query(querylist)
 

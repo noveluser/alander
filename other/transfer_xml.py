@@ -76,7 +76,7 @@ def correct_xml_string_formatted(xml_string):
 
 # 示例用法
 if __name__ == "__main__":
-    oldfilename = "BLLS"
+    oldfilename = "1"
     input_xml_file = "c://1//3//{}.txt".format(oldfilename)
     output_xml_file = "c://1//3//processed_{}.xml".format(oldfilename)
 
