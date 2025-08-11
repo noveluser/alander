@@ -75,7 +75,11 @@ def firstCheck():    # 需要补充一个STD时间距离现在不到1小时的�
 
 def main():
     while True:
+        start_time = time.time()
+        logging.info(f"开始运行时间为{start_time}")
         firstCheck()
+        cost = time.time() - start_time
+        logging.info(f"此次运行耗时{cost}")
         time.sleep(60)
 
 

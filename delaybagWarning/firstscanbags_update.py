@@ -131,30 +131,76 @@ def collectbaginfo():
 #             time.sleep(10)  # 短暂休眠后重试
 
 
-def worker(queue):
+def worker(queue, process_id):
+    logging.info(f"Worker 进程 {process_id} 启动")
     while True:
         try:
+            start_time = time.time()
             collectbaginfo()
-            queue.put({"status": "success", "timestamp": time.time()})
+            cost = time.time() - start_time  # 计算执行耗时
+            queue.put({
+                "status": "success",
+                "process_id": process_id,
+                "timestamp": time.time(),
+                "cost": cost
+            })
         except Exception as e:
-            queue.put({"status": "error", "message": str(e)})
+            # 向队列中放入失败结果（包含进程ID和异常堆栈）
+            queue.put({
+                "status": "error",
+                "process_id": process_id,
+                "message": str(e),
+                "traceback": traceback.format_exc(),  # 记录完整堆栈
+                "timestamp": time.time()
+            })
+        # 控制单个进程的执行频率（可选，根据需求调整）
+        time.sleep(1)  # 每次检查后休眠1秒（避免空转
 
 
 if __name__ == '__main__':
     log_flag = "wang"
-    queue = Queue()
-    p = Process(target=worker, args=(queue,))
-    p.start()
-    
+    queue = Queue()  # 共享队列（进程间通信）
+    processes = []   # 存储所有子进程实例
+    for process_id in range(1):
+        p = Process(
+            target=worker,
+            args=(queue, process_id),  # 传递队列和进程ID
+            daemon=False  # 设为False（默认），主进程退出时子进程不会强制终止
+        )
+        p.start()
+        processes.append(p)
+        logging.info(f"启动 Worker 进程 {process_id}(PID: {p.pid})")
+
     try:
+        # 主进程循环处理结果
         while True:
-            # 设置超时（如1秒），避免主进程无意义等待
+            # 从队列中获取结果（超时60秒，避免永久阻塞）
             result = queue.get(timeout=60)
+            
             if result["status"] == "success":
-                logging.info(f"检查成功，耗时{result.get('cost', 0):.2f}秒")
+                logging.info(
+                    f"检查成功 | 进程 {result['process_id']} | "
+                    f"耗时 {result['cost']:.2f}秒 | 时间戳 {result['timestamp']}"
+                )
             else:
-                logging.error(f"检查失败: {result['message']}\n{result['traceback']}")
+                logging.error(
+                    f"检查失败 | 进程 {result['process_id']} | "
+                    f"错误信息: {result['message']} | "
+                    f"堆栈: {result['traceback']} | 时间戳 {result['timestamp']}"
+                )
+            
+            # 主进程处理完结果后短暂休眠（可选，根据需求调整）
             time.sleep(1)
+
     except KeyboardInterrupt:
-        p.terminate()
-        p.join()  # 等待子进程退出
+        logging.info("用户触发中断（Ctrl+C），准备终止所有子进程...")
+        
+        # 终止所有子进程
+        for p in processes:
+            if p.is_alive():  # 仅终止仍在运行的进程
+                p.terminate()  # 强制终止（可能丢失未写入队列的结果）
+                p.join(timeout=2)  # 等待进程退出（超时2秒）
+                if p.is_alive():
+                    logging.warning(f"进程 {p.pid} 未及时终止，可能需要手动处理")
+        
+        logging.info("所有子进程已终止，主进程退出")
