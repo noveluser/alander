@@ -35,7 +35,7 @@ cash = cash[["REPORT_DATE", "NETCASH_OPERATE", "CONSTRUCT_LONG_ASSET"]].copy()
 print("正在合并数据...")
 merged_df = pd.merge(balance, income, on="REPORT_DATE", how="inner")
 merged_df = pd.merge(merged_df, cash, on="REPORT_DATE", how="inner")
-merged_df = merged_df.sort_values("REPORT_DATE").reset_index(drop=True)
+# merged_df = merged_df.sort_values("REPORT_DATE").reset_index(drop=True)
 
 # # # 提取你要的：报告期 + 净利润 + 净资产
 # # df = financial_report[["报告期", "净利润(万元)", "所有者权益(或股东权益)合计"]].copy()

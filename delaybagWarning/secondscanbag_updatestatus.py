@@ -39,7 +39,7 @@ def accessOracle(query):
 
 
 def updatebagstatus(process_id):
-    offset_value = process_id * 100
+    offset_value = process_id * 10
     findbagquery = f"""
             select lpc, pid, latest_time, status, flightnr, checked
             FROM (
@@ -60,8 +60,9 @@ def updatebagstatus(process_id):
             ) AS subquery
             WHERE rn = 1
             order by pid
-            LIMIT 100 offset {offset_value}
-            FOR UPDATE SKIP LOCKED;"""
+            LIMIT 10 offset {offset_value};
+            """
+            # FOR UPDATE SKIP LOCKED;"""
     data = cursor.run_query(findbagquery)
     querylist = []
     for row in data:
@@ -171,7 +172,7 @@ if __name__ == '__main__':
 
     queue = Queue()  # 共享队列（进程间通信）
     processes = []   # 存储所有子进程实例
-    for process_id in range(8):
+    for process_id in range(2):
         # time.sleep(process_id)
         p = Process(
             target=worker,

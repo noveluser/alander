@@ -39,7 +39,7 @@ def accessOracle(query):
 
 
 def updatebaglocation(process_id):
-    offset_value = process_id * 100
+    offset_value = process_id * 10
     # findbagquery = "select lpc, pid, latest_time, status, flightnr from temp_bags where status {} and bsm_time >= DATE_ADD(NOW(),INTERVAL - 3 HOUR) and flighttype = 'D' and lpc is not null".format(scanqueuenumber)
     findbagquery = f"""
             select lpc, pid, latest_time, status, flightnr, checked
@@ -61,7 +61,7 @@ def updatebaglocation(process_id):
             ) AS subquery
             WHERE rn = 1
             order by pid
-            LIMIT 100 offset {offset_value};"""
+            LIMIT 10 offset {offset_value};"""
     data = cursor.run_query(findbagquery)
     logging.info("本次更新计划存在{}个行李".format(len(data)))
     for row in data:
@@ -266,7 +266,7 @@ def worker(queue, process_id):
 if __name__ == '__main__':
     queue = Queue()  # 共享队列（进程间通信）
     processes = []   # 存储所有子进程实例
-    for process_id in range(4):
+    for process_id in range(2):
         # time.sleep(process_id)
         p = Process(
             target=worker,

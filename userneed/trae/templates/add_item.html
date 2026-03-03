@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加新项目 - 简单Web框架示例</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>添加新项目</h1>
+        
+        <!-- 显示flash消息 -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <!-- 添加项目的表单 -->
+        <form action="{{ url_for('add_item') }}" method="post" class="add-form">
+            <div class="form-group">
+                <label for="name">项目名称：</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">项目描述：</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">添加</button>
+                <a href="{{ url_for('index') }}" class="cancel-btn">取消</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

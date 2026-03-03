@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单Web框架示例</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>项目列表</h1>
+        
+        <!-- 显示flash消息 -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <!-- 添加新项目的链接 -->
+        <div class="add-link">
+            <a href="{{ url_for('add_item') }}">添加新项目</a>
+        </div>
+        
+        <!-- 项目列表 -->
+        {% if items %}
+            <ul class="items">
+                {% for item in items %}
+                    <li class="item">
+                        <div class="item-content">
+                            <h2>{{ item['name'] }}</h2>
+                            <p>{{ item['description'] }}</p>
+                        </div>
+                        <div class="item-actions">
+                            <a href="{{ url_for('delete_item', item_id=item['id']) }}" class="delete-btn">删除</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-items">暂无项目，请添加新项目。</p>
+        {% endif %}
+    </div>
+</body>
+</html>
