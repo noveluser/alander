@@ -270,10 +270,10 @@ def getdata(stock_code):
     """
     try:
         # 构建文件路径
-        base_path = "d:\\1\\1\\"
+        base_path = "d:\\stock\\{}\\".format(stock_code)
 
         # 1. 下载资产负债表
-        balance_path = os.path.join(base_path, f"{stock_code}_季度资产数据.xlsx")
+        balance_path = os.path.join(base_path, f"balance.xlsx")
         if not os.path.exists(balance_path):
             logging.error(f"资产负债表文件不存在: {balance_path}")
             return pd.DataFrame()
@@ -286,7 +286,7 @@ def getdata(stock_code):
         balance = balance[required_balance_cols].copy() if all(col in balance.columns for col in required_balance_cols) else pd.DataFrame()
 
         # 2. 下载利润表
-        income_path = os.path.join(base_path, f"{stock_code}_季度财务数据.xlsx")
+        income_path = os.path.join(base_path, f"profit.xlsx")
         if not os.path.exists(income_path):
             logging.error(f"利润表文件不存在: {income_path}")
             return pd.DataFrame()
@@ -297,7 +297,7 @@ def getdata(stock_code):
         income = income[required_income_cols].copy() if all(col in income.columns for col in required_income_cols) else pd.DataFrame()
 
         # 3. 下载现金流量表
-        cash_path = os.path.join(base_path, f"{stock_code}_季度现金数据.xlsx")
+        cash_path = os.path.join(base_path, f"cash.xlsx")
         if not os.path.exists(cash_path):
             logging.error(f"现金流量表文件不存在: {cash_path}")
             return pd.DataFrame()
@@ -319,34 +319,68 @@ def getdata(stock_code):
 
     except Exception as e:
         logging.error(f"读取数据失败: {str(e)}")
-        return pd.DataFrame()      
+        return pd.DataFrame()  
+
+
+def get_all_stock_codes():
+    """从stock_list表获取所有股票代码"""
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        sql = "SELECT secucode FROM stock_list ;"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+        if not results:
+            logging.warning("stock_list表中没有数据")
+            return []
+
+        # 提取secucode列表
+        stock_codes = [row['secucode'] for row in results]
+        logging.info(f"从数据库获取到 {len(stock_codes)} 个股票代码")
+
+        return stock_codes
+
+    except Exception as e:
+        logging.error(f"获取股票代码失败: {str(e)}")
+        return []
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()    
 
 
 def main():
     """主函数"""
-    # 代码（去掉SZ，直接写数字）
-    stock_code = "SZ300206"
+    stock_codes = get_all_stock_codes()
+    for stock_code in stock_codes:
     
-    try:
-        logging.info(f"开始处理 {stock_code}")
-        
-        # 获取数据
-        data = getdata(stock_code)
-        
-        if data.empty:
-            logging.error(f"{stock_code} 没有获取到有效数据")
-            return
-        
-        # 批量插入数据
-        inserted_count = inputdata(stock_code, data)  # 这里返回的是整数
-        
-        if inserted_count > 0:
-            logging.info(f" {stock_code} 数据处理完成，成功插入 {inserted_count} 条记录")
-        else:
-            logging.warning(f" {stock_code} 没有成功插入任何记录")
+        try:
+            logging.info(f"开始处理 {stock_code}")
             
-    except Exception as e:
-        logging.error(f"处理 {stock_code} 时发生错误: {str(e)}", exc_info=True)
+            # 获取数据
+            data = getdata(stock_code)
+            
+            if data.empty:
+                logging.error(f"{stock_code} 没有获取到有效数据")
+                return
+            
+            # 批量插入数据
+            inserted_count = inputdata(stock_code, data)  # 这里返回的是整数
+            
+            if inserted_count > 0:
+                logging.info(f" {stock_code} 数据处理完成，成功插入 {inserted_count} 条记录")
+            else:
+                logging.warning(f" {stock_code} 没有成功插入任何记录")
+                
+        except Exception as e:
+            logging.error(f"处理 {stock_code} 时发生错误: {str(e)}", exc_info=True)
 
 
 if __name__ == '__main__':
