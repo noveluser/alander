@@ -21,7 +21,9 @@ from datetime import datetime
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    datefmt='%Y-%m-%d %H:%M:%S',
+    filename='c://work//log//stock.log',
+    filemode='a'
 )
 
 # 添加控制台输出
@@ -59,7 +61,7 @@ def download_sucess_flag(stock_code):
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        sql = "update stock_list set flag = 'Y' where code = %s ;"
+        sql = "update stock_list set flag = 'Y' where secucode = %s ;"
         cursor.execute(sql,(stock_code,))
 
         # 提交事务       
@@ -262,8 +264,8 @@ def main():
         logging.error("无法获取股票代码列表，程序退出")
         return
 
-    # 只取前2个测试
-    stock_codes = stock_codes[2:4]
+    # 全部标记位为N的code
+    stock_codes = stock_codes
 
     # 2. 定义需要下载的财务报表类型（这里统一管理，新增只需加一行）
     finance_types = [

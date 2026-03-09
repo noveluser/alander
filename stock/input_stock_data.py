@@ -6,7 +6,7 @@
 财务数据导入脚本
 从Excel文件读取财务数据并导入到MySQL数据库
 作者: wangle
-版本: v2.1
+版本: v2.2
 """
 
 import pandas as pd
@@ -222,6 +222,9 @@ def batch_insert_optimized(stock_code, data):
             success_count, inserted, updated = retry_insert_row_by_row(connection, cursor, batch_data)
             logging.info(f"逐行处理完成，成功 {success_count} 行（插入 {inserted}，更新 {updated}）")
             return success_count, inserted, updated
+        finally:
+            logging.info(f"{stock_code} 财务数据写入成功")
+            download_sucess_flag(stock_code)
         
     except Exception as e:
         if connection:
@@ -258,6 +261,42 @@ def inputdata(stock_code, data):
     return total_affected
 
 
+def download_sucess_flag(stock_code):
+    """下载成功后写入标记"""
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        sql = "update stock_list set flag = 'N' where secucode = %s ;"
+        cursor.execute(sql,(stock_code,))
+
+        # 提交事务       
+        connection.commit()
+
+        # 检查是否更新了记录
+        if cursor.rowcount > 0:
+            logging.info(f"股票代码 {stock_code} 已成功更新标志位为N")
+            return True
+        else:
+            logging.warning(f"stock_list表中没有找到代码为 {stock_code} 的记录")
+            return False
+
+    except Exception as e:
+        logging.error(f"更新股票代码 {stock_code} 标志位失败: {str(e)}")
+        if connection:
+            connection.rollback()
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
 def getdata(stock_code):
     """
     从Excel文件读取财务数据并合并
@@ -270,7 +309,7 @@ def getdata(stock_code):
     """
     try:
         # 构建文件路径
-        base_path = "d:\\stock\\{}\\".format(stock_code)
+        base_path = rf"d:/stock/{stock_code}/"
 
         # 1. 下载资产负债表
         balance_path = os.path.join(base_path, f"balance.xlsx")
@@ -286,7 +325,7 @@ def getdata(stock_code):
         balance = balance[required_balance_cols].copy() if all(col in balance.columns for col in required_balance_cols) else pd.DataFrame()
 
         # 2. 下载利润表
-        income_path = os.path.join(base_path, f"profit.xlsx")
+        income_path = os.path.join(base_path, f"income.xlsx")
         if not os.path.exists(income_path):
             logging.error(f"利润表文件不存在: {income_path}")
             return pd.DataFrame()
@@ -331,7 +370,8 @@ def get_all_stock_codes():
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        sql = "SELECT secucode FROM stock_list ;"
+        # 提取所有flag标记为Y的代码，意味着财报已经下载完成
+        sql = "SELECT secucode FROM stock_list where flag = 'Y';"
         cursor.execute(sql)
         results = cursor.fetchall()
 
@@ -359,7 +399,7 @@ def get_all_stock_codes():
 def main():
     """主函数"""
     stock_codes = get_all_stock_codes()
-    for stock_code in stock_codes:
+    for stock_code in stock_codes[:2]:
     
         try:
             logging.info(f"开始处理 {stock_code}")
