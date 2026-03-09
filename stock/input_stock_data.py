@@ -14,7 +14,6 @@ import pymysql
 from pymysql import Error
 import numpy as np
 import logging
-import sys
 import os
 from datetime import datetime
 # ====================== 修改1：把Decimal导入提到顶部（原在循环内） ======================
@@ -31,7 +30,7 @@ logging.basicConfig(
 # 添加控制台输出
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(filename)s[line:%(lineno)d] %(levelname)s - %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
@@ -40,11 +39,16 @@ def get_db_connection():
     """创建数据库连接"""
     try:
         connection = pymysql.connect(
-            host='10.31.9.24',
+            # host='10.31.9.24',
+            # port=3306,
+            # user='it',
+            # password='1111111',
+            # database='ics',
+            host='192.168.87.128',
             port=3306,
-            user='it',
-            password='1111111',
-            database='ics',
+            user='root',
+            password='example',
+            database='stock',
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -211,7 +215,9 @@ def batch_insert_optimized(stock_code, data):
                 updated_count = 0
             
             logging.info(f"批量插入/更新完成，处理 {total_rows} 条记录，插入 {inserted_count} 条，更新 {updated_count} 条，失败 {error_count} 行")
-            return total_affected, inserted_count, updated_count
+            result = (total_affected, inserted_count, updated_count)  # <-- 修改：保存结果
+            final_success = True  # 标记主路径成功  # <-- 修改：设置成功标志
+            # return total_affected, inserted_count, updated_count
                    
         # ========== 只调用：逐行重试 ==========
         except pymysql.Error as db_error:
@@ -221,28 +227,41 @@ def batch_insert_optimized(stock_code, data):
             
             success_count, inserted, updated = retry_insert_row_by_row(connection, cursor, batch_data)
             logging.info(f"逐行处理完成，成功 {success_count} 行（插入 {inserted}，更新 {updated}）")
-            return success_count, inserted, updated
-        finally:
-            logging.info(f"{stock_code} 财务数据写入成功")
-            download_sucess_flag(stock_code)
+            result = (success_count, inserted, updated)  # <-- 修改：保存结果
+            final_success = (success_count > 0)  # 如果逐行重试至少成功了一行，可以认为是部分成功。根据业务逻辑调整。  # <-- 修改：设置成功标志
+            # return success_count, inserted, updated
+        # finally:
+        #     logging.info(f"{stock_code} 财务数据写入成功")
+        #     download_sucess_flag(stock_code)
         
     except Exception as e:
         if connection:
             connection.rollback()
         logging.error(f"批量插入失败: {str(e)}", exc_info=True)
-        return 0, 0, 0
+        result = (0, 0, 0)  # <-- 修改：保存结果
+        final_success = False  # <-- 修改：设置失败标志
         
     finally:
-        if cursor:
-            try:
+        # 无论成功失败，都尝试关闭游标和连接
+        try:  # <-- 修改：新增资源释放的try块
+            if cursor:
                 cursor.close()
-            except Exception as close_error:
-                logging.warning(f"关闭游标时出错: {str(close_error)}")
-        if connection:
-            try:
+        except Exception as e:
+            logging.error(f"关闭游标时出错: {e}")
+        try:  # <-- 修改：新增资源释放的try块
+            if connection:
                 connection.close()
-            except Exception as close_error:
-                logging.warning(f"关闭数据库连接时出错: {str(close_error)}")
+        except Exception as e:
+            logging.error(f"关闭数据库连接时出错: {e}")
+
+        # 只有最终成功，才执行成功后的操作
+        if final_success:  # <-- 修改：新增条件判断
+            logging.info(f"{stock_code} 财务数据写入成功")
+            download_sucess_flag(stock_code)
+        else:  # <-- 修改：新增失败处理
+            logging.warning(f"{stock_code} 财务数据写入未完成或完全失败。")
+
+    return result  # <-- 修改：返回结果变量
 
 
 def inputdata(stock_code, data):
@@ -309,7 +328,7 @@ def getdata(stock_code):
     """
     try:
         # 构建文件路径
-        base_path = rf"d:/stock/{stock_code}/"
+        base_path = rf"d:/stock/finance_list/{stock_code}/"
 
         # 1. 下载资产负债表
         balance_path = os.path.join(base_path, f"balance.xlsx")
@@ -399,7 +418,7 @@ def get_all_stock_codes():
 def main():
     """主函数"""
     stock_codes = get_all_stock_codes()
-    for stock_code in stock_codes[:2]:
+    for stock_code in stock_codes:
     
         try:
             logging.info(f"开始处理 {stock_code}")
