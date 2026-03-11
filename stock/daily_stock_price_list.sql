@@ -9,6 +9,11 @@ CREATE TABLE `daily_stock_price_list` (
   `volume` decimal(18,2) DEFAULT NULL COMMENT '成交量(手)',
   `pe_ratio` decimal(18,4) DEFAULT NULL COMMENT '市盈率(PE, TTM)',
   `pb_ratio` decimal(18,4) DEFAULT NULL COMMENT '市净率(PB, MRQ)',
+  `ROE` decimal(18,4) DEFAULT NULL COMMENT '资本回报率',
+  `pb_rank` int DEFAULT NULL COMMENT '市净率排名',
+  `pe_rank` INT DEFAULT NULL COMMENT '市盈率排名',
+  `ROE_RANK` INT DEFAULT NULL COMMENT '资本回报率排名',
+  `TOTAL_RANK` INT DEFAULT NULL COMMENT '总排名',
   -- 设置复合主键，确保同一只股票在同一天只有一条记录
   PRIMARY KEY (`secucode`, `date`) USING BTREE,
   -- 建立外键约束，关联至股票基本信息表(stock_list)，确保代码有效性
