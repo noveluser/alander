@@ -14,7 +14,6 @@ import logging
 from datetime import datetime
 import time
 import random
-import os
 import pymysql
 from pymysql import Error
 from decimal import Decimal
@@ -39,16 +38,16 @@ def get_db_connection():
     """创建数据库连接"""
     try:
         connection = pymysql.connect(
-            host='10.31.9.24',
-            port=3306,
-            user='it',
-            password='1111111',
-            database='ics',
-            # host='192.168.87.128',
+            # host='10.31.9.24',
             # port=3306,
-            # user='root',
-            # password='example',
-            # database='stock',
+            # user='it',
+            # password='1111111',
+            # database='ics',
+            host='192.168.87.128',
+            port=3306,
+            user='root',
+            password='example',
+            database='stock',
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -70,16 +69,6 @@ def to_decimal(value):
 
 def format_row_data(row):
     """格式化单行数据，处理日期、类型转换"""
-    # # ====================== 自动加后缀 ======================
-    # if row.get("股票代码").startswith(('0', '3')):
-    #     secucode = row.get("股票代码") + ".SZ"   # 深市
-    # elif row.get("股票代码").startswith('6'):
-    #     secucode = row.get("股票代码") + ".SH"   # 沪市
-    # elif row.get("股票代码").startswith(('4', '8', '9')):
-    #     secucode = row.get("股票代码") + ".BJ"   # 北交所
-    # else:
-    #     secucode = row.get("股票代码")           # 未知市场，保持原样
-
 
     #  转换str成sql的date格式
     date_str = row.get("日期", "").strip()  # 空值默认给空字符串
@@ -93,7 +82,7 @@ def format_row_data(row):
         sql_date,
         row.get("股票代码"),
         to_decimal(row.get("close")),
-        to_decimal(row.get("amount"))
+        to_decimal(row.get("volume"))
     )
     return row_data
 
@@ -428,11 +417,7 @@ def batch_insert_optimized(stock_code, data):
             success_count, inserted, updated = retry_insert_row_by_row(connection, cursor, batch_data)
             logging.info(f"逐行处理完成，成功 {success_count} 行（插入 {inserted}，更新 {updated}）")
             result = (success_count, inserted, updated)  # <-- 修改：保存结果
-            final_success = (success_count > 0)  # 如果逐行重试至少成功了一行，可以认为是部分成功。根据业务逻辑调整。  # <-- 修改：设置成功标志
-            # return success_count, inserted, updated
-        # finally:
-        #     logging.info(f"{stock_code} 财务数据写入成功")
-        #     download_sucess_flag(stock_code)
+            final_success = (success_count > 0)  # 如果逐行重试至少成功了一行，可以认为是部分成功。根据业务逻辑调整。
         
     except Exception as e:
         if connection:
@@ -494,7 +479,7 @@ def main():
     """主函数"""
     # 配置参数
     # symbols = ["600519", "000002"]  # 要获取的股票列表
-    symbols = get_all_stock_codes()[:2]
+    symbols = get_all_stock_codes()
     # output_dir = "d:/1/1"  # 输出目录
     adjust_type = ""  # 复权类型: ""(不复权), "qfq"(前复权), "hfq"(后复权)
     
@@ -511,7 +496,7 @@ def main():
         # 获取数据
         df = get_stock_history(
             symbol=symbol,
-            start_date="20260101",  # 实际使用时可根据需要调整
+            start_date="20240101",  # 实际使用时可根据需要调整
             end_date=datetime.now().strftime("%Y%m%d"),
             adjust=adjust_type
         )
