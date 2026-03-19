@@ -2,10 +2,9 @@
 # coding=utf-8
 
 """
-股票历史数据下载工具
-从akshare获取股票历史行情数据
+PE,PB,ROE计算
 author:wangle
-version:2.0
+version:1.0
 """
 
 import akshare as ak
@@ -87,8 +86,8 @@ def format_row_data(row):
     return row_data
 
 
-def get_all_stock_codes():
-    """从stock_list表获取所有股票代码"""
+def get_data(secucode, target_date):
+    """从数据库里取股票相关信息"""
     connection = None
     cursor = None
 
@@ -96,23 +95,25 @@ def get_all_stock_codes():
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        # 提取所有flag标记为Y的代码，意味着财报已经下载完成
-        sql = "SELECT secucode FROM stock_list where flag = 'N';"
-        cursor.execute(sql)
+        # 定义带占位符的 SQL
+        sql = '''
+            select * from sort_finance where secucode = '%s' and report_time > '2011-01-01'
+        '''
+
+        # 创建参数元组（注意顺序要与占位符对应）
+        params = (secucode)
+
+        # 执行查询
+        cursor.execute(sql, params)
         results = cursor.fetchall()
 
         if not results:
             logging.warning("stock_list表中没有数据")
             return []
-
-        # 提取secucode列表
-        stock_codes = [row['secucode'] for row in results]
-        logging.info(f"从数据库获取到 {len(stock_codes)} 个股票代码")
-
-        return stock_codes
+        return results
 
     except Exception as e:
-        logging.error(f"获取股票代码失败: {str(e)}")
+        logging.error(f"获取数据失败，请检查日期及代码是否正确: {str(e)}")
         return []
 
     finally:
@@ -172,89 +173,6 @@ def validate_dataframe(df, required_cols=None):
     
     return True, "数据验证通过"
 
-def get_stock_history(symbol, start_date=None, end_date=None, adjust=""):
-    """
-    获取股票历史数据
-    """
-    # 去除股票代码后缀
-    stock_code_clean = symbol.split('.')[0]
-
-    # 设置日期范围
-    if not end_date:
-        end_date = datetime.now().strftime("%Y%m%d")
-    
-    if not start_date:
-        # 获取上市日期或使用默认
-        listing_date = get_stock_listing_date(stock_code_clean)
-        if listing_date and listing_date > "20000101":
-            start_date = listing_date
-        else:
-            start_date = "20000101"
-    
-    print(f"获取股票 {symbol} 数据: {start_date} 至 {end_date}")
-    
-    # 重试机制
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            df = ak.stock_zh_a_hist(
-                symbol=stock_code_clean,
-                period="daily",
-                start_date=start_date,
-                end_date=end_date,
-                adjust=adjust
-            )
-            
-            # 数据验证
-            is_valid, msg = validate_dataframe(df, ['日期', '开盘', '收盘', '成交量'])
-            if not is_valid:
-                print(f"数据验证失败: {msg}")
-                return None
-            
-            # 数据处理
-            df['日期'] = pd.to_datetime(df['日期']).dt.strftime('%Y-%m-%d')
-            df['股票代码'] = symbol
-            
-            # 重命名列
-            column_mapping = {
-                '开盘': 'open',
-                '收盘': 'close', 
-                '最高': 'high',
-                '最低': 'low',
-                '成交量': 'volume',
-                '成交额': 'amount',
-                '振幅': 'amplitude',
-                '涨跌幅': 'pct_chg',
-                '涨跌额': 'change',
-                '换手率': 'turnover'
-            }
-            
-            for cn_name, en_name in column_mapping.items():
-                if cn_name in df.columns:
-                    df[en_name] = df[cn_name]
-            
-            # 选择并重排序列
-            base_cols = ['日期', '股票代码', 'close', 'volume']
-            available_cols = [col for col in base_cols if col in df.columns]
-            
-            # 添加其他可用列
-            other_cols = [col for col in df.columns if col not in available_cols and col not in column_mapping.keys()]
-            selected_cols = available_cols + other_cols
-            
-            result_df = df[selected_cols].copy()
-            result_df = result_df.sort_values('日期', ascending=True).reset_index(drop=True)
-            
-            print(f"成功获取 {len(result_df)} 条记录")
-            return result_df
-            
-        except Exception as e:
-            print(f"第{attempt+1}次尝试失败: {e}")
-            if attempt < max_retries - 1:
-                wait_time = random.uniform(1, 3)
-                time.sleep(wait_time)
-            else:
-                print(f"获取失败，已重试{max_retries}次")
-                return None
             
 def inputdata(stock_code, data):
     """
@@ -449,69 +367,49 @@ def batch_insert_optimized(stock_code, data):
     return result  # <-- 修改：返回结果变量
 
 
-# def save_to_excel(df, stock_code, output_dir="."):
-#     """保存数据到Excel"""
-#     if df is None or df.empty:
-#         print("无数据可保存")
-#         return False
-    
-#     # 创建输出目录
-#     os.makedirs(output_dir, exist_ok=True)
-    
-#     # 生成安全的文件名
-#     filename = f"{stock_code}_history.xlsx"
-#     filepath = os.path.join(output_dir, filename)
-    
-#     try:
-#         # 保存到Excel
-#         with pd.ExcelWriter(filepath, engine='openpyxl') as writer:
-#             df.to_excel(writer, index=False, sheet_name='历史数据')
-        
-#         print(f"数据已保存: {filepath}")
-#         print(f"数据维度: {df.shape[0]}行 × {df.shape[1]}列")
-#         return True
-#     except Exception as e:
-#         print(f"保存文件失败: {e}")
-#         return False
-
-
 def main():
     """主函数"""
     # 配置参数
     symbols = ["300206.SZ"]  # 要获取的股票列表
+    target_date="20260311"
     # symbols = get_all_stock_codes()
-    # output_dir = "d:/1/1"  # 输出目录
-    adjust_type = ""  # 复权类型: ""(不复权), "qfq"(前复权), "hfq"(后复权)
-    
-    print("=" * 50)
-    print("股票历史数据下载工具")
-    print("=" * 50)
-    
+
     successful_symbols = []
     failed_symbols = []
+    
+    
     
     for i, symbol in enumerate(symbols, 1):
         print(f"\n[{i}/{len(symbols)}] 处理股票: {symbol}")
         
         # 获取数据
-        df = get_stock_history(
-            symbol=symbol,
-            start_date="20240101",  # 实际使用时可根据需要调整
-            end_date=datetime.now().strftime("%Y%m%d"),
-            adjust=adjust_type
+        data = get_data(
+            secucode=symbol,
+            target_date=target_date,  # 实际使用时可根据需要调整
+            # target_date=datetime.now().strftime("%Y%m%d"),
         )
+
         
-        # 输出数据至daily_stock_price_list
-        if df is not None and not df.empty:
-            base_cols = ['日期', '股票代码', 'close', 'volume']
-            available_cols = [col for col in base_cols if col in df.columns]
-            df = df[available_cols].copy()
+        # 预估全年净利润和总营收
+        if data :  # 检查list是否非空且必须包含5个元素
+            # 计算出TTM滚动净利润
             try:
-                inputdata(symbol, df)
+                # 伪代码，需要纠正
+                for item in data:
+                    if item["report_time"].month == 12:
+                        estimate_total_netprofit = item["deduct_parent_netprofit"]
+                        estimate_total_revenue = item["operate_income"]
+                    else:
+                        estimate_total_netprofit = item["report_time" = 上一年的数据] + item["report_time" - 1year] + item["deduct_parent_netprofit"]
+
+                logging.info(f"{target_date}的PE为{pe}, PB为{pb}")
+                # inputdata(symbol, data_list)
                 successful_symbols.append(symbol)
             except Exception as e:
                 logging.error(f"处理{symbol}数据时出错: {str(e)}")
+                failed_symbols.append(symbol)
         else:
+            logging.error(f"获取{symbol}共{len(data)}条数据，有错误")
             failed_symbols.append(symbol)
         
         # 添加延迟避免频繁请求
