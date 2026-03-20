@@ -161,6 +161,9 @@ def main():
         # 3. 批量更新数据库（调用db_operation通用方法）
         if batch_ttm_dfs and batch_success:
             df_batch_ttm = pd.concat(batch_ttm_dfs, ignore_index=True)
+            # 在 batch_update 调用前添加,核实列名是否和变量保持一致
+            logger.debug(f"df_batch_ttm列名：{df_batch_ttm.columns.tolist()}")
+            logger.debug(f"df_batch_ttm前5行数据：\n{df_batch_ttm.head()}")
             # 安全批量更新
             affected_rows = safe_db_operation(
                 batch_update, UPDATE_SQL, df_batch_ttm,

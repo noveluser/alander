@@ -10,8 +10,8 @@ from datetime import datetime
 # 登录信息（从你原来的 DB_CONFIG 拆出来）
 # DB_HOST = "192.168.87.128"
 # DB_PORT = 3306
-# DB_USER = "root"
-# DB_PWD = "sample"
+# DB_USER = "wangxp01"
+# DB_PWD = "111111"
 # DB_NAME = "stock"
 DB_HOST = "10.31.9.24"
 DB_PORT = 3306
@@ -71,6 +71,8 @@ BUSINESS_CONFIG = {
     "sleep_time_min": 0.1,                               # 股票处理间隔最小秒数
     "sleep_time_max": 0.3,                               # 股票处理间隔最大秒数
     "batch_insert_size": 20,                         # 批量插入单次条数（防大数据量溢出）
-    "unprocessed_flag": "300206.sz" ,                   # 未处理股票标志位（stock_list表） 测试环境先写成300206.sz
+    "unprocessed_flag": "N" ,                   # 未处理股票标志位（stock_list表）
+    "unprocessed_secucode": "300206.sz" ,       # 未处理股票代码，测试条件
+    "delay_days": 100,                           # 财报发布日期与财报记录日期的差值
     "db_retry_times": 2
 }

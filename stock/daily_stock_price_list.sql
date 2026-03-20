@@ -7,11 +7,13 @@ CREATE TABLE `daily_stock_price_list` (
   `date` date NOT NULL COMMENT '交易日期',
   `close_price` decimal(10,4) DEFAULT NULL COMMENT '收盘价(元)',
   `volume` decimal(18,2) DEFAULT NULL COMMENT '成交量(手)',
-  `pe_ratio` decimal(18,4) DEFAULT NULL COMMENT '市盈率(PE, TTM)',
-  `pb_ratio` decimal(18,4) DEFAULT NULL COMMENT '市净率(PB, MRQ)',
-  `ROE` decimal(18,4) DEFAULT NULL COMMENT '资本回报率',
+  `PE` decimal(10,4) DEFAULT NULL COMMENT '市盈率PE',
+  `estimate_pe` decimal(10,4) DEFAULT NULL COMMENT '预估市盈率(PE, TTM)',
+  `PB` decimal(10,4) DEFAULT NULL COMMENT '市净率(PB, MRQ)',
+  `ROE` decimal(5,4) DEFAULT NULL COMMENT '资本回报率',
   `pb_rank` int DEFAULT NULL COMMENT '市净率排名',
   `pe_rank` INT DEFAULT NULL COMMENT '市盈率排名',
+  `estimate_pe_rank` INT DEFAULT NULL COMMENT '预估市盈率排名',
   `ROE_RANK` INT DEFAULT NULL COMMENT '资本回报率排名',
   `TOTAL_RANK` INT DEFAULT NULL COMMENT '总排名',
   -- 设置复合主键，确保同一只股票在同一天只有一条记录
@@ -29,3 +31,4 @@ CREATE TABLE `daily_stock_price_list` (
   COLLATE=utf8mb4_0900_ai_ci
   ROW_FORMAT=DYNAMIC
   COMMENT='股票日行情表';
+  SET FOREIGN_KEY_CHECKS = 1;

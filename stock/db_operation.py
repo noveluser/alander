@@ -102,6 +102,7 @@ def batch_update(sql, df):
     批量更新数据库：基于DataFrame批量执行更新，适配SQLAlchemy
     :param sql: 批量更新SQL（带命名参数，与DF列名一致）
     :param df: 待更新的DataFrame（列名与SQL参数一一对应）
+    重点！！！这里的参数用的很精妙，将DF列名和参数联系在一起，解决了传参的问题
     :return: 总受影响行数/0
     """
     if db_engine is None or df is None or df.empty:
@@ -126,20 +127,28 @@ def retry_row_update(symbol, sql, df):
     :param symbol: 股票代码（仅日志用）
     :param sql: 更新SQL
     :param df: 单股票待更新DataFrame
-    :return: 受影响行数/0
+    :return: 成功更新行数/0
     """
     if df is None or df.empty:
         return 0
-    try:
-        affected_rows = batch_update(sql, df)
-        if affected_rows > 0:
-            logging.info(f"✅ {symbol} 逐行重试更新成功，更新{affected_rows}条数据")
-        else:
-            logging.warning(f"⚠️ {symbol} 逐行重试更新仍无有效数据")
-        return affected_rows
-    except Exception as e:
-        logging.error(f"❌ {symbol} 逐行重试更新失败: {str(e)}", exc_info=True)
-        return 0
+    
+    success_rows = 0  # 记录成功行数（而非总受影响行数）
+    for _, row in df.iterrows():
+        params = row.to_dict()
+        # 单条执行，单独捕获异常
+        try:
+            # 调用单条写操作，而非批量
+            affected = safe_db_operation(db_write, sql, params=params)  
+            if affected and affected > 0:
+                success_rows += 1
+            else:
+                logging.warning(f"⚠️ {symbol} 单条更新无影响行数，参数：{params}")
+        except Exception as e:
+            logging.error(f"❌ {symbol} 单条更新失败，参数：{params}，错误：{str(e)}")
+            # 单条失败不中断，继续下一行
+    
+    logging.info(f"✅ {symbol} 逐行重试更新完成，成功更新{success_rows}条（总计{len(df)}条）")
+    return success_rows
 
 # #!/usr/bin/python3
 # # coding=utf-8
