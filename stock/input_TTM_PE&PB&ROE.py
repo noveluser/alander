@@ -121,7 +121,7 @@ def main():
 
     # 1. 批量读取未处理（调用db_operation安全方法）
     # sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = :UNPROCESSED_SECUCODE"  # 测试语句
-    sql_unprocessed = "SELECT secucode FROM stock_list WHERE flag = :UNPROCESSED_FLAG"  # 测试语句
+    sql_unprocessed = "SELECT secucode FROM stock_list WHERE flag = :UNPROCESSED_FLAG"  
     df_unprocessed = safe_db_operation(db_read, sql_unprocessed, params={"UNPROCESSED_FLAG": UNPROCESSED_FLAG}, retry_times=DB_RETRY_TIMES)
     if df_unprocessed is None or df_unprocessed.empty:
         logger.info("ℹ️  stock_list表中无未处理，任务结束")
