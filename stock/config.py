@@ -13,11 +13,11 @@ from datetime import datetime
 # DB_USER = "wangxp01"
 # DB_PWD = "111111"
 # DB_NAME = "stock"
-DB_HOST = "10.31.9.24"
+DB_HOST = "172.22.22.11"
 DB_PORT = 3306
-DB_USER = "it"
-DB_PWD = "1111111"
-DB_NAME = "ics"
+DB_USER = "wangxp01"
+DB_PWD = "111111"
+DB_NAME = "stock"
 DB_CHARSET = "utf8mb4"
 
 # 拼接成 SQLAlchemy 要求的 URL（关键！）

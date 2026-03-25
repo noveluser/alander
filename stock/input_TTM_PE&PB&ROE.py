@@ -18,42 +18,49 @@ from db_operation import create_db_engine, safe_db_operation, db_read, db_write,
 logger = init_logger(LOG_CONFIG)
 create_db_engine(DB_URL, DB_CONFIG)
 
-# ---------------------- 纯业务函数：TTM计算（无DB/无校验，仅数值计算） ----------------------
+
 def calc_ttm_PE_PB(df):
     """
     【纯业务函数】矢量化计算TTM_PE,TTM_PB - 适配季度累积型财务数据
     入参：已通过utils.validate_finance_data校验的干净数据
     公式：TTM = 上一年年度数据 - 上一年同季度数据 + 本年度季度数据
     """
-    # 备选修复：直接对原数据排序并重置索引，无任何拷贝，内存占用最低（推荐）
+    import numpy as np  # 确保能识别 nan
     df_ttm = df.sort_values('date', ascending=True).reset_index(drop=True)
     
-    # 过滤无效计算值（预估净利润=0/空、收盘价≤0/空、总股本≤0/空，均无法计算PE）
     invalid_mask = (df_ttm['estimate_total_netprofit'].isna()| (df_ttm['estimate_total_netprofit'] == 0) |
                     df_ttm['close_price'].isna() | (df_ttm['close_price'] <= 0) |
                     df_ttm['share_capital'].isna() | (df_ttm['share_capital'] <= 0) |
-                    df_ttm['total_equity'].isna() )  # PB计算补充净资产空值过滤
-    invalid_count = invalid_mask.sum()
-    if invalid_count > 0:
-        logger.warning(f"⚠️  发现{invalid_count}条无效数据（净利润/收盘价/总股本为空/≤0），跳过PE计算")
+                    df_ttm['total_equity'].isna() )
     
-    # 核心公式：PE = 收盘价 * 总股本 / 预估净利润 （矢量化计算，批量处理效率高）
+    # 计算
     df_ttm.loc[~invalid_mask, 'pe'] = (df_ttm.loc[~invalid_mask, 'close_price'] * 
                                         df_ttm.loc[~invalid_mask, 'share_capital']) / \
                                        df_ttm.loc[~invalid_mask, 'estimate_total_netprofit']
+    # 修复pe过高或过低导致数据类型溢出的bug
+    df_ttm.loc[(~invalid_mask) & (df_ttm['pe'] > 10000), 'pe'] = 10000
+    df_ttm.loc[(~invalid_mask) & (df_ttm['pe'] < 0), 'pe'] = 20000
+
     df_ttm.loc[~invalid_mask, 'pb'] = (df_ttm.loc[~invalid_mask, 'close_price'] * 
                                         df_ttm.loc[~invalid_mask, 'share_capital']) / \
                                        df_ttm.loc[~invalid_mask, 'total_equity']
     df_ttm.loc[~invalid_mask, 'roe'] = (df_ttm.loc[~invalid_mask, 'estimate_total_netprofit']) / \
                                     df_ttm.loc[~invalid_mask, 'total_equity']
-    # 无效行PE设为None
-    df_ttm.loc[invalid_mask, 'pe'] = None
-    df_ttm.loc[invalid_mask, 'pb'] = None
-    df_ttm.loc[invalid_mask, 'roe'] = None
-    
-    # 保留核心字段并通过通用工具校验TTM结果
+
+    # 无效行设为 None
+    df_ttm.loc[invalid_mask, ['pe', 'pb', 'roe']] = None
+
+    # 保留字段
     df_ttm = df_ttm[['date', 'secucode', 'pe', 'pb', 'roe']]
-    logger.debug(f"✅ TTM计算完成，有效数据{len(df_ttm)}条")
+
+    # # ======================================
+    # # 🔥 唯一真正能把 np.nan → None 的写法
+    # # ======================================
+    # for col in ['pe', 'pb', 'roe']:
+    #     df_ttm[col] = df_ttm[col].apply(lambda x: None if pd.isna(x) else x)
+
+    df_ttm = df_ttm.dropna(subset=['pe', 'pb', 'roe'], how='all')
+
     return df_ttm
 
 
@@ -113,20 +120,22 @@ def main():
     """
     UPDATE_SQL = """
         UPDATE daily_stock_price_list
-        SET estimate_pe = :pe,
-        PB = :pb,
-        ROE = :roe
+        SET estimate_pe = IF(:pe IS NULL, NULL, :pe),
+        PB = IF(:pb IS NULL, NULL, :pb),
+        ROE = IF(:roe IS NULL, NULL, :roe)
         WHERE secucode = :secucode AND date = :date
     """
 
     # 1. 批量读取未处理（调用db_operation安全方法）
-    # sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = :UNPROCESSED_SECUCODE"  # 测试语句
-    sql_unprocessed = "SELECT secucode FROM stock_list WHERE flag = :UNPROCESSED_FLAG"  
-    df_unprocessed = safe_db_operation(db_read, sql_unprocessed, params={"UNPROCESSED_FLAG": UNPROCESSED_FLAG}, retry_times=DB_RETRY_TIMES)
+    sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = '001225.SZ' ;"  # 测试语句
+    # sql_unprocessed = "SELECT DISTINCT secucode FROM daily_stock_price_list WHERE estimate_pe IS NULL and date < '2025-01-01'"  
+    df_unprocessed = safe_db_operation(db_read, sql_unprocessed, retry_times=DB_RETRY_TIMES)
     if df_unprocessed is None or df_unprocessed.empty:
         logger.info("ℹ️  stock_list表中无未处理，任务结束")
         return
     symbols = df_unprocessed['secucode'].tolist()
+    # symbols = ['600925.SH' , '600930.SH' , '601061.SH' , '601065.SH' , '601083.SH' , '601096.SH' , '601112.SH' , '601121.SH' , '601133.SH' , '603004.SH' , '603014.SH' , '603049.SH']
+
     symbol_batches = [symbols[i:i+BATCH_SIZE] for i in range(0, len(symbols), BATCH_SIZE)]
     logger.info(f"🚀 任务启动：共{len(symbols)}只，分{len(symbol_batches)}批处理，每批{BATCH_SIZE}只")
 
@@ -163,8 +172,8 @@ def main():
                 # TTM纯业务计算
                 df_ttm = calc_ttm_PE_PB(df_valid)
                 if df_ttm.empty:
-                    logger.warning(f"⚠️  {sym} TTM计算无有效数据")
-                    batch_fail.append(sym)
+                    logger.warning(f"⚠️  {sym} TTM计算无有效数据，跳过")
+                    # batch_fail.append(sym)
                     continue
 
                 # 计算成功，加入批量待更新列表
@@ -180,6 +189,15 @@ def main():
         # 3. 批量更新数据库（调用db_operation通用方法）
         if batch_ttm_dfs and batch_success:
             df_batch_ttm = pd.concat(batch_ttm_dfs, ignore_index=True)
+            # ======================
+            # 新增：打印 2024-01-10 的执行 SQL
+            # ======================
+            import datetime
+            target_date = datetime.date(2024, 1, 10)
+            for _, row in df_batch_ttm.iterrows():
+                if row['date'] == target_date:
+                    logger.info(f"📝 即将执行更新SQL | date=2024-01-10 | secucode={row['secucode']}")
+                    logger.info(f"SQL参数: {row.to_dict()}")
             # 安全批量更新
             affected_rows = safe_db_operation(
                 batch_update, UPDATE_SQL, df_batch_ttm,
