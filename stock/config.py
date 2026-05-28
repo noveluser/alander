@@ -74,5 +74,8 @@ BUSINESS_CONFIG = {
     "unprocessed_flag": "N" ,                   # 未处理股票标志位（stock_list表）
     "unprocessed_secucode": "300206.sz" ,       # 未处理股票代码，测试条件
     "delay_days": 100,                           # 财报发布日期与财报记录日期的差值
-    "db_retry_times": 2
+    "db_retry_times": 2,
+    "industry_file_path": "d:/1/1/行业分类.xlsx",      # 行业分类Excel文件路径
+    "industry_col_code": "证券代码",                    # Excel中证券代码列名
+    "industry_col_name": "中证二级行业分类简称"          # Excel中行业分类列名
 }

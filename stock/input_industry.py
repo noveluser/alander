@@ -12,73 +12,75 @@ import pandas as pd
 from config import DB_URL, DB_CONFIG, LOG_CONFIG, BUSINESS_CONFIG
 # 导入通用模块，无自定义DB/校验逻辑
 from utils import init_logger
-from db_operation import create_db_engine, safe_db_operation,batch_update, retry_row_update
+from db_operation import create_db_engine, safe_db_operation, batch_update
 
 # ---------------------- 全局初始化（仅日志+DB引擎，通用操作） ----------------------
 logger = init_logger(LOG_CONFIG)
 create_db_engine(DB_URL, DB_CONFIG)
 
-def getdata():
+def _add_exchange_suffix(code: str) -> str:
+    """根据股票代码首位数字自动添加交易所后缀"""
+    if len(code) == 6:
+        if code.startswith(("0", "3")):
+            return f"{code}.SZ"
+        elif code.startswith("6"):
+            return f"{code}.SH"
+        elif code.startswith(("4", "8", "9")):
+            return f"{code}.BJ"
+    return code
+
+
+def getdata() -> pd.DataFrame:
     """
-    从Excel文件读取财务数据并合并，输出secucode和industry列
-    
+    从Excel文件读取行业分类数据，处理后返回标准化DataFrame。
+
     Returns:
-        pandas DataFrame: 包含secucode（证券代码）、industry（行业分类）的财务数据
+        pd.DataFrame: 包含 secucode（证券代码）、industry（行业分类）两列；
+                      失败时返回空 DataFrame。
     """
+    CFG = BUSINESS_CONFIG
+    file_path  = CFG.get("industry_file_path")
+    col_code   = CFG.get("industry_col_code",  "证券代码")
+    col_name   = CFG.get("industry_col_name",  "中证二级行业分类简称")
+    required_cols = [col_code, col_name]
+
+    # 1. 文件存在性校验
+    if not os.path.exists(file_path):
+        logger.error(f"行业分类文件不存在: {file_path}")
+        return pd.DataFrame()
+
     try:
-        # 构建文件路径
-        base_path = rf"d:/1/1/"
+        # 2. 读取 Excel
+        logger.info(f"正在读取行业分类文件: {file_path}")
+        df = pd.read_excel(file_path, usecols=lambda c: c in required_cols)
 
-        # 1. 下载资产负债表
-        balance_path = os.path.join(base_path, f"行业分类.xlsx")
-        if not os.path.exists(balance_path):
-            logger.error(f"文件不存在: {balance_path}")
+        # 3. 列完整性校验
+        missing = [c for c in required_cols if c not in df.columns]
+        if missing:
+            logger.warning(f"Excel 缺少必要列: {missing}")
             return pd.DataFrame()
-        
-        print("正在读取：资产负债表")
-        balance = pd.read_excel(balance_path)
-        # 检查必要的列是否存在（原中文名）
-        required_balance_cols = ["证券代码", "中证二级行业分类简称"]
-        # 校验列存在性，不存在则返回空DF
-        if not all(col in balance.columns for col in required_balance_cols):
-            logger.warning("Excel文件缺少必要列：证券代码 或 中证二级行业分类简称")
-            return pd.DataFrame()
-        
-        # 只保留需要的列并复制
-        balance = balance[required_balance_cols].copy()
 
-        # ====================== 改造开始 ======================       
-        # 2. 只保留6位代码
-        balance["证券代码"] = balance["证券代码"].str.slice(0, 6)
-        
-        # 3. 自动加后缀：0开头/3开头 → .SZ；6开头 → .SH
-        def add_suffix(code):
-            if len(code) == 6:
-                if code.startswith(("0", "3")):
-                    return f"{code}.SZ"
-                elif code.startswith("6"):
-                    return f"{code}.SH"
-                elif code.startswith(('4', '8', '9')):
-                    return f"{code}.BJ"
-            return code  # 不符合则返回原码        
-        balance["证券代码"] = balance["证券代码"].apply(add_suffix)
-        
-        # ====================== 列名替换 ======================
-        # 将中文列名替换为英文：证券代码→secucode，中证二级行业分类简称→industry
-        balance.rename(columns={
-            "证券代码": "secucode",
-            "中证二级行业分类简称": "industry"
-        }, inplace=True)
+        # 4. 只保留所需列
+        df = df[required_cols].copy()
 
-        # 检查数据是否为空
-        if balance.empty:
-            logger.warning("处理后的数据表为空")
+        # 5. 截取前6位代码并补交易所后缀
+        df[col_code] = df[col_code].astype(str).str.slice(0, 6).apply(_add_exchange_suffix)
+
+        # 6. 列名标准化：中文 → 英文
+        df.rename(columns={col_code: "secucode", col_name: "industry"}, inplace=True)
+
+        # 7. 去除空值行
+        df.dropna(subset=["secucode", "industry"], inplace=True)
+
+        if df.empty:
+            logger.warning("行业分类数据处理后为空，请检查源文件")
             return pd.DataFrame()
-        
-        return balance
-        
+
+        logger.info(f"行业分类数据读取完成，共 {len(df)} 条")
+        return df
+
     except Exception as e:
-        logger.error(f"读取数据失败: {str(e)}")
+        logger.error(f"读取行业分类数据失败: {e}", exc_info=True)
         return pd.DataFrame()
 
 

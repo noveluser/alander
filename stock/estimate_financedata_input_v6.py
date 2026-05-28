@@ -102,12 +102,13 @@ def main():
     """
 
     # 1. 批量读取未处理（调用db_operation安全方法）
-    sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = :flag"  # 测试语句
-    df_unprocessed = safe_db_operation(db_read, sql_unprocessed, params={"flag": UNPROCESSED_FLAG}, retry_times=DB_RETRY_TIMES)
-    if df_unprocessed is None or df_unprocessed.empty:
-        logger.info("ℹ️  stock_list表中无未处理，任务结束")
-        return
-    symbols = df_unprocessed['secucode'].tolist()
+    # sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = :flag"  # 测试语句
+    # df_unprocessed = safe_db_operation(db_read, sql_unprocessed, params={"flag": UNPROCESSED_FLAG}, retry_times=DB_RETRY_TIMES)
+    # if df_unprocessed is None or df_unprocessed.empty:
+    #     logger.info("ℹ️  stock_list表中无未处理，任务结束")
+    #     return
+    # symbols = df_unprocessed['secucode'].tolist()
+    symbols = ['688728.SH', '689009.SH']
     symbol_batches = [symbols[i:i+BATCH_SIZE] for i in range(0, len(symbols), BATCH_SIZE)]
     logger.info(f"🚀 任务启动：共{len(symbols)}只，分{len(symbol_batches)}批处理，每批{BATCH_SIZE}只")
 

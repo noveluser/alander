@@ -122,12 +122,12 @@ def main():
         UPDATE daily_stock_price_list
         SET estimate_pe = IF(:pe IS NULL, NULL, :pe),
         PB = IF(:pb IS NULL, NULL, :pb),
-        estimate_ROE = IF(:roe IS NULL, NULL, :roe)
+        ROE = IF(:roe IS NULL, NULL, :roe)
         WHERE secucode = :secucode AND date = :date
     """
 
     # 1. 批量读取未处理（调用db_operation安全方法）
-    sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = '688728.SH' OR SECUCODE = '689009.SH' ;"  # 测试语句
+    sql_unprocessed = "SELECT secucode FROM stock_list WHERE secucode = '300206.SZ' ;"  # 测试语句
     # sql_unprocessed = "SELECT DISTINCT secucode FROM daily_stock_price_list WHERE estimate_pe IS NULL and date < '2025-01-01'"  
     df_unprocessed = safe_db_operation(db_read, sql_unprocessed, retry_times=DB_RETRY_TIMES)
     if df_unprocessed is None or df_unprocessed.empty:
