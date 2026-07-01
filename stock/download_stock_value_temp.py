@@ -40,7 +40,7 @@ def format_row_data(row):
 
 
 def get_stock_listing_date(symbol):
-    """获取股票上市日期，返回 YYYYMMDD"""
+    """获取代码上市日期，返回 YYYYMMDD"""
     try:
         stock_info = ak.stock_individual_info_em(symbol=symbol)
         for _, row in stock_info.iterrows():
@@ -57,13 +57,13 @@ def get_stock_listing_date(symbol):
 
 
 def get_stock_history(symbol, start_date, end_date):
-    """获取股票历史估值数据"""
+    """获取代码历史估值数据"""
     stock_code = symbol.split(".")[0]
 
-    # 自动修正起始日期
-    listing_date = get_stock_listing_date(stock_code)
-    if listing_date and listing_date > "20000101":
-        start_date = listing_date
+    # # 自动修正起始日期----因触发接口风控被停止，暂时禁用
+    # listing_date = get_stock_listing_date(stock_code)
+    # if listing_date and listing_date > "20000101":
+    #     start_date = listing_date
 
     max_retries = 3
     for attempt in range(max_retries):
@@ -79,6 +79,7 @@ def get_stock_history(symbol, start_date, end_date):
             df = df.rename(
                 columns={
                     "数据日期": "date",
+                    "当日收盘价": "close_price",
                     "代码代码": "secucode",
                     "总股本": "share_capital",
                     "PE(TTM)": "estimate_pe",
@@ -102,33 +103,42 @@ def get_stock_history(symbol, start_date, end_date):
 
 
 def main():
-    """主流程：读取待处理股票 -> 拉取数据 -> 批量更新库 -> 标记完成"""
-    # 1. 读取未处理股票
-    sql = "SELECT secucode FROM stock_list WHERE secucode = :flag"
-    df_unprocessed = db_read(sql, {"flag": "002231.SZ"})
+    """主流程：读取待处理代码 -> 拉取数据 -> 批量更新库 -> 标记完成"""
+    # 1. 读取未处理代码
+    sql = "SELECT secucode FROM stock_list WHERE secucode = :flag "
+    df_unprocessed = db_read(sql, {"flag": "000831.SZ"})
     if df_unprocessed.empty:
-        logger.info("暂无待处理股票，任务结束")
+        logger.info("暂无待处理代码，任务结束")
         return
 
     symbols = df_unprocessed["secucode"].tolist()
-    logger.info(f"开始处理，共 {len(symbols)} 只股票")
+    logger.info(f"开始处理，共 {len(symbols)} 只代码")
 
-    # 更新SQL
-    update_sql = """
-        UPDATE daily_stock_price_list
-        SET 
-            estimate_pe = :estimate_pe,
-            pb = :pb,
-            share_capital = :share_capital
-        WHERE 
-            secucode = :secucode 
-            AND date = :date
-            AND (
-                estimate_pe <=> :estimate_pe IS NOT TRUE
-                OR pb <=> :pb IS NOT TRUE
-                OR share_capital <=> :share_capital IS NOT TRUE
-            )
+    insert_upsert_sql = """
+    INSERT INTO daily_stock_price_list
+    (date, secucode, close_price, estimate_pe, pb, share_capital)
+    VALUES (:date, :secucode, :close_price,  :estimate_pe, :pb, :share_capital)
+    ON DUPLICATE KEY UPDATE
+    estimate_pe = VALUES(estimate_pe),
+    pb = VALUES(pb),
+    share_capital = VALUES(share_capital)
     """
+    # # 更新SQL
+    # update_sql = """
+    #     UPDATE daily_stock_price_list
+    #     SET 
+    #         estimate_pe = :estimate_pe,
+    #         pb = :pb,
+    #         share_capital = :share_capital
+    #     WHERE 
+    #         secucode = :secucode 
+    #         AND date = :date
+    #         AND (
+    #             estimate_pe <=> :estimate_pe IS NOT TRUE
+    #             OR pb <=> :pb IS NOT TRUE
+    #             OR share_capital <=> :share_capital IS NOT TRUE
+    #         )
+    # """
 
     success_cnt = 0
     fail_cnt = 0
@@ -142,8 +152,11 @@ def main():
             fail_cnt += 1
             continue
 
+        # 测试保存
+        df.to_excel("c:/work/log/TEST.xlsx", index=False, engine='openpyxl')        
+
         # 批量更新数据表
-        affected = batch_update(update_sql, df=df)
+        affected = batch_update(insert_upsert_sql, df=df)
         if affected > 0:
             # 更新完成标记
             db_write("UPDATE stock_list SET flag = 'Y' WHERE secucode = :secucode", {"secucode": code})
