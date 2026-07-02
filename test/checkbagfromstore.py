@@ -185,24 +185,22 @@ class Application(tk.Tk):
         self.log(f"[{current}/{total}] 正在处理 LPC={lpn}")
         self.status_var.set(f"处理中 {current}/{total}")
     
-    def _finish(self, to_mcs, total):
+    def _finish(self, to_mcs, total,location):
         """任务完成，写入文件并显示统计"""
         output_file = "result_to_mcs.txt"
         early_count = len(to_mcs)
         ratio = (early_count / total * 100) if total > 0 else 0.0
         
         with open(output_file, 'w') as f:
-            # 写入汇总信息
             f.write(f"本次扫描总行李数: {total}, 早到行李: {early_count}, 占比: {ratio:.2f}%\n")
-            # 逐行写入LPC
             for lpc in to_mcs:
                 f.write(str(lpc) + '\n')
         
         self.current_lpn_var.set("已完成")
         self.status_var.set(f"完成，共 {early_count} 件早到行李（总{total}件，占比{ratio:.2f}%），已保存至 {output_file}")
-        self.log(f"分析完成！总行李 {total} 件，早到 {early_count} 件，占比 {ratio:.2f}%")
+        self.log(f"分析完成！经过{location}总行李 {total} 件，早到 {early_count} 件，占比 {ratio:.2f}%")
         self.run_btn.config(state=tk.NORMAL)
-        messagebox.showinfo("完成", f"分析完成！\n总行李：{total} 件\n早到行李：{early_count} 件\n占比：{ratio:.2f}%\n结果已保存至：{output_file}")
+        # 移除 messagebox.showinfo 这行
     
     def _error(self, err_msg):
         """发生错误"""
