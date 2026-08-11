@@ -36,7 +36,7 @@ def searchbagfrommcs(yesterday, dest_condition):
 
     query = f"""
         SELECT
-            COUNT(DISTINCT lpc) AS total 
+            ACTIVEPROCESS,count(*)
         FROM
             WC_TRACKINGREPORT 
         WHERE
@@ -44,7 +44,8 @@ def searchbagfrommcs(yesterday, dest_condition):
             AND EVENTTS > TO_TIMESTAMP(:start_ts, 'DD-MM-YYYY HH24:MI:SS')
             AND EVENTTS < TO_TIMESTAMP(:end_ts, 'DD-MM-YYYY HH24:MI:SS')
             AND {dest_condition}
-            AND lpc IS NOT NULL
+            AND TARGETPROCESSID LIKE 'BSIS%' 
+            AND EXECUTEDTASK = 'Deregistration' 
     """
     data = accessOracle(query, {'start_ts': start_ts, 'end_ts': end_ts})
     return data[0][0] if data else 0
@@ -54,10 +55,9 @@ def search_all_mcs(yesterday):
     统计四个区间的行李数，返回字典。
     """
     dest_map = {
-        '12': "DESTINATION BETWEEN 150 AND 162",
-        '13': "DESTINATION BETWEEN 250 AND 262",
-        '28': "DESTINATION BETWEEN 350 AND 362",
-        '29': "DESTINATION BETWEEN 450 AND 462",
+        '41': "CURRENTSTATIONID in ( 41)",
+        '81': "CURRENTSTATIONID in ( 81)",
+        'SAT': "CURRENTSTATIONID in ( 220，221)",
     }
     results = {}
     for name, condition in dest_map.items():
