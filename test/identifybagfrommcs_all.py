@@ -177,7 +177,7 @@ if __name__ == '__main__':
             logging.error(f"日期格式错误: {args.date}，应为 YYYY-MM-DD，使用默认昨天")
             yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     else:
-        yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+        yesterday = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
 
     logging.info(f"分析日期: {yesterday}")
     locations = ['MCS01', 'MCS02', 'MCS03', 'MCS04']

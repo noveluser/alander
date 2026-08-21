@@ -3,7 +3,7 @@
 
 """
 弃包行李统计（基于 packageinfo）
-核心点：真实数据，所有下弃包的离港行李数据，不同意dumpbaganalysis_toairport这个版本
+核心点：真实数据，所有下弃包的离港行李数据，不同与dumpbaganalysis_toairport这个版本
 """
 
 import sys

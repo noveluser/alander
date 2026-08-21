@@ -79,7 +79,7 @@ def circle_check(start_ts, end_ts, lpc):
 
 
 # ==================== 核心统计 ====================
-def fetch_data(start_ts, end_ts):
+def manuallscan_data(start_ts, end_ts):
     """
     查询指定日期范围（不含结束时刻）的数据，返回 DataFrame。
     start_ts, end_ts: datetime 对象，精确到秒。
@@ -104,8 +104,8 @@ def fetch_data(start_ts, end_ts):
                 1 = 1 
                 AND EVENTTS > :start_ts
                 AND EVENTTS < :end_ts
-                AND EXECUTEDTASK = 'Deregistration' 
-                AND CURRENTSTATIONID IN ( 41,81,220,221 )
+                AND EXECUTEDTASK in ( 'ManualScan','SpecialDestination')
+                AND CURRENTSTATIONID IN (91,92,93,94)
                 AND TARGETPROCESSID = 'BSIS_03997185' 
             ORDER BY
                 EVENTTS
@@ -154,16 +154,90 @@ def fetch_data(start_ts, end_ts):
         # 最终 DEREGISTER_REASON
         if row['ACTIVEPROCESS'] in ['Lateral_41', 'Lateral_81','Garbage SAT', 'Garbage T3 East', 'Garbage T3 West'] and pd.isna(row['LPC']):
             return 'EMPTY'
-        elif row['ACTIVEPROCESS'] in ['Trace and Eject']:
-            return 'Eject'
-        elif row['IDENTIFICATIONSTATE'] in ['DELETED_BAGDATA']:
-            return row['IDENTIFICATIONSTATE']
-        elif row['RECOGNITIONSTATE'] in ['NO_READ','MULTI_READ']:
-            return row['RECOGNITIONSTATE']
-        elif row['FLIGHTBUILDTIMELINESS'] == 'EARLY':
-            return 'EARLY'
-        elif row['ACTIVEPROCESS'] == 'Dump Flight Build':
-            return circle_check(start_ts,end_ts, row['LPC'])
+        else:
+            return row['ACTIVEPROCESS']
+
+    df['DEREGISTER_REASON'] = df.apply(derive_reason, axis=1)
+    logging.info(f"共获取 {len(df)} 条记录，涉及 {df['CURRENTSTATIONID'].nunique()} 个不同位置")
+    return df
+
+
+
+def fetch_data(start_ts, end_ts):
+    """
+    查询指定日期范围（不含结束时刻）的数据，返回 DataFrame。
+    start_ts, end_ts: datetime 对象，精确到秒。
+    """
+    query = """
+            SELECT
+                EVENTTS,
+                lpc,
+                pid,
+                ACTIVEPROCESS,
+                ASSIGNEDTASK,
+                CURRENTSTATIONID,
+                FLIGHTBUILDTIMELINESS,
+                IDENTIFICATIONSTATE,
+                MANUALIDTASK,
+                PROCESSPLANIDNAME,
+                PROCESSDEFINITIONNAME,
+                RECOGNITIONSTATE 
+            FROM
+                WC_PACKAGEINFO INFO 
+            WHERE
+                1 = 1 
+                AND EVENTTS > :start_ts
+                AND EVENTTS < :end_ts
+                AND EXECUTEDTASK = 'Deregistration' 
+                AND CURRENTSTATIONID IN ( 96,97,98,99 )
+                AND TARGETPROCESSID = 'BSIS_03997185' 
+            ORDER BY
+                EVENTTS
+    """
+    # # 打印可执行SQL（用于调试）
+    # log_sql = query.replace(':start_ts:start_ts', f"TO_TIMESTAMP('{start_ts.strftime('%Y-%m-%d %H:%M:%S')}', 'YYYY-MM-DD HH24:MI:SS')")
+    # log_sql = log_sql.replace(':end_ts', f"TO_TIMESTAMP('{end_ts.strftime('%Y-%m-%d %H:%M:%S')}', 'YYYY-MM-DD HH24:MI:SS')")
+    # logging.info("Executable SQL (with literals):\n" + log_sql)
+
+    data = execute_query(query, {'start_ts': start_ts, 'end_ts': end_ts})
+    if not data:
+        logging.warning("未查询到符合条件的数据")
+        return pd.DataFrame()
+
+    columns = [
+        'EVENTTS','LPC', 'PID', 'ACTIVEPROCESS', 'ASSIGNEDTASK',
+        'CURRENTSTATIONID', 'FLIGHTBUILDTIMELINESS', 'IDENTIFICATIONSTATE', 'MANUALIDTASK',
+        'PROCESSPLANIDNAME', 'PROCESSDEFINITIONNAME', 'RECOGNITIONSTATE'
+    ]
+    df = pd.DataFrame(data, columns=columns)
+    # # 截取 ISCID_EXIT 前4位（如 0012.81.99 → 0012）
+    # df['ISCID_EXIT'] = df['ISCID_EXIT'].str[:4]
+
+    # ------ 派生 DEREGISTER_REASON（完整 Splunk 逻辑）------
+    """    派生 DEREGISTER_REASON逻辑。
+    1.如果activeprocess包含Garbage的，且没有LPC，基本判定为空框
+    2. row['ACTIVEPROCESS'] = ['Trace and Eject'],中控操作主动弹出行李
+    3. row['IDENTIFICATIONSTATE'] == ['DELETED_BAGDATA']，判定为DEL BSM
+    4.当RECOGNITIONSTATE为NO_READ','MULTI_READ'，判定未读或多读
+    5.FLIGHTBUILDTIMELINESS'] == 'EARLY'，判定早到
+    6.['ACTIVEPROCESS'] == 'Dump Flight Build'，检查分拣机循环圈数，确实绝大部分都是分拣机主动弃包，少量个例各有原因
+    7.'ACTIVEPROCESS'] == 'Unplanned flight'，判定太晚
+    8.其余默认判定为ACTIVEPROCESS
+    """
+    def derive_reason(row):
+        # 计算中间值 DEREGISTER_REASON_MCS
+        # if pd.notna(row['REASON_MCS']) and row['REASON_MCS'] != 'LOST':
+        #     deregister_reason_mcs = row['REASON_MCS']
+        # elif row['ATR_RECOGNITION'] in ['MULTI_READ', 'NO_READ']:
+        #     deregister_reason_mcs = row['ATR_RECOGNITION']
+        # elif row['ATR_IDENTIFICATION'] in ['DELETED_BAGDATA', 'NO_BAGDATA']:
+        #     deregister_reason_mcs = row['ATR_IDENTIFICATION']
+        # else:
+        #     deregister_reason_mcs = 'NO_READ'
+
+        # 最终 DEREGISTER_REASON
+        if row['ACTIVEPROCESS'] in ['Lateral_41', 'Lateral_81','Garbage SAT', 'Garbage T3 East', 'Garbage T3 West'] and pd.isna(row['LPC']):
+            return 'EMPTY'
         else:
             return row['ACTIVEPROCESS']
 
@@ -276,6 +350,7 @@ def main():
             logging.info(f"统计日期: {day.strftime('%Y-%m-%d')}")
             print(f"正在统计 {day.strftime('%Y-%m-%d')} ...")
             df = fetch_data(day, day_end)
+            df2 = manuallscan_data(day, day_end)
 
             if not df.empty:
                 any_data = True
@@ -284,6 +359,24 @@ def main():
                 df.to_excel(writer, sheet_name=f"明细_{sheet_name}", index=False)
                 pivot_reason = build_sheet2(df)
                 pivot_reason.to_excel(writer, sheet_name=f"统计_{sheet_name}")
+                
+                # 再输出日志（即使日志出错，Excel 已经写入）
+                try:
+                    log_sheet1(df, day.strftime('%Y-%m-%d'))
+                    log_details(df, day.strftime('%Y-%m-%d'))
+                except Exception as e:
+                    logging.error(f"日志输出出错: {e}")
+            else:
+                logging.info(f"{day.strftime('%Y-%m-%d')} 无数据")
+                print(f"{day.strftime('%Y-%m-%d')} 无数据")
+
+            if not df2.empty:
+                any_data = True
+                sheet_name = day.strftime('%Y-%m-%d')
+
+                df2.to_excel(writer, sheet_name=f"manualscan_detail_{sheet_name}", index=False)
+                pivot_reason2 = build_sheet2(df2)
+                pivot_reason2.to_excel(writer, sheet_name=f"manualscan统计_{sheet_name}")
                 
                 # 再输出日志（即使日志出错，Excel 已经写入）
                 try:

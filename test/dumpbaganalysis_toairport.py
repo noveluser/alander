@@ -3,6 +3,7 @@
 
 """
 弃包行李统计（基于 FACT_BAG_SUMMARIES）
+时间与VIDI保持一致，UTC时间
 功能：
 1. 按天统计指定日期范围（起始日期至起始+7天或昨日，取较短者）。
 2. 每天输出：
@@ -81,8 +82,14 @@ def circle_check(start_ts, end_ts, lpc):
 # ==================== 核心统计 ====================
 def fetch_data(start_ts, end_ts):
     """
-    查询指定日期范围（不含结束时刻）的数据，返回 DataFrame。
-    start_ts, end_ts: datetime 对象，精确到秒。
+    派生 DEREGISTER_REASON逻辑。
+    1.如果activeprocess包含Garbage的，且没有LPC，基本判定为空框。注意卫星厅MCS有些扫描成功的，扫描员也会指定Garbage SAT，VIDI里其实把这部分判定为NO READ，这里遵从这个规则
+    2.当RECOGNITIONSTATE为NO_READ','MULTI_READ'，判定未读或多读
+    3.FLIGHTBUILDTIMELINESS'] == 'EARLY'，判定早到
+    4.['ACTIVEPROCESS'] == 'Dump Flight Build'，检查分拣机循环圈数，确实绝大部分都是分拣机主动弃包，少量个例各有原因
+    5.'ACTIVEPROCESS'] == 'Unplanned flight'，判定太晚
+    6.其余默认判定为ACTIVEPROCESS
+    7.注意airport版本过滤掉了In Time Build类型，不统计，于VIDI保持一致
     """
     query = """
             SELECT
@@ -106,7 +113,7 @@ def fetch_data(start_ts, end_ts):
                 AND EVENTTS < :end_ts
                 AND EXECUTEDTASK = 'Deregistration' 
                 AND CURRENTSTATIONID IN ( 41,81,220,221 )
-                and  ACTIVEPROCESS not in ( 'Lateral_81', 'Lateral_41' ,'In Time Build' , 'Trace and Eject', 'Stop T3 in SAT','Initial Scan')
+                and  ACTIVEPROCESS not in ( 'Lateral_81', 'Lateral_41' , 'Trace and Eject', 'Stop T3 in SAT','Initial Scan')
                 and ASSIGNEDTASK <> 'Store'
                 AND TARGETPROCESSID = 'BSIS_03997185' 
             ORDER BY
@@ -134,7 +141,7 @@ def fetch_data(start_ts, end_ts):
     # ------ 派生 DEREGISTER_REASON（完整 Splunk 逻辑）------
     def derive_reason(row):
 
-        if row['ACTIVEPROCESS'] in ['Garbage SAT', 'Garbage T3 East', 'Garbage T3 West'] and pd.isna(row['LPC']):
+        if row['ACTIVEPROCESS'] in ['Garbage SAT', 'Garbage T3 East', 'Garbage T3 West']:
             return 'NO_READ'
         elif row['RECOGNITIONSTATE'] in ['NO_READ','MULTI_READ']:
             return row['RECOGNITIONSTATE']
@@ -227,6 +234,7 @@ def main():
         sys.exit(1)
 
     # 计算统计范围
+    # 重新按照VIDI的时间来排序，VIDI的查询时间实际是UTC时间
     start_ts = input_date.replace(hour=16, minute=0, second=0, microsecond=0) - timedelta(days=1)
     end_candidate = start_ts + timedelta(days=7)          # 起始+7天
     yesterday = (datetime.now() - timedelta(days=2)).replace(hour=16, minute=0, second=0, microsecond=0)
