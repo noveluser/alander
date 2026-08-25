@@ -26,9 +26,15 @@ def process_one_day(day_start, day_end) -> pd.DataFrame:
     manual = fetch_manual(day_start, day_end)
     matched, unmatched_manual, _ = match_records(manual, dereg)
     cls_df = build_classification_df(matched, unmatched_manual)
+    # 剔除空框
+    cls_df = cls_df[cls_df['manual_DEREGISTER_REASON'] != 'EMPTY']
+    # 剔除重复扫描件
+    cls_df = cls_df.drop_duplicates(subset=['manual_PID'], keep='first')
     logging.info(cls_df.to_string())
+    return cls_df
 
     # 机场名单过滤：仅保留 LPC 或 PID 命中名单的行。
-    airport = fetch_airport(day_start + config.AIRPORT_END_OFFSET, day_end + config.AIRPORT_END_OFFSET)
-    logging.info(airport.to_string())
-    return filter_by_airport(cls_df, airport)
+    # 取消这段代码，因为VIDI出问题时,summary表根本没数据
+    # airport = fetch_airport(day_start + config.AIRPORT_END_OFFSET, day_end + config.AIRPORT_END_OFFSET)
+    # logging.info(airport.to_string())
+    # return filter_by_airport(cls_df, airport)
