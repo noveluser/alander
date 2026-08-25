@@ -22,5 +22,9 @@ MEDIAN_GAP = timedelta(seconds=29.5)
 # 分拣机循环判定：LPC 在站点 580~590 经过 AutoScan 的次数达到该值即判为 Recirculations。
 CIRCLE_THRESHOLD = 6
 
+# 机场名单(FACT_BAG_SUMMARIES_V)查询的窗口偏移：
+# 其 end_ts 需在原 end_ts 基础上再 +8 小时（两套数据的时间基准相差 +8h）。
+AIRPORT_END_OFFSET = timedelta(hours=8)
+
 # ------------------------------------------------------------ 输出文件 ----
 OUTPUT_PREFIX = "reason_classification"

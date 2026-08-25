@@ -2,13 +2,14 @@
 import numpy as np
 import pandas as pd
 
-# 保留进 reason_classification 明细的列（统一列名，避免 v4 中两个分支列名不一致）。
+# 保留进 reason_classification 明细的列（顺序与原 v4 输出保持一致：
+# manual_* -> dereg_* -> REASON_SOURCE -> MATCH_CONFIDENCE -> REASON）。
 _DETAIL_COLUMNS = [
     "manual_EVENTTS", "manual_LPC", "manual_PID", "manual_CURRENTSTATIONID",
     "manual_DEREGISTER_REASON",
     "dereg_EVENTTS", "dereg_LPC", "dereg_PID", "dereg_CURRENTSTATIONID",
     "dereg_DEREGISTER_REASON",
-    "REASON", "REASON_SOURCE", "MATCH_CONFIDENCE",
+    "REASON_SOURCE", "MATCH_CONFIDENCE", "REASON",
 ]
 
 
@@ -82,3 +83,21 @@ def build_reason_pivot(df: pd.DataFrame, index_col: str, value_col: str) -> pd.D
     pivot["Total"] = pivot.sum(axis=1)
     pivot.index.name = index_col
     return pivot
+
+
+def filter_by_airport(cls_df: pd.DataFrame, airport_df: pd.DataFrame) -> pd.DataFrame:
+    """机场名单过滤：仅保留「LPC 或 XPID 命中机场名单」的行。
+
+    airport_df 由 `fetch_airport` 返回，其 LPC / XPID 两列作为白名单。
+    过滤以手动扫描为主体：用 `manual_LPC`、`manual_PID` 分别与名单的 LPC、XPID 比对，
+    二者有其一命中即保留；都未命中则从最终输出中剔除。
+    名单为空时，按过滤语义不保留任何行（返回空表）。
+    """
+    if cls_df.empty or airport_df.empty:
+        return cls_df.iloc[0:0]
+    cls_df = cls_df.drop_duplicates(subset=['manual_LPC'], keep='first')
+    lpc_set = {str(v) for v in airport_df["LPC"].dropna()}
+    xpid_set = {str(v) for v in airport_df["XPID"].dropna()}
+    hit_lpc = cls_df["manual_LPC"].astype(str).isin(lpc_set)
+    hit_xpid = cls_df["manual_PID"].astype(str).isin(xpid_set)
+    return cls_df[hit_lpc | hit_xpid]
