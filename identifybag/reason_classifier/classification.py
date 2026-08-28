@@ -1,33 +1,41 @@
-"""以手动扫描为主体的 reason_classification 数据构建。"""
-import numpy as np
+"""以注销(dereg)为主体的 reason_classification 数据构建。
+
+需求口径：
+  - 主体 = deregistration 结果；
+  - 每条 dereg 记录都占一行：配到 manual 的带手动扫描信息，配不到的 dereg_* 正常、
+    manual_* 置空；
+  - REASON 完全用 ACTIVEPROCESS 分类：配对成功后 REASON 默认取 dereg 的
+    ACTIVEPROCESS（即 dereg_DEREGISTER_REASON）；
+  - 特例：若配对到的 manual 是空框（EMPTY），则最终 REASON 改为 EMPTY。
+"""
 import pandas as pd
 
-# 保留进 reason_classification 明细的列（统一列名，避免 v4 中两个分支列名不一致）。
+# 空框类 ACTIVEPROCESS：这些流程 + 无 LPC 判定为空框(EMPTY)。
+_EMPTY_ACTIVEPROCESS = {
+    "Lateral_41", "Lateral_81", "Garbage SAT", "Garbage T3 East", "Garbage T3 West",
+}
+
+# 明细列顺序：dereg_*（主体）在前，manual_*（关联）在后，最后是结果列。
 _DETAIL_COLUMNS = [
-    "manual_EVENTTS", "manual_LPC", "manual_PID", "manual_CURRENTSTATIONID",
-    "manual_DEREGISTER_REASON",
     "dereg_EVENTTS", "dereg_LPC", "dereg_PID", "dereg_CURRENTSTATIONID",
-    "dereg_DEREGISTER_REASON",
+    "dereg_ACTIVEPROCESS", "dereg_DEREGISTER_REASON",
+    "manual_EVENTTS", "manual_LPC", "manual_PID", "manual_CURRENTSTATIONID",
+    "manual_ACTIVEPROCESS", "manual_DEREGISTER_REASON",
     "REASON", "REASON_SOURCE", "MATCH_CONFIDENCE",
 ]
 
 
-def build_classification_df(matched, unmatched_manual) -> pd.DataFrame:
-    """以手动扫描结果为主体构建分类数据。
+def build_classification_df(matched, unmatched_dereg) -> pd.DataFrame:
+    """以注销(dereg)结果为主体构建分类数据。
 
-    口径（与业务一致）：
-      - 建立连接的 bag  -> 使用注销记录的 DEREGISTER_REASON；
-        `manual_DEREGISTER_REASON == EMPTY` 时空框信息仍予以保留。
-      - 未建立连接的 bag -> 使用手动扫描自身的 DEREGISTER_REASON。
-
-    所有行统一含 manual_* 与 dereg_* 两套列（未匹配行 dereg_* 置空），
-    并派生最终 REASON 一列，避免 v4 中因列缺失导致的取值错乱。
+    matched 为配对结果（含 dereg_* 与 manual_* 两套列），unmatched_dereg 为未配到
+    手动扫描的注销记录。
     """
     parts = []
     if matched is not None and not matched.empty:
         parts.append(_build_matched(matched))
-    if unmatched_manual is not None and not unmatched_manual.empty:
-        parts.append(_build_unmatched(unmatched_manual))
+    if unmatched_dereg is not None and not unmatched_dereg.empty:
+        parts.append(_build_unmatched_dereg(unmatched_dereg))
 
     if not parts:
         return pd.DataFrame(columns=_DETAIL_COLUMNS)
@@ -35,43 +43,51 @@ def build_classification_df(matched, unmatched_manual) -> pd.DataFrame:
     return detail[_DETAIL_COLUMNS]
 
 
+def _is_empty_tray(ap: pd.Series, lpc: pd.Series) -> pd.Series:
+    """空框判定：ACTIVEPROCESS 属空框类（或字面 EMPTY）且无 LPC。"""
+    return (ap.isin(_EMPTY_ACTIVEPROCESS) | ap.eq("EMPTY")) & lpc.isna()
+
+
 def _build_matched(matched) -> pd.DataFrame:
     df = pd.DataFrame({
-        "manual_EVENTTS": matched["manual_EVENTTS"],
-        "manual_LPC": matched["manual_LPC"],
-        "manual_PID": matched["manual_PID"],
-        "manual_CURRENTSTATIONID": matched["manual_CURRENTSTATIONID"],
-        "manual_DEREGISTER_REASON": matched["manual_DEREGISTER_REASON"],
         "dereg_EVENTTS": matched["dereg_EVENTTS"],
         "dereg_LPC": matched["dereg_LPC"],
         "dereg_PID": matched["dereg_PID"],
         "dereg_CURRENTSTATIONID": matched["dereg_CURRENTSTATIONID"],
+        "dereg_ACTIVEPROCESS": matched["dereg_ACTIVEPROCESS"],
         "dereg_DEREGISTER_REASON": matched["dereg_DEREGISTER_REASON"],
+        "manual_EVENTTS": matched["manual_EVENTTS"],
+        "manual_LPC": matched["manual_LPC"],
+        "manual_PID": matched["manual_PID"],
+        "manual_CURRENTSTATIONID": matched["manual_CURRENTSTATIONID"],
+        "manual_ACTIVEPROCESS": matched["manual_ACTIVEPROCESS"],
+        "manual_DEREGISTER_REASON": matched["manual_DEREGISTER_REASON"],
     })
-    # 建立连接的 bag：最终原因取注销原因；空框(EMPTY)保留手动侧信息。
-    df["REASON"] = np.where(
-        df["manual_DEREGISTER_REASON"].eq("EMPTY"),
-        df["manual_DEREGISTER_REASON"],
-        df["dereg_DEREGISTER_REASON"],
-    )
+    # 默认 REASON = dereg 的 ACTIVEPROCESS
+    df["REASON"] = df["dereg_DEREGISTER_REASON"]
+    # 特例：关联的 manual 为空框 → REASON 改 EMPTY
+    empty = _is_empty_tray(df["manual_ACTIVEPROCESS"], df["manual_LPC"])
+    df.loc[empty, "REASON"] = "EMPTY"
     df["REASON_SOURCE"] = "MATCHED_DEREG"
     df["MATCH_CONFIDENCE"] = matched["match_confidence"]
     return df
 
 
-def _build_unmatched(unmatched) -> pd.DataFrame:
+def _build_unmatched_dereg(unmatched_dereg) -> pd.DataFrame:
     df = pd.DataFrame({
-        "manual_EVENTTS": unmatched["EVENTTS"],
-        "manual_LPC": unmatched["LPC"],
-        "manual_PID": unmatched["PID"],
-        "manual_CURRENTSTATIONID": unmatched["CURRENTSTATIONID"],
-        "manual_DEREGISTER_REASON": unmatched["DEREGISTER_REASON"],
+        "dereg_EVENTTS": unmatched_dereg["EVENTTS"],
+        "dereg_LPC": unmatched_dereg["LPC"],
+        "dereg_PID": unmatched_dereg["PID"],
+        "dereg_CURRENTSTATIONID": unmatched_dereg["CURRENTSTATIONID"],
+        "dereg_ACTIVEPROCESS": unmatched_dereg["ACTIVEPROCESS"],
+        "dereg_DEREGISTER_REASON": unmatched_dereg["DEREGISTER_REASON"],
     })
-    for col in ("dereg_EVENTTS", "dereg_LPC", "dereg_PID", "dereg_CURRENTSTATIONID", "dereg_DEREGISTER_REASON"):
+    for col in ("manual_EVENTTS", "manual_LPC", "manual_PID", "manual_CURRENTSTATIONID",
+                "manual_ACTIVEPROCESS", "manual_DEREGISTER_REASON"):
         df[col] = pd.NA
-    # 未建立连接的 bag：使用手动扫描自身原因。
-    df["REASON"] = df["manual_DEREGISTER_REASON"]
-    df["REASON_SOURCE"] = "UNMATCHED_MANUAL"
+    # 未配到手动扫描：REASON 用 dereg 自身的 ACTIVEPROCESS
+    df["REASON"] = df["dereg_DEREGISTER_REASON"]
+    df["REASON_SOURCE"] = "UNMATCHED_DEREG"
     df["MATCH_CONFIDENCE"] = "UNMATCHED"
     return df
 

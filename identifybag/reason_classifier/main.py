@@ -5,9 +5,17 @@
 import sys
 from datetime import datetime, timedelta
 
+import logging
+from .log_config import init_logger
+
+# 1. 配置日志（必须最先执行）
+init_logger()
+
 from . import config
 from .exporter import write_reason_excel
 from .pipeline import process_one_day
+
+
 
 _DAYS_BACK_LIMIT = 14      # 最早只能查最近 14 天
 _MAX_RUN_DAYS = 8          # 从起始日起最多统计 8 天（起始日到起始+7天）
@@ -95,7 +103,8 @@ def run(input_date: datetime):
 
 
 def main():
-    run(_parse_arg(sys.argv))
+    # run(_parse_arg(sys.argv))
+    run(datetime.strptime("20260827", "%Y%m%d"))
 
 
 if __name__ == "__main__":

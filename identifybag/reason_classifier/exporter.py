@@ -18,8 +18,8 @@ def write_reason_excel(filename: str, day_results):
             if cls is None or cls.empty:
                 continue
 
-            # 1) 逐日站点 × 原因交叉表
-            build_reason_pivot(cls, "manual_CURRENTSTATIONID", "REASON").to_excel(
+            # 1) 逐日站点 × 原因交叉表（主体为 dereg，用 dereg 站点）
+            build_reason_pivot(cls, "dereg_CURRENTSTATIONID", "REASON").to_excel(
                 writer, sheet_name=f"station_reason_{date_str}"
             )
 
