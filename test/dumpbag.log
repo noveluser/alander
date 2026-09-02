@@ -1,0 +1,497 @@
+2026-09-01 11:17:43 dumpbaganalysis_toairport.py[line:249] INFO 统计范围: 2026-08-30 至 2026-08-31 (不含结束日期)
+2026-09-01 11:17:44 dumpbaganalysis_toairport.py[line:262] INFO 统计日期: 2026-08-30
+2026-09-01 11:17:46 dumpbaganalysis_toairport.py[line:74] INFO 0089116605 扫描次数: 7
+2026-09-01 11:17:46 dumpbaganalysis_toairport.py[line:74] INFO 0089116626 扫描次数: 8
+2026-09-01 11:17:47 dumpbaganalysis_toairport.py[line:74] INFO 3784287557 扫描次数: 7
+2026-09-01 11:17:47 dumpbaganalysis_toairport.py[line:74] INFO 3784839182 扫描次数: 8
+2026-09-01 11:17:48 dumpbaganalysis_toairport.py[line:74] INFO 3784761789 扫描次数: 7
+2026-09-01 11:17:49 dumpbaganalysis_toairport.py[line:74] INFO 3784287558 扫描次数: 7
+2026-09-01 11:17:49 dumpbaganalysis_toairport.py[line:74] INFO 3784700414 扫描次数: 11
+2026-09-01 11:17:50 dumpbaganalysis_toairport.py[line:74] INFO 3784790825 扫描次数: 7
+2026-09-01 11:17:50 dumpbaganalysis_toairport.py[line:74] INFO 3784118214 扫描次数: 7
+2026-09-01 11:17:51 dumpbaganalysis_toairport.py[line:74] INFO 3784558771 扫描次数: 7
+2026-09-01 11:17:52 dumpbaganalysis_toairport.py[line:74] INFO 3784642452 扫描次数: 7
+2026-09-01 11:17:52 dumpbaganalysis_toairport.py[line:74] INFO 3784247993 扫描次数: 7
+2026-09-01 11:17:53 dumpbaganalysis_toairport.py[line:74] INFO 3784692344 扫描次数: 7
+2026-09-01 11:17:54 dumpbaganalysis_toairport.py[line:74] INFO 3784502845 扫描次数: 7
+2026-09-01 11:17:54 dumpbaganalysis_toairport.py[line:74] INFO 3784839182 扫描次数: 8
+2026-09-01 11:17:55 dumpbaganalysis_toairport.py[line:74] INFO 3784818599 扫描次数: 7
+2026-09-01 11:17:55 dumpbaganalysis_toairport.py[line:74] INFO 3784538923 扫描次数: 7
+2026-09-01 11:17:56 dumpbaganalysis_toairport.py[line:74] INFO 3784120135 扫描次数: 7
+2026-09-01 11:17:57 dumpbaganalysis_toairport.py[line:74] INFO 3784651927 扫描次数: 7
+2026-09-01 11:17:57 dumpbaganalysis_toairport.py[line:74] INFO 3784700414 扫描次数: 11
+2026-09-01 11:17:58 dumpbaganalysis_toairport.py[line:74] INFO 3784610891 扫描次数: 7
+2026-09-01 11:17:58 dumpbaganalysis_toairport.py[line:74] INFO 3784268304 扫描次数: 7
+2026-09-01 11:17:59 dumpbaganalysis_toairport.py[line:74] INFO 3784360084 扫描次数: 10
+2026-09-01 11:18:00 dumpbaganalysis_toairport.py[line:74] INFO 3784771552 扫描次数: 9
+2026-09-01 11:18:00 dumpbaganalysis_toairport.py[line:74] INFO 3784360085 扫描次数: 7
+2026-09-01 11:18:01 dumpbaganalysis_toairport.py[line:74] INFO 3784360084 扫描次数: 10
+2026-09-01 11:18:02 dumpbaganalysis_toairport.py[line:74] INFO 3784771552 扫描次数: 9
+2026-09-01 11:18:02 dumpbaganalysis_toairport.py[line:74] INFO 3784360085 扫描次数: 7
+2026-09-01 11:18:03 dumpbaganalysis_toairport.py[line:74] INFO 3833061168 扫描次数: 7
+2026-09-01 11:18:04 dumpbaganalysis_toairport.py[line:74] INFO 3833381622 扫描次数: 7
+2026-09-01 11:18:04 dumpbaganalysis_toairport.py[line:74] INFO 3833114367 扫描次数: 7
+2026-09-01 11:18:05 dumpbaganalysis_toairport.py[line:74] INFO 3833287083 扫描次数: 6
+2026-09-01 11:18:05 dumpbaganalysis_toairport.py[line:74] INFO 3833156696 扫描次数: 7
+2026-09-01 11:18:06 dumpbaganalysis_toairport.py[line:74] INFO 0833785185 扫描次数: 7
+2026-09-01 11:18:06 dumpbaganalysis_toairport.py[line:74] INFO 3833084543 扫描次数: 7
+2026-09-01 11:18:07 dumpbaganalysis_toairport.py[line:74] INFO 3833734122 扫描次数: 7
+2026-09-01 11:18:08 dumpbaganalysis_toairport.py[line:74] INFO 3833690105 扫描次数: 7
+2026-09-01 11:18:08 dumpbaganalysis_toairport.py[line:74] INFO 3833608053 扫描次数: 7
+2026-09-01 11:18:09 dumpbaganalysis_toairport.py[line:74] INFO 3833681009 扫描次数: 7
+2026-09-01 11:18:10 dumpbaganalysis_toairport.py[line:74] INFO 3833123794 扫描次数: 7
+2026-09-01 11:18:10 dumpbaganalysis_toairport.py[line:74] INFO 3833356680 扫描次数: 7
+2026-09-01 11:18:11 dumpbaganalysis_toairport.py[line:74] INFO 3833835400 扫描次数: 7
+2026-09-01 11:18:12 dumpbaganalysis_toairport.py[line:74] INFO 3833258539 扫描次数: 7
+2026-09-01 11:18:12 dumpbaganalysis_toairport.py[line:74] INFO 3833681013 扫描次数: 7
+2026-09-01 11:18:13 dumpbaganalysis_toairport.py[line:74] INFO 3833272043 扫描次数: 7
+2026-09-01 11:18:14 dumpbaganalysis_toairport.py[line:74] INFO 3833084541 扫描次数: 7
+2026-09-01 11:18:14 dumpbaganalysis_toairport.py[line:74] INFO 3833449648 扫描次数: 9
+2026-09-01 11:18:15 dumpbaganalysis_toairport.py[line:74] INFO 3833371615 扫描次数: 9
+2026-09-01 11:18:15 dumpbaganalysis_toairport.py[line:74] INFO 3833713529 扫描次数: 7
+2026-09-01 11:18:16 dumpbaganalysis_toairport.py[line:74] INFO 3833690114 扫描次数: 7
+2026-09-01 11:18:17 dumpbaganalysis_toairport.py[line:74] INFO 3833181913 扫描次数: 7
+2026-09-01 11:18:17 dumpbaganalysis_toairport.py[line:74] INFO 3479667096 扫描次数: 7
+2026-09-01 11:18:18 dumpbaganalysis_toairport.py[line:74] INFO 3784672670 扫描次数: 7
+2026-09-01 11:18:18 dumpbaganalysis_toairport.py[line:74] INFO 3784503285 扫描次数: 8
+2026-09-01 11:18:19 dumpbaganalysis_toairport.py[line:74] INFO 3784503285 扫描次数: 8
+2026-09-01 11:18:20 dumpbaganalysis_toairport.py[line:74] INFO 3784328485 扫描次数: 7
+2026-09-01 11:18:20 dumpbaganalysis_toairport.py[line:74] INFO 3784585730 扫描次数: 7
+2026-09-01 11:18:21 dumpbaganalysis_toairport.py[line:74] INFO 3784438795 扫描次数: 7
+2026-09-01 11:18:22 dumpbaganalysis_toairport.py[line:74] INFO 3784840025 扫描次数: 7
+2026-09-01 11:18:23 dumpbaganalysis_toairport.py[line:74] INFO 3479784581 扫描次数: 7
+2026-09-01 11:18:23 dumpbaganalysis_toairport.py[line:74] INFO 3479003415 扫描次数: 7
+2026-09-01 11:18:24 dumpbaganalysis_toairport.py[line:74] INFO 3479367823 扫描次数: 7
+2026-09-01 11:18:25 dumpbaganalysis_toairport.py[line:74] INFO 3479155754 扫描次数: 7
+2026-09-01 11:18:25 dumpbaganalysis_toairport.py[line:74] INFO 3479816749 扫描次数: 7
+2026-09-01 11:18:26 dumpbaganalysis_toairport.py[line:74] INFO 3479546384 扫描次数: 7
+2026-09-01 11:18:27 dumpbaganalysis_toairport.py[line:74] INFO 3479378948 扫描次数: 7
+2026-09-01 11:18:27 dumpbaganalysis_toairport.py[line:74] INFO 3479268459 扫描次数: 7
+2026-09-01 11:18:28 dumpbaganalysis_toairport.py[line:74] INFO 3479309060 扫描次数: 7
+2026-09-01 11:18:29 dumpbaganalysis_toairport.py[line:74] INFO 3479517081 扫描次数: 7
+2026-09-01 11:18:30 dumpbaganalysis_toairport.py[line:74] INFO 3479495721 扫描次数: 7
+2026-09-01 11:18:30 dumpbaganalysis_toairport.py[line:74] INFO 3479816757 扫描次数: 7
+2026-09-01 11:18:31 dumpbaganalysis_toairport.py[line:74] INFO 3479328675 扫描次数: 7
+2026-09-01 11:18:31 dumpbaganalysis_toairport.py[line:74] INFO 3479563780 扫描次数: 7
+2026-09-01 11:18:32 dumpbaganalysis_toairport.py[line:74] INFO 3784840542 扫描次数: 7
+2026-09-01 11:18:33 dumpbaganalysis_toairport.py[line:74] INFO 3784351486 扫描次数: 7
+2026-09-01 11:18:33 dumpbaganalysis_toairport.py[line:74] INFO 3784217206 扫描次数: 7
+2026-09-01 11:18:34 dumpbaganalysis_toairport.py[line:74] INFO 3784653136 扫描次数: 9
+2026-09-01 11:18:35 dumpbaganalysis_toairport.py[line:74] INFO 3784217208 扫描次数: 7
+2026-09-01 11:18:35 dumpbaganalysis_toairport.py[line:74] INFO 3784330537 扫描次数: 7
+2026-09-01 11:18:36 dumpbaganalysis_toairport.py[line:74] INFO 3784663187 扫描次数: 7
+2026-09-01 11:18:37 dumpbaganalysis_toairport.py[line:74] INFO 3784531119 扫描次数: 7
+2026-09-01 11:18:37 dumpbaganalysis_toairport.py[line:74] INFO 3784763371 扫描次数: 17
+2026-09-01 11:18:38 dumpbaganalysis_toairport.py[line:74] INFO 3784493284 扫描次数: 10
+2026-09-01 11:18:39 dumpbaganalysis_toairport.py[line:74] INFO 3784053958 扫描次数: 10
+2026-09-01 11:18:39 dumpbaganalysis_toairport.py[line:74] INFO 3784763371 扫描次数: 17
+2026-09-01 11:18:40 dumpbaganalysis_toairport.py[line:74] INFO 0618612213 扫描次数: 8
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:74] INFO 0618613017 扫描次数: 10
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:158] INFO 共获取 398 条记录，涉及 4 个不同位置
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:178] INFO ===== Sheet1 (2026-08-30) =====
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:179] INFO 
+ACTIVEPROCESS     Dump Flight Build  Dump Identification  Garbage SAT  Garbage T3 East  Garbage T3 West  In Time Build  Unplanned flight
+CURRENTSTATIONID                                                                                                                        
+220                               0                    2            5                0                0              9                15
+221                               0                    0            1                0                0              1                 1
+41                              134                    0            0               36                0              8                 2
+81                              137                    1            0                0               41              2                 3
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124019335
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124019914
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124019922
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124020181
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124021065
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124021202
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876655508
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124021507
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3891075832
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:0089116591
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:0089116605
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124021834
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:0089116626
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784287557
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784839182
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784761789
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784287558
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784700414
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784790825
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784118214
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784558771
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784642452
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784247993
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784692344
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784502845
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3893410388
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784839182
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784818599
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784538923
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784120135
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784651927
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784700414
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784610891
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784149489
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784268304
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:3784700414
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784360084
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784771552
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784360085
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3784247998
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784360084
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784771552
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784360085
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124023419
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:3784360084
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833061168
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:3784360084
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833381622
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833114367
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833287083
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833156696
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:0833785185
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833084543
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833734122
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833690105
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833608053
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833681009
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124023897
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833123794
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833356680
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833835400
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833258539
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833681013
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833272043
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833084541
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3893491771
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833449648
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833371615
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833713529
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833690114
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3833181913
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:0089116743
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479584039
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:0089116743
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3871443219
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124025286
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3871016993
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:NO_READ - 标识符:124024929
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124025838
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3871114412
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124026023
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124026262
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3871491811
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891550440
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891550440
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891123859
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124027065
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479138784
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3866685227
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124028289
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124029068
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479627508
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3893675853
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124032361
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124032744
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124032970
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124033024
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124033714
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124034243
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124034339
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124035070
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784828528
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124035508
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124035930
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124036057
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880722041
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880722041
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479667096
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124038687
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124038707
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479687009
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479199013
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784672670
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3784015613
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479816281
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784503301
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784503285
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784503285
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784808241
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784328485
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479046332
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479495271
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784173006
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479297750
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479736580
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479706140
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479408624
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124043079
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479803914
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479775435
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:3784740246
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124045149
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479516698
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479554523
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479687087
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124046728
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:221 - 原因:Too Late - 标识符:3893550823
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:NO_READ - 标识符:124048664
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:In Time Build - 标识符:3479149095
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Too Late - 标识符:0479085798
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124050842
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:In Time Build - 标识符:3479495353
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3324832237
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3324128393
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3324726559
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3324090381
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784360753
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124053529
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3784652565
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:0479036021
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479078342
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784026642
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784402466
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784026672
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999846940
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3731457308
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124057756
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3880271453
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781669836
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784585730
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124058682
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784438795
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784840025
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781319342
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124059617
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479714990
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781265911
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3880722342
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124060380
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3088646399
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124060746
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Dump Identification - 标识符:124061196
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784065882
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784701342
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479171031
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784065882
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784438873
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124062777
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479333451
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784730276
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124065225
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324139035
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999595912
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999635445
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784249020
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999378902
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880094978
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784559756
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3784681857
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784428395
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784216925
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Dump Identification - 标识符:124066585
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:221 - 原因:NO_READ - 标识符:124066283
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479784581
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479003415
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124067880
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781205799
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781388802
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479398466
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781833132
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876395048
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999229879
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999350410
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479495614
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784540052
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479725843
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479378871
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124070030
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124070955
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:0999682282
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784428501
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880014851
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784299705
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324405961
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479055175
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781766836
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781005514
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479399073
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781490725
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784227075
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479688321
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:NO_READ - 标识符:124071316
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479188332
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784227075
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784540120
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784259490
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3836602567
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479737029
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784154323
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784840402
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479687467
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479687473
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3731495680
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479055221
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784289302
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999574599
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876404539
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784612079
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876254812
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876566219
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880345379
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999186869
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3876566219
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999331570
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784829441
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999802283
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479367823
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124077540
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479086387
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3811198132
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999646642
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479495712
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999010320
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3999230003
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479155754
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479816749
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479546384
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479378948
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784162851
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479268459
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479309060
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479517081
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:3999524150
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3836460066
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880764565
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479747332
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479495721
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479139475
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880764565
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479816757
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784673585
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880386552
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784451043
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479107094
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3731224951
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784829506
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479328675
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:3479563780
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784518180
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784612207
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784186577
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124081634
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324284670
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781365279
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479667715
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479168056
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479478388
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784840542
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479463561
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479828752
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784351486
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784217206
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784653136
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479759413
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784108507
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479244695
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784217208
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784330537
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784663187
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784451085
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324717244
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124082438
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3781049738
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324128889
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479309110
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479546443
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479268512
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880813099
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3324284699
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880674373
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880235004
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880351796
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124083605
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784504194
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880095272
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880285177
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479434913
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891796263
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479235810
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479618326
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479003619
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784066383
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784289496
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:NO_READ - 标识符:124085177
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784361441
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784531119
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784361441
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124086698
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784173974
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124087124
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3893392565
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891826914
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784173974
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891062326
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891392576
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784371449
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479333786
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891309838
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784653318
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880414943
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784109681
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124088871
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3893786363
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3893342522
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3891125005
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:221 - 原因:In Time Build - 标识符:3999615026
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124090148
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3898387452
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124091160
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124091736
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3018266357
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3781241877
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124092102
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124092508
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3880005676
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3847486178
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3479706718
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3847486178
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:EARLY - 标识符:3784039501
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479488281
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124093296
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124094203
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124094301
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:In Time Build - 标识符:3479597057
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:NO_READ - 标识符:124094005
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784763371
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784493284
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784053958
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124095324
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Recirculations - 标识符:3784763371
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124095564
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:EARLY - 标识符:3479606250
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479446771
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124096290
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479328879
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124096541
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124096571
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124097478
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Too Late - 标识符:3324477031
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3811533983
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124098953
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Too Late - 标识符:3324496927
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124099372
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124101665
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:220 - 原因:Too Late - 标识符:3479457663
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124102894
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124103157
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:In Time Build - 标识符:3731517380
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124103641
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124104588
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:NO_READ - 标识符:124105494
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Too Late - 标识符:3898736776
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124106144
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:41 - 原因:Too Late - 标识符:3893263563
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:0618612213
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:Recirculations - 标识符:0618613017
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124107560
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:170] INFO 明细 - 2026-08-30 - 位置:81 - 原因:NO_READ - 标识符:124107612
+2026-09-01 11:18:41 dumpbaganalysis_toairport.py[line:287] INFO Excel 报表已生成：机场弃包统计_2026-08-30_至_2026-08-31.xlsx

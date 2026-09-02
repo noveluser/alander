@@ -103,8 +103,8 @@ def run(input_date: datetime):
 
 
 def main():
-    # run(_parse_arg(sys.argv))
-    run(datetime.strptime("20260827", "%Y%m%d"))
+    run(_parse_arg(sys.argv))
+    # run(datetime.strptime("20260827", "%Y%m%d"))
 
 
 if __name__ == "__main__":

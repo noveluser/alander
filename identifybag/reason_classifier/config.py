@@ -9,16 +9,24 @@ DB_USER = r"owner_31_bpi_3_0"
 DB_PASSWORD = "owner31bpi"
 
 # ------------------------------------------------------------ 匹配时间窗口 ----
-# bag 在注销(Deregistration)环节之后约 7s~70s 才会进入手动扫描环节，
-# 时间太短(<7s)或太长(>70s)都不是同一件行李：manual.EVENTTS - fetch.EVENTTS ∈ [7,70]s。
-MIN_MATCH_GAP = timedelta(seconds=7)
-MAX_MATCH_GAP = timedelta(seconds=70)
+# 两阶段匹配：先「窄窗口」确认锚点，再「宽窗口」做局部搜索。
+# 站点类型：191/192 走 SAT 窗口，其余走 T3 窗口。
+# 窗口单位为秒。
 
-# 多个候选匹配时的权重：
-#   - 第一权重：bag 顺序位（注销列表中位置靠前者优先）；
-#   - 第二权重：时间差越接近中位数 29.5s 越优先。
+# T3 站点（91~94 配对）窗口
+NARROW_T3_MIN, NARROW_T3_MAX = 7, 40      # 窄窗口：第一阶段确认锚点
+WIDE_T3_MIN, WIDE_T3_MAX = 7, 120          # 宽窗口：第二阶段局部搜索
+
+# SAT 站点（191/192 自配对）窗口
+NARROW_SAT_MIN, NARROW_SAT_MAX = 1, 30
+WIDE_SAT_MIN, WIDE_SAT_MAX = 1, 120
+
+# 软匹配偏好：时间差越接近该中位数越优先
 T3_MEDIAN_GAP = timedelta(seconds=29.5)
 SAT_MEDIAN_GAP = timedelta(seconds=5)
+
+# 第二阶段：以最近锚点的 manual 位置为起点，向后搜索的偏移量（条数）
+ANCHOR_WINDOW = 10
 
 # 分拣机循环判定：LPC 在站点 580~590 经过 AutoScan 的次数达到该值即判为 Recirculations。
 CIRCLE_THRESHOLD = 6
