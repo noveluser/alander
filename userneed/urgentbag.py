@@ -9,7 +9,8 @@
 
 import tkinter as tk
 from tkinter import messagebox, ttk
-import cx_Oracle
+# import cx_Oracle
+import oracledb
 import logging
 import time
 
@@ -30,11 +31,11 @@ filename = 'lpc.txt'
 def accessOracle(query, params=None):
     dsn_tns = '10.31.8.21:1521/ORABPI'
     try:
-        with cx_Oracle.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
+        with oracledb.connect(user='owner_31_bpi_3_0', password='owner31bpi', dsn=dsn_tns) as conn:
             with conn.cursor() as c:
                 c.execute(query, params)
                 return c.fetchall()
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         logging.error(f"Database error occurred: {e}")
         return None
     except Exception as e:
@@ -43,7 +44,7 @@ def accessOracle(query, params=None):
 
 
 def packageinfo(lpc):
-    UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER, L_DESTINATION FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) - 1 AND lpc = :lpc order by IDEVENT desc FETCH FIRST 1 ROWS ONLY  ), BAGINFO AS ( SELECT LPC, REPLACE( substr( NAME, 1, 7 ), '_', '' ) AS flightnr, IDEVENT  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  ORDER BY IDEVENT DESC FETCH FIRST 1 ROW ONLY  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, s.END_USER_ID, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr left JOIN TUBINFO tubinfo ON 1 = 1  left JOIN DIM_STATIONS s ON tubinfo.L_DESTINATION = s.DESTINATION_ID WHERE FLIGHTDATE = TO_CHAR(SYSDATE + INTERVAL '8' HOUR, 'YYYY-MM-DD')"
+    UrgencyPackageQuery ="WITH TUBINFO AS ( SELECT L_CARRIER, L_DESTINATION ,areaid || '.' || ZONEID || '.' || EQUIPMENTID  as location FROM OWNER_31_BPI_3_0.WC_TRACKINGREPORT WHERE EVENTTS >= TRUNC( SYSDATE ) - 1 AND lpc = :lpc order by IDEVENT desc FETCH FIRST 1 ROWS ONLY  ), BAGINFO AS ( SELECT LPC, REPLACE( substr( NAME, 1, 7 ), '_', '' ) AS flightnr, IDEVENT  FROM WC_PACKAGEINFO  WHERE LPC = :lpc  ORDER BY IDEVENT DESC FETCH FIRST 1 ROW ONLY  ) SELECT bg.lpc, fs.flightnr, fs.CLOSE_DT, fs.INTIME_ALLOCATED_SORT, tubinfo.location, substr( tubinfo.L_CARRIER, 1, instr( tubinfo.L_CARRIER, ',' ) - 1 ) AS tubid  FROM FACT_FLIGHT_SUMMARIES_V fs JOIN BAGINFO bg ON fs.flightnr = bg.flightnr left JOIN TUBINFO tubinfo ON 1 = 1  left JOIN DIM_STATIONS s ON tubinfo.L_DESTINATION = to_char(s.DESTINATION_ID) WHERE FLIGHTDATE = TO_CHAR(SYSDATE + INTERVAL '8' HOUR, 'YYYY-MM-DD')"
     return accessOracle(UrgencyPackageQuery, {'lpc': lpc})
 
 
@@ -58,9 +59,10 @@ def query_packages():
     progress_bar['maximum'] = len(lpc_input)
     progress_bar['value'] = 0
     start_time = time.time() 
-    for lpc in lpc_input:
+    for raw_line in lpc_input:
         try:
-            lpc = int(lpc.strip())
+            lpc = int(raw_line.strip()[-10:])
+            logging.info(f"原始行: {raw_line} -> 提取LPC: {lpc}")
             bagresult = packageinfo(lpc)
             if bagresult:
                 message = (
@@ -68,8 +70,8 @@ def query_packages():
                     f"航班:'{bagresult[0][1]}', "
                     f"托盘:'{bagresult[0][5]}', "
                     f"资源关闭时间：'{bagresult[0][2].strftime('%Y-%m-%d %H:%M:%S')}', "
-                    # f"航班目的地：'{bagresult[0][3]}', "
-                    f"行李目的地：'{bagresult[0][4]}'"
+                    f"最近位置：'{bagresult[0][4]}', "
+                    f"行李目的地：'{bagresult[0][3]}'"
                 )
                 results.append(message)
                 logging.info(message)
@@ -103,7 +105,7 @@ if __name__ == '__main__':
     progress_bar.pack(pady=10)
 
     # 创建输出文本框
-    output_text = tk.Text(root, height=15, width=130)
+    output_text = tk.Text(root, height=15, width=150)
     output_text.pack(pady=10)
 
     # 运行主循环
