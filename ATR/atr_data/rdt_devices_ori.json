@@ -1,0 +1,470 @@
+{
+  "_说明": "控制 rdt_pipeline.py 下载哪些设备的 dat。id=设备ID，enabled=true 才下载。改完直接保存即可；服务器新增设备可用 --sync-config 刷新。",
+  "devices": [
+    {
+      "id": "01",
+      "name": "RFID 6.5.90-P",
+      "enabled": true
+    },
+    {
+      "id": "02",
+      "name": "RFID 6.22.90-P",
+      "enabled": true
+    },
+    {
+      "id": "03",
+      "name": "RFID 7.4.90-P",
+      "enabled": true
+    },
+    {
+      "id": "04",
+      "name": "RFID 8.3.90-P",
+      "enabled": true
+    },
+    {
+      "id": "05",
+      "name": "RFID 4.50.90-P",
+      "enabled": true
+    },
+    {
+      "id": "06",
+      "name": "RFID 5.27.90-P",
+      "enabled": true
+    },
+    {
+      "id": "07",
+      "name": "RFID 22.5.90-P",
+      "enabled": true
+    },
+    {
+      "id": "08",
+      "name": "RFID 22.22.90-P",
+      "enabled": true
+    },
+    {
+      "id": "09",
+      "name": "RFID 23.4.90-P",
+      "enabled": true
+    },
+    {
+      "id": "10",
+      "name": "RFID 24.3.90-P",
+      "enabled": true
+    },
+    {
+      "id": "11",
+      "name": "RFID 20.27.90-P",
+      "enabled": true
+    },
+    {
+      "id": "12",
+      "name": "RFID 21.27.90-P",
+      "enabled": true
+    },
+    {
+      "id": "13",
+      "name": "BHS-3113-P",
+      "enabled": true
+    },
+    {
+      "id": "14",
+      "name": "BHS-3114-P",
+      "enabled": true
+    },
+    {
+      "id": "15",
+      "name": "BHS-3144-P",
+      "enabled": true
+    },
+    {
+      "id": "16",
+      "name": "BHS-3143-P",
+      "enabled": true
+    },
+    {
+      "id": "17",
+      "name": "BHS-3101-03-P",
+      "enabled": true
+    },
+    {
+      "id": "18",
+      "name": "BHS-3101-13-P",
+      "enabled": true
+    },
+    {
+      "id": "19",
+      "name": "BHS-3101-23-P",
+      "enabled": true
+    },
+    {
+      "id": "20",
+      "name": "BHS-3101-33-P",
+      "enabled": true
+    },
+    {
+      "id": "21",
+      "name": "BHS-3101-49-P",
+      "enabled": true
+    },
+    {
+      "id": "22",
+      "name": "BHS-3104-03-P",
+      "enabled": true
+    },
+    {
+      "id": "23",
+      "name": "BHS-3104-13-P",
+      "enabled": true
+    },
+    {
+      "id": "24",
+      "name": "BHS-3104-23-P",
+      "enabled": true
+    },
+    {
+      "id": "25",
+      "name": "BHS-3104-33-P",
+      "enabled": true
+    },
+    {
+      "id": "26",
+      "name": "BHS-3104-43-P",
+      "enabled": true
+    },
+    {
+      "id": "28",
+      "name": "SCAN 29.14.90",
+      "enabled": true
+    },
+    {
+      "id": "29",
+      "name": "SCAN 29.13.90",
+      "enabled": true
+    },
+    {
+      "id": "30",
+      "name": "SCAN 29.12.90",
+      "enabled": true
+    },
+    {
+      "id": "31",
+      "name": "SCAN 29.10.90",
+      "enabled": true
+    },
+    {
+      "id": "32",
+      "name": "SCAN 29.9.90",
+      "enabled": true
+    },
+    {
+      "id": "33",
+      "name": "SCAN 29.7.90",
+      "enabled": true
+    },
+    {
+      "id": "34",
+      "name": "SCAN 29.6.90",
+      "enabled": true
+    },
+    {
+      "id": "35",
+      "name": "SCAN 29.5.90",
+      "enabled": true
+    },
+    {
+      "id": "36",
+      "name": "SCAN 29.4.90",
+      "enabled": true
+    },
+    {
+      "id": "37",
+      "name": "SCAN 29.3.90",
+      "enabled": true
+    },
+    {
+      "id": "38",
+      "name": "SCAN 29.2.90",
+      "enabled": true
+    },
+    {
+      "id": "39",
+      "name": "SCAN 29.1.90",
+      "enabled": true
+    },
+    {
+      "id": "40",
+      "name": "SCAN 29.11.90",
+      "enabled": true
+    },
+    {
+      "id": "41",
+      "name": "SCAN 29.20.91 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "42",
+      "name": "SCAN 29.20.90 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "45",
+      "name": "SCAN28.11.90",
+      "enabled": true
+    },
+    {
+      "id": "46",
+      "name": "SCAN 28.20.91 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "47",
+      "name": "SCAN 28.20.90 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "48",
+      "name": "SCAN 28.14.90",
+      "enabled": true
+    },
+    {
+      "id": "49",
+      "name": "SCAN 28.13.90",
+      "enabled": true
+    },
+    {
+      "id": "50",
+      "name": "SCAN 28.12.90",
+      "enabled": true
+    },
+    {
+      "id": "51",
+      "name": "SCAN 28.10.90",
+      "enabled": true
+    },
+    {
+      "id": "52",
+      "name": "SCAN 28.9.90",
+      "enabled": true
+    },
+    {
+      "id": "53",
+      "name": "SCAN 28.7.90",
+      "enabled": true
+    },
+    {
+      "id": "54",
+      "name": "SCAN 28.6.90",
+      "enabled": true
+    },
+    {
+      "id": "55",
+      "name": "SCAN 28.5.90",
+      "enabled": true
+    },
+    {
+      "id": "56",
+      "name": "SCAN 28.4.90",
+      "enabled": true
+    },
+    {
+      "id": "57",
+      "name": "SCAN 28.3.90",
+      "enabled": true
+    },
+    {
+      "id": "58",
+      "name": "SCAN 28.2.90",
+      "enabled": true
+    },
+    {
+      "id": "59",
+      "name": "SCAN 28.1.90",
+      "enabled": true
+    },
+    {
+      "id": "61",
+      "name": "RFMS-9-10-90",
+      "enabled": true
+    },
+    {
+      "id": "62",
+      "name": "RFMS-14-17-90",
+      "enabled": true
+    },
+    {
+      "id": "63",
+      "name": "RFMS-15-17-90",
+      "enabled": true
+    },
+    {
+      "id": "64",
+      "name": "RFMS-33-23-90",
+      "enabled": true
+    },
+    {
+      "id": "65",
+      "name": "SCAN 12.11.90",
+      "enabled": true
+    },
+    {
+      "id": "66",
+      "name": "SCAN 12.20.91 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "67",
+      "name": "SCAN 12.20.90 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "68",
+      "name": "SCAN 12.14.90",
+      "enabled": true
+    },
+    {
+      "id": "69",
+      "name": "SCAN 12.13.90",
+      "enabled": true
+    },
+    {
+      "id": "70",
+      "name": "SCAN 12.12.90",
+      "enabled": true
+    },
+    {
+      "id": "71",
+      "name": "SCAN 12.10.90",
+      "enabled": true
+    },
+    {
+      "id": "72",
+      "name": "SCAN 12.9.90",
+      "enabled": true
+    },
+    {
+      "id": "73",
+      "name": "SCAN 12.7.90",
+      "enabled": true
+    },
+    {
+      "id": "74",
+      "name": "SCAN 12.6.90",
+      "enabled": true
+    },
+    {
+      "id": "75",
+      "name": "SCAN 12.5.90",
+      "enabled": true
+    },
+    {
+      "id": "76",
+      "name": "SCAN 12.4.90",
+      "enabled": true
+    },
+    {
+      "id": "77",
+      "name": "SCAN 12.3.90",
+      "enabled": true
+    },
+    {
+      "id": "78",
+      "name": "SCAN 12.2.90",
+      "enabled": true
+    },
+    {
+      "id": "79",
+      "name": "SCAN 12.1.90",
+      "enabled": true
+    },
+    {
+      "id": "81",
+      "name": "RFMS-25-10-90",
+      "enabled": true
+    },
+    {
+      "id": "82",
+      "name": "RFMS-30-17-90",
+      "enabled": true
+    },
+    {
+      "id": "83",
+      "name": "RFMS-31-17-90",
+      "enabled": true
+    },
+    {
+      "id": "85",
+      "name": "SCAN 13.11.90",
+      "enabled": true
+    },
+    {
+      "id": "86",
+      "name": "SCAN 13.20.91 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "87",
+      "name": "SCAN 13.20.90 ATR270",
+      "enabled": true
+    },
+    {
+      "id": "88",
+      "name": "SCAN 13.14.90",
+      "enabled": true
+    },
+    {
+      "id": "89",
+      "name": "SCAN 13.13.90",
+      "enabled": true
+    },
+    {
+      "id": "90",
+      "name": "SCAN 13.12.90",
+      "enabled": true
+    },
+    {
+      "id": "91",
+      "name": "SCAN 13.10.90",
+      "enabled": true
+    },
+    {
+      "id": "92",
+      "name": "SCAN 13.9.90",
+      "enabled": true
+    },
+    {
+      "id": "93",
+      "name": "SCAN 13.7.90",
+      "enabled": true
+    },
+    {
+      "id": "94",
+      "name": "SCAN 13.6.90",
+      "enabled": true
+    },
+    {
+      "id": "95",
+      "name": "SCAN 13.5.90",
+      "enabled": true
+    },
+    {
+      "id": "96",
+      "name": "SCAN 13.4.90",
+      "enabled": true
+    },
+    {
+      "id": "97",
+      "name": "SCAN 13.3.90",
+      "enabled": true
+    },
+    {
+      "id": "98",
+      "name": "SCAN 13.2.90",
+      "enabled": true
+    },
+    {
+      "id": "99",
+      "name": "SCAN 13.1.90",
+      "enabled": true
+    }
+  ]
+}

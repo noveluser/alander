@@ -72,7 +72,7 @@ def circle_check(start_ts, end_ts, lpc):
     data = execute_query(query, {'start_ts': start_ts, 'end_ts': end_ts, 'lpc': lpc})
     circle_time = data[0][0] if data else 0
     logging.info(f"{lpc} 扫描次数: {circle_time}")
-    if circle_time >= 6:
+    if circle_time > 6:
         return "Recirculations"
     else:
         return "Dump Flight Build"
